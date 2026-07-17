@@ -75,8 +75,11 @@ jobs:
           #        これらはNFKC正規化の途中で前の文字と合成されて語形そのものを変えるため
           #        （例: キ+半角濁点→ギ）、除去せずに正規化すると検疫語彙の照合をすり抜ける。
           #        現在の公開ツリーにこれらの文字は0件であることを実測済み（正当な用途がない）。
+          # R12対応: 未割当（Cn）・私用領域（Co）の文字も禁止＋除去対象。教材に正当な用途がなく、
+          #        実行環境のUnicodeデータの版差（新しい版で結合文字になった符号位置を、古い版の
+          #        Pythonは「未割当」としか知らない）による検出のすり抜けを構造的に無効化する。
           def _is_invisible(ch):
-              return (unicodedata.category(ch) in ("Cf", "Mn", "Me")
+              return (unicodedata.category(ch) in ("Cf", "Mn", "Me", "Cn", "Co")
                       or 0xFE00 <= ord(ch) <= 0xFE0F
                       or 0x3099 <= ord(ch) <= 0x309C
                       or ord(ch) in (0xFF9E, 0xFF9F))
@@ -163,6 +166,8 @@ jobs:
               "改稿" + "キ" + chr(0xFF9E) + "ュー",       # 半角濁点のかな合成による語形変化（R11反例）
               "改稿" + "キ" + chr(0x309B) + "ュー",       # 濁点（スペース分解型）での分断
               "監" + chr(0xFF9E) + "督",                  # 合成相手のない位置への挿入
+              "改稿" + "キ" + chr(0x0897) + "ュー",       # 新版Unicodeで結合文字化した符号位置（R12反例）
+              "MERGE" + chr(0xF0000) + "_" + "LOG",       # 私用領域文字での分断（恒久にCoのため版差なし）
           ]
           for _s in _selftest:
               if not check_line(_s):

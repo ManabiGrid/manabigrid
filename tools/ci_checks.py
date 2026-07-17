@@ -188,6 +188,8 @@ def _selftest_parse_frontmatter() -> None:
     assert ok is None and err is not None, "偽終端 ---oops を受理してはならない"
     ok, err = parse_frontmatter("---\na: 1\n本文")
     assert ok is None and err is not None, "未閉鎖frontmatterを受理してはならない"
+    ok, err = parse_frontmatter("---\na: 1\n--- \n本文")
+    assert ok is None and err is not None, "末尾1空白つき終端 '--- ' を受理してはならない"
     ok, err = parse_frontmatter("---\na: 1\n---   \n本文")
     assert ok is None and err is not None, "末尾空白つき終端 '---   ' を受理してはならない"
     ok, err = parse_frontmatter("---\na: 1\n---\t\n本文")
