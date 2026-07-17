@@ -2,7 +2,7 @@
 
 ## 教材ライセンス（CC BY 4.0）の適用範囲と推奨クレジット
 
-`/materials`・`/curriculum`・`/docs` 配下の教材コンテンツ（Markdown 文書・SVG 図版・図版メタデータを含む）は、**Creative Commons Attribution 4.0 International（CC BY 4.0）** で提供します（正文: `LICENSE-materials.md`）。コード（`/tools` および教材パッケージ内の生成スクリプト）は MIT ライセンスです（ルートの `LICENSE`）。リポジトリ直下の文書（`README.md`・`FOR_STUDENTS.md`・`CONTRIBUTING.md`・`CODE_OF_CONDUCT.md`・`DISCLAIMER.md`・本ファイルなど）も **CC BY 4.0** の対象です。
+`/materials`・`/curriculum`・`/docs` 配下の教材コンテンツ（Markdown 文書・SVG 図版・図版メタデータを含む）は、**Creative Commons Attribution 4.0 International（CC BY 4.0）** で提供します（正文: `LICENSE-materials.md`）。コード（`/tools`・`.github/` 配下のワークフロー/Issueテンプレート等・教材パッケージ内の生成スクリプト）は MIT ライセンスです（ルートの `LICENSE`）。リポジトリ直下の文書（`README.md`・`FOR_STUDENTS.md`・`CONTRIBUTING.md`・`CODE_OF_CONDUCT.md`・`DISCLAIMER.md`・本ファイルなど）も **CC BY 4.0** の対象です。
 
 AI が生成した部分には法域・部分によって著作権が成立しない可能性があり、その場合その部分について本ライセンスは権利を付与も制限もしません（`DISCLAIMER.md` 参照）。
 

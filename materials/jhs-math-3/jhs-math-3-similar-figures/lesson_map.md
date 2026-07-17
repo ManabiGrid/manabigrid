@@ -2,7 +2,7 @@
 verify_required: true
 distribution_status: published_draft
 unit: jhs-math-3-similar-figures（中3数学・相似な図形）
-lane: public_core設計文書、指導者専用internal=teacher_notes群/answer_key群、の3層区分。2026-07-10注: 全17レッスン執筆完了に伴い「lesson_01〜03」から更新）
+lane: "public_core設計文書（本文=lesson_01〜17、指導者向け=teacher_notes群/answer_key群、の3層区分。2026-07-10注: 全17レッスン執筆完了に伴い「lesson_01〜03」から更新）"
 source: 内部調査要約（非公開・作成過程は docs/METHODOLOGY.md 参照）（2026-07-08正規化版）のみ
 author: Fable 5（教育主著者・パスC第1スライス）
 date: 2026-07-09

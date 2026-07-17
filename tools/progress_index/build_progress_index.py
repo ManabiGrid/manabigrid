@@ -24,7 +24,6 @@
 from __future__ import annotations
 
 import argparse
-import datetime
 import re
 import sys
 from pathlib import Path
@@ -49,8 +48,8 @@ STATUS_LEGEND = [
     ("ドラフト", "レッスン本文の初稿あり"),
     ("QA済", "セルフQA（数値再計算・独習完結性などの点検）まで完了"),
     ("外部レビュー済", "執筆と別系統のAIによる批判レビューと、その裁定まで完了"),
-    ("人間レビュー済", "人間による検収記録あり"),
-    ("公開済", "公開実行の記録あり"),
+    ("人間レビュー済", "人間による単元ごとの正式な検収記録あり（README等の「通読・検収」＝同梱前ゲートの通し読み確認とは別の、正式工程）"),
+    ("公開済", "正式な人間レビューを経て公開版へ昇格した記録あり（**リポジトリへの同梱とは独立**——同梱中でも候補ドラフト段階の単元は公開済とは数えない）"),
 ]
 
 
@@ -225,7 +224,6 @@ def build(root: Path) -> str:
     )
     alloc.allocate("既知の限界（正直に残す）")
 
-    today = datetime.date.today().isoformat()
     out: list[str] = []
     out.append("# ManabiGrid 進捗一覧（自動生成）")
     out.append("")
@@ -235,7 +233,7 @@ def build(root: Path) -> str:
         "直接編集せず、レジストリを更新してから再生成すること。"
     )
     out.append("")
-    out.append(f"- 生成日: {today}")
+    out.append("- 生成元: `curriculum/registry/`（本ファイルはレジストリの内容だけから決定的に生成される——同一レジストリなら常にバイト一致）")
     out.append(f"- 対象: 単元 {len(units)} 件＋科目モジュール {len(modules)} 件（診断・巻末資料）")
     out.append("")
 
@@ -378,6 +376,10 @@ def main(argv: list[str] | None = None) -> int:
         "root", nargs="?", type=Path, default=Path("."),
         help="リポジトリルート（省略時はカレントディレクトリ）",
     )
+    parser.add_argument(
+        "--out", type=Path, default=None,
+        help="出力先ファイル（省略時は <root>/curriculum/PROGRESS_INDEX.md）",
+    )
     args = parser.parse_args(argv)
     root = args.root.resolve()
     try:
@@ -385,7 +387,7 @@ def main(argv: list[str] | None = None) -> int:
     except RegistryError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2
-    output = root / "curriculum" / "PROGRESS_INDEX.md"
+    output = args.out if args.out is not None else root / "curriculum" / "PROGRESS_INDEX.md"
     output.write_text(md, encoding="utf-8")
     print(f"written: {output}")
     return 0

@@ -5,7 +5,7 @@
 ## 現在地（最初に読むもの）
 
 - 進捗の全量は `curriculum/PROGRESS_INDEX.md`（レジストリ `curriculum/registry/` から自動生成）。
-- 教材本文は `materials/` に**14単元＋診断・巻末の2モジュール（計16パッケージ・440ファイル）が同梱済み**（構成は `materials/README.md`）——レビュー対象は既に手元にあります。
+- 教材本文は `materials/` に**14単元＋診断・巻末の2モジュール（計16パッケージ・447ファイル）が同梱済み**（構成は `materials/README.md`）——レビュー対象は既に手元にあります。
 - teacher_notes / teacher_guide には**根拠区分ラベル**（Established / Adapted / Derived / Experimental / Rejected の5値・〔根拠区分: X〕のタグ様式）が付いています。区分の妥当性（特に Established の出典有無）もレビュー対象です。
 - 科目診断は**試行版（実利用データによる較正前）** です。閾値・難度への指摘を歓迎します。
 - 制作の作業中表示はリポジトリの表ではなく**着手宣言Issue（タイトル「【着手】unit_id」）** の一覧で分かります。

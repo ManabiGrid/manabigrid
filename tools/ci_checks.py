@@ -164,15 +164,36 @@ def check_anchors() -> list[str]:
 
 def check_frontmatter() -> list[str]:
     problems: list[str] = []
-    for path in sorted((REPO / "materials").rglob("*.md")):
+    # 正規YAMLパース（R9対応: GitHubが赤エラーを出す構文不正を検出する）。
+    # PyYAMLはCI側でバージョン固定で導入する。ローカルに無い場合はパースを
+    # スキップして注意を出す（distribution_status の行検査は常に実行）。
+    try:
+        import yaml  # type: ignore
+    except ImportError:
+        yaml = None
+        print("  [note] PyYAML未導入のためfrontmatterのYAML構文検査をスキップ（CIでは実行される）", file=sys.stderr)
+    tracked = subprocess.run(
+        ["git", "ls-files", "-z", "*.md"], capture_output=True, cwd=REPO
+    ).stdout.decode()
+    for rel in sorted(f for f in tracked.split("\0") if f):
+        path = REPO / rel
         text = path.read_text(encoding="utf-8", errors="replace")
-        ok = False
-        if text.startswith("---\n"):
-            end = text.find("\n---", 4)
-            if end != -1 and re.search(r"^distribution_status:\s*\S+", text[4:end], re.MULTILINE):
-                ok = True
-        if not ok:
-            problems.append(f"{path.relative_to(REPO)}: frontmatter に distribution_status がない")
+        if not text.startswith("---\n"):
+            if rel.startswith("materials/"):
+                problems.append(f"{rel}: frontmatter がない")
+            continue
+        end = text.find("\n---", 4)
+        if end == -1:
+            problems.append(f"{rel}: frontmatter が閉じていない")
+            continue
+        fm = text[4:end]
+        if rel.startswith("materials/") and not re.search(r"^distribution_status:\s*\S+", fm, re.MULTILINE):
+            problems.append(f"{rel}: frontmatter に distribution_status がない")
+        if yaml is not None:
+            try:
+                yaml.safe_load(fm)
+            except Exception as e:
+                problems.append(f"{rel}: frontmatter がYAMLとして不正（GitHubで赤エラー表示になる）: {str(e).splitlines()[0]}")
     return problems
 
 
@@ -234,17 +255,45 @@ def check_figures() -> list[str]:
                 b = normalize_svg(shipped[name].read_text(encoding="utf-8"))
                 if a != b:
                     problems.append(f"{rel}: {name} が出荷SVGと不一致（生成日以外の差分あり）")
+            # 図版台帳（FIGURE_MANIFEST.md等）も同じスクリプトの生成物なので照合する（R9対応）
+            for mf in sorted(script.parent.glob("FIGURE_MANIFEST*.md")):
+                regen = work_prov / mf.name
+                if not regen.exists():
+                    problems.append(f"{rel}: 再生成側に {mf.name} が生成されなかった")
+                    continue
+                a = normalize_svg(regen.read_text(encoding="utf-8"))
+                b = normalize_svg(mf.read_text(encoding="utf-8"))
+                if a != b:
+                    problems.append(f"{rel}: {mf.name} が出荷版と不一致（生成日以外の差分あり）")
     return problems
+
+
+def check_progress_index() -> list[str]:
+    # 進捗一覧はレジストリから決定的に生成される（R9対応で生成日を廃止）。
+    # 再生成結果が同梱ファイルとバイト一致することを検査する。
+    shipped = (REPO / "curriculum" / "PROGRESS_INDEX.md").read_bytes()
+    with tempfile.TemporaryDirectory(prefix="pidx_") as tmp:
+        out = Path(tmp) / "PROGRESS_INDEX.md"
+        proc = subprocess.run(
+            [sys.executable, str(REPO / "tools" / "progress_index" / "build_progress_index.py"), str(REPO), "--out", str(out)],
+            capture_output=True, text=True, env=SUBPROC_ENV,
+        )
+        if proc.returncode != 0 or not out.exists():
+            return ["進捗一覧の再生成に失敗:\n" + proc.stdout[-800:] + proc.stderr[-800:]]
+        if out.read_bytes() != shipped:
+            return ["curriculum/PROGRESS_INDEX.md が再生成結果とバイト不一致（レジストリ更新後の再生成漏れ）"]
+    return []
 
 
 def main() -> int:
     failed = False
     for label, fn in (
-        ("1/5 リンク照合", check_links),
-        ("2/5 アンカー照合", check_anchors),
-        ("3/5 frontmatter検査", check_frontmatter),
-        ("4/5 ビュー生成器テスト", check_view_generator),
-        ("5/5 図版再生成検算", check_figures),
+        ("1/6 リンク照合", check_links),
+        ("2/6 アンカー照合", check_anchors),
+        ("3/6 frontmatter検査", check_frontmatter),
+        ("4/6 ビュー生成器テスト", check_view_generator),
+        ("5/6 図版再生成検算", check_figures),
+        ("6/6 進捗一覧バイト一致", check_progress_index),
     ):
         problems = fn()
         if problems:

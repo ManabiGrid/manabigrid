@@ -14,7 +14,7 @@ provenance:
   degraded: [research_lane_A_B_not_applicable]
   written_by: fable-5（パスC相当・2026-07-12）
   external_review: 外部批判レビュー実施済み（2026-07-16・GPT-5.6 Pro・指摘51件・全件裁定のうえ反映）
-  verification: セルフQA（2026-07-12実施）→条件付き差し戻し→指摘10件反映→PASS_WITH_MINOR（2026-07-12再検証: ビュー生成PASS・判定表主要経路定義済み（端の分岐は安全側の暫定規則で運用）・解答漏えい解消）。検査記録は非公開
+  verification: "セルフQA（2026-07-12実施）→条件付き差し戻し→指摘10件反映→PASS_WITH_MINOR（2026-07-12再検証: ビュー生成PASS・判定表主要経路定義済み（端の分岐は安全側の暫定規則で運用）・解答漏えい解消）。検査記録は非公開"
 ---
 
 # 中3数学・はじめる場所を見つける地図
