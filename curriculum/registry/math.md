@@ -43,15 +43,15 @@
 | `jhs-math-1-data-distribution--relative-frequency` | 相対度数（D(1)限定） | 中1 | 未着手 |  |
 | `jhs-math-1-data-distribution--representative-values-range` | 代表値と範囲（小6既習の学び直し） | 中1 | 未着手 |  |
 | `jhs-math-1-empirical-probability` | 不確定な事象の起こりやすさ（頻度確率） | 中1 | 未着手 | 新設（中1D(2)の独立単元化） |
-| `jhs-math-2-expression-calculation--polynomial-calculation` | 単項式・多項式の計算 | 中2 | ドラフト | 親成果物（10レッスン）参照・要差分QA |
-| `jhs-math-2-expression-calculation--proof-by-expression` | 文字式による説明 | 中2 | ドラフト | 親成果物（10レッスン）参照・要差分QA |
-| `jhs-math-2-simultaneous-equations` | 連立方程式 | 中2 | ドラフト |  |
+| `jhs-math-2-expression-calculation--polynomial-calculation` | 単項式・多項式の計算 | 中2 | QA済 | 親成果物（10レッスン）参照・セルフQA完了（2026-07-18・親成果物一括で①〜⑪実施） |
+| `jhs-math-2-expression-calculation--proof-by-expression` | 文字式による説明 | 中2 | QA済 | 親成果物（10レッスン）参照・セルフQA完了（2026-07-18・親成果物一括で①〜⑪実施） |
+| `jhs-math-2-simultaneous-equations` | 連立方程式 | 中2 | QA済 |  |
 | `jhs-math-2-linear-function` | 一次関数 | 中2 | QA済 |  |
-| `jhs-math-2-congruence-and-proof--isosceles-parallelogram` | 二等辺三角形・平行四辺形の性質と証明 | 中2 | ドラフト | 親成果物（16レッスン）参照・要差分QA |
-| `jhs-math-2-congruence-and-proof--proof` | 証明のしくみと書き方 | 中2 | ドラフト | 親成果物（16レッスン）参照・要差分QA |
-| `jhs-math-2-congruence-and-proof--triangle-congruence` | 三角形の合同条件と基本性質 | 中2 | ドラフト | 親成果物（16レッスン）参照・要差分QA |
-| `jhs-math-2-quartiles-boxplot` | 四分位範囲と箱ひげ図 | 中2 | ドラフト |  |
-| `jhs-math-2-probability` | 確率 | 中2 | ドラフト | レッスン数が推奨粒度を超えるため将来の分割候補（例外として現行維持） |
+| `jhs-math-2-congruence-and-proof--isosceles-parallelogram` | 二等辺三角形・平行四辺形の性質と証明 | 中2 | QA済 | 親成果物（16レッスン）参照・セルフQA完了（2026-07-18・親成果物一括で①〜⑪実施） |
+| `jhs-math-2-congruence-and-proof--proof` | 証明のしくみと書き方 | 中2 | QA済 | 親成果物（16レッスン）参照・セルフQA完了（2026-07-18・親成果物一括で①〜⑪実施） |
+| `jhs-math-2-congruence-and-proof--triangle-congruence` | 三角形の合同条件と基本性質 | 中2 | QA済 | 親成果物（16レッスン）参照・セルフQA完了（2026-07-18・親成果物一括で①〜⑪実施） |
+| `jhs-math-2-quartiles-boxplot` | 四分位範囲と箱ひげ図 | 中2 | QA済 |  |
+| `jhs-math-2-probability` | 確率 | 中2 | QA済 | レッスン数が推奨粒度を超えるため将来の分割候補（例外として現行維持） |
 | `jhs-math-3-expansion-factorization` | 展開と因数分解 | 中3 | 外部レビュー済 | 将来の分割候補（粒度の見直し予定） |
 | `jhs-math-3-square-roots` | 平方根 | 中3 | 外部レビュー済 | 将来の分割候補（粒度の見直し予定） |
 | `jhs-math-3-quadratic-equations` | 二次方程式 | 中3 | 外部レビュー済 | 将来の分割候補（粒度の見直し予定） |
@@ -85,8 +85,8 @@
 | `jhs-math-1-plane-figures` | 平面図形 | 中1 | 未着手 |  |
 | `jhs-math-1-solid-figures` | 空間図形 | 中1 | 未着手 |  |
 | `jhs-math-1-data-distribution` | データの活用（度数分布・ヒストグラム） | 中1 | 未着手 |  |
-| `jhs-math-2-expression-calculation` | 式の計算 | 中2 | ドラフト | 原本教材（10レッスン）を親単位で保全 |
-| `jhs-math-2-congruence-and-proof` | 図形の合同と証明 | 中2 | ドラフト | 原本教材（16レッスン）を親単位で保全 |
+| `jhs-math-2-expression-calculation` | 式の計算 | 中2 | QA済 | 原本教材（10レッスン）を親単位で保全 |
+| `jhs-math-2-congruence-and-proof` | 図形の合同と証明 | 中2 | QA済 | 原本教材（16レッスン）を親単位で保全 |
 | `hs-math-i-numbers-and-expressions` | 数と式 | 高校 数学Ⅰ | 未着手 |  |
 | `hs-math-i-quadratic-functions` | 二次関数 | 高校 数学Ⅰ | 外部レビュー済 | 原本教材（12レッスン）を親単位で保全 |
 | `hs-math-i-trigonometric-ratios` | 図形と計量（三角比） | 高校 数学Ⅰ | 未着手 |  |

@@ -42,8 +42,8 @@
 | 公開済 | · |
 | 人間レビュー済 | · |
 | 外部レビュー済 | 12 |
-| QA済 | 1 |
-| ドラフト | 11 |
+| QA済 | 9 |
+| ドラフト | 3 |
 | 調査済 | 2 |
 | 未着手 | 411 |
 | **計** | **437** |
@@ -52,12 +52,12 @@
 
 | 科目 | 公開済 | 人間レビュー済 | 外部レビュー済 | QA済 | ドラフト | 調査済 | 未着手 | 計 |
 |---|---|---|---|---|---|---|---|---|
-| 数学 | · | · | 8 | 1 | 11 | · | 45 | 65 |
+| 数学 | · | · | 8 | 9 | 3 | · | 45 | 65 |
 | 英語 | · | · | 1 | · | · | · | 47 | 48 |
 | 国語 | · | · | 1 | · | · | 1 | 44 | 46 |
 | 理科 | · | · | 1 | · | · | · | 144 | 145 |
 | 社会 | · | · | 1 | · | · | 1 | 131 | 133 |
-| **計** | · | · | **12** | **1** | **11** | **2** | **411** | **437** |
+| **計** | · | · | **12** | **9** | **3** | **2** | **411** | **437** |
 
 ## 公開コア（public_core）
 
@@ -89,15 +89,15 @@
 | 中1 | 比例の関係とグラフ | `jhs-math-1-proportion-inverse-proportion--proportion` | **未着手** |
 | 中1 | 柱体・錐体・球の表面積と体積 | `jhs-math-1-solid-figures--surface-area-volume` | **未着手** |
 | 中1 | 空間図形の見取図・投影図・切断 | `jhs-math-1-solid-figures--views-sections` | **未着手** |
-| 中2 | 二等辺三角形・平行四辺形の性質と証明 | `jhs-math-2-congruence-and-proof--isosceles-parallelogram` | **ドラフト** |
-| 中2 | 証明のしくみと書き方 | `jhs-math-2-congruence-and-proof--proof` | **ドラフト** |
-| 中2 | 三角形の合同条件と基本性質 | `jhs-math-2-congruence-and-proof--triangle-congruence` | **ドラフト** |
-| 中2 | 単項式・多項式の計算 | `jhs-math-2-expression-calculation--polynomial-calculation` | **ドラフト** |
-| 中2 | 文字式による説明 | `jhs-math-2-expression-calculation--proof-by-expression` | **ドラフト** |
+| 中2 | 二等辺三角形・平行四辺形の性質と証明 | `jhs-math-2-congruence-and-proof--isosceles-parallelogram` | **QA済** |
+| 中2 | 証明のしくみと書き方 | `jhs-math-2-congruence-and-proof--proof` | **QA済** |
+| 中2 | 三角形の合同条件と基本性質 | `jhs-math-2-congruence-and-proof--triangle-congruence` | **QA済** |
+| 中2 | 単項式・多項式の計算 | `jhs-math-2-expression-calculation--polynomial-calculation` | **QA済** |
+| 中2 | 文字式による説明 | `jhs-math-2-expression-calculation--proof-by-expression` | **QA済** |
 | 中2 | 一次関数 | `jhs-math-2-linear-function` | **QA済** |
-| 中2 | 確率 | `jhs-math-2-probability` | **ドラフト** |
-| 中2 | 四分位範囲と箱ひげ図 | `jhs-math-2-quartiles-boxplot` | **ドラフト** |
-| 中2 | 連立方程式 | `jhs-math-2-simultaneous-equations` | **ドラフト** |
+| 中2 | 確率 | `jhs-math-2-probability` | **QA済** |
+| 中2 | 四分位範囲と箱ひげ図 | `jhs-math-2-quartiles-boxplot` | **QA済** |
+| 中2 | 連立方程式 | `jhs-math-2-simultaneous-equations` | **QA済** |
 | 中3 | 展開と因数分解 | `jhs-math-3-expansion-factorization` | **外部レビュー済** |
 | 中3 | 関数 y=ax² | `jhs-math-3-function-y-ax2` | **外部レビュー済** |
 | 中3 | 円周角の定理 | `jhs-math-3-inscribed-angle` | **外部レビュー済** |
@@ -817,15 +817,15 @@
 | `jhs-math-1-proportion-inverse-proportion--proportion` | 比例の関係とグラフ | 数学 | 中1 | 公開コア | **未着手** |
 | `jhs-math-1-solid-figures--surface-area-volume` | 柱体・錐体・球の表面積と体積 | 数学 | 中1 | 公開コア | **未着手** |
 | `jhs-math-1-solid-figures--views-sections` | 空間図形の見取図・投影図・切断 | 数学 | 中1 | 公開コア | **未着手** |
-| `jhs-math-2-congruence-and-proof--isosceles-parallelogram` | 二等辺三角形・平行四辺形の性質と証明 | 数学 | 中2 | 公開コア | **ドラフト** |
-| `jhs-math-2-congruence-and-proof--proof` | 証明のしくみと書き方 | 数学 | 中2 | 公開コア | **ドラフト** |
-| `jhs-math-2-congruence-and-proof--triangle-congruence` | 三角形の合同条件と基本性質 | 数学 | 中2 | 公開コア | **ドラフト** |
-| `jhs-math-2-expression-calculation--polynomial-calculation` | 単項式・多項式の計算 | 数学 | 中2 | 公開コア | **ドラフト** |
-| `jhs-math-2-expression-calculation--proof-by-expression` | 文字式による説明 | 数学 | 中2 | 公開コア | **ドラフト** |
+| `jhs-math-2-congruence-and-proof--isosceles-parallelogram` | 二等辺三角形・平行四辺形の性質と証明 | 数学 | 中2 | 公開コア | **QA済** |
+| `jhs-math-2-congruence-and-proof--proof` | 証明のしくみと書き方 | 数学 | 中2 | 公開コア | **QA済** |
+| `jhs-math-2-congruence-and-proof--triangle-congruence` | 三角形の合同条件と基本性質 | 数学 | 中2 | 公開コア | **QA済** |
+| `jhs-math-2-expression-calculation--polynomial-calculation` | 単項式・多項式の計算 | 数学 | 中2 | 公開コア | **QA済** |
+| `jhs-math-2-expression-calculation--proof-by-expression` | 文字式による説明 | 数学 | 中2 | 公開コア | **QA済** |
 | `jhs-math-2-linear-function` | 一次関数 | 数学 | 中2 | 公開コア | **QA済** |
-| `jhs-math-2-probability` | 確率 | 数学 | 中2 | 公開コア | **ドラフト** |
-| `jhs-math-2-quartiles-boxplot` | 四分位範囲と箱ひげ図 | 数学 | 中2 | 公開コア | **ドラフト** |
-| `jhs-math-2-simultaneous-equations` | 連立方程式 | 数学 | 中2 | 公開コア | **ドラフト** |
+| `jhs-math-2-probability` | 確率 | 数学 | 中2 | 公開コア | **QA済** |
+| `jhs-math-2-quartiles-boxplot` | 四分位範囲と箱ひげ図 | 数学 | 中2 | 公開コア | **QA済** |
+| `jhs-math-2-simultaneous-equations` | 連立方程式 | 数学 | 中2 | 公開コア | **QA済** |
 | `jhs-math-3-expansion-factorization` | 展開と因数分解 | 数学 | 中3 | 公開コア | **外部レビュー済** |
 | `jhs-math-3-function-y-ax2` | 関数 y=ax² | 数学 | 中3 | 公開コア | **外部レビュー済** |
 | `jhs-math-3-inscribed-angle` | 円周角の定理 | 数学 | 中3 | 公開コア | **外部レビュー済** |
