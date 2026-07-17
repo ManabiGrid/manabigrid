@@ -165,16 +165,19 @@ def check_anchors() -> list[str]:
 def parse_frontmatter(text: str) -> tuple[str | None, str | None]:
     """frontmatter本文と問題文を返す。(fm, None)=正常 / (None, None)=frontmatterなし / (None, 問題文)=不正。
 
-    終端は「行全体が --- 」との完全一致で判定する（R10対応: `---oops` のような
-    偽終端を部分一致で受理しない）。GitHubのfrontmatter解釈と同じ厳密さに合わせる。
+    終端は「行全体が --- 」との**文字どおりの完全一致**で判定する（R10/R11対応:
+    `---oops` のような偽終端も、`--- `・`---<TAB>` のような末尾空白つきも受理しない。
+    許容するのは `---` と、CRLFファイルの `---\r` のみ）。
     """
+    def _is_delim(line: str) -> bool:
+        return line == "---" or line == "---\r"
     lines = text.split("\n")
-    if not lines or lines[0].rstrip() != "---":
+    if not lines or not _is_delim(lines[0]):
         return None, None
     for i in range(1, len(lines)):
-        if lines[i].rstrip() == "---":
+        if _is_delim(lines[i]):
             return "\n".join(lines[1:i]), None
-    return None, "frontmatter が正規の終端行（--- 単独行）で閉じていない"
+    return None, "frontmatter が正規の終端行（--- 単独行・末尾空白なし）で閉じていない"
 
 
 def _selftest_parse_frontmatter() -> None:
@@ -185,6 +188,12 @@ def _selftest_parse_frontmatter() -> None:
     assert ok is None and err is not None, "偽終端 ---oops を受理してはならない"
     ok, err = parse_frontmatter("---\na: 1\n本文")
     assert ok is None and err is not None, "未閉鎖frontmatterを受理してはならない"
+    ok, err = parse_frontmatter("---\na: 1\n---   \n本文")
+    assert ok is None and err is not None, "末尾空白つき終端 '---   ' を受理してはならない"
+    ok, err = parse_frontmatter("---\na: 1\n---\t\n本文")
+    assert ok is None and err is not None, "末尾タブつき終端を受理してはならない"
+    ok, err = parse_frontmatter("---\r\na: 1\r\n---\r\n本文")
+    assert ok == "a: 1\r" and err is None, "CRLFの正規終端は受理する"
     ok, err = parse_frontmatter("本文だけ")
     assert ok is None and err is None
 
