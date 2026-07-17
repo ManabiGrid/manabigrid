@@ -94,6 +94,21 @@ jobs:
           pat_hr_id = re.compile("(?<![0-9A-Za-z])" + "H" + "R" + "(?:" + sep + ")?[0-9]")
           word_internal = "INTER" + "NAL"
           word_naibu = "内部" + "用"  # 「内部」+「用」の内部ラベル
+          # R7対応: raw grep層の全検疫語彙を、NFKC正規化＋不可視除去後の文字列にも適用する
+          #        （全角表記などNFKCで同定できる表記ゆれの見逃しを塞ぐ。語は連結で崩して書く）
+          vocab_words = [
+              "MERGE" + "_" + "LOG", "QA" + "_" + "REPORT",
+              "public" + "_release" + "_ready", "student" + "_distribution" + "_ready",
+              "external" + "_upload" + "_ready", "sale" + "_ready",
+              "canonical" + "_status", "run" + "_id", "source" + "_package",
+              "/" + "Users" + "/",
+              "オー" + "ナー", "監" + "督", "改稿" + "キュー",
+          ]
+          vocab_res = [
+              re.compile("submit" + "[0-9]"),
+              re.compile("D" + "[0-9]+" + "-" + "H" + "[0-9]+"),
+              re.compile(r"\b" + "D" + r"[0-9]{1,2}\b"),
+          ]
           def check_line(line):
               issues = []
               if any(_is_invisible(ch) for ch in line):
@@ -109,6 +124,14 @@ jobs:
                   issues.append("internal label (EN)")
               if word_naibu in norm:
                   issues.append("internal label (JA)")
+              for w in vocab_words:
+                  if w in norm:
+                      issues.append("internal vocabulary (normalized)")
+                      break
+              for r in vocab_res:
+                  if r.search(norm):
+                      issues.append("internal id pattern (normalized)")
+                      break
               return issues
           # 自己試験: 単一・複合・不可視分断の合成例を検出できることを実行のたびに確認する
           # （文字列は連結・chr()で崩して書く——このファイル自身が検査に引っかからないため）
@@ -120,6 +143,10 @@ jobs:
               "D" + "・" + chr(0x034F) + "7",           # 不可視文字での分断（R6反例）
               "INTER" + chr(0x034F) + "NAL",            # 不可視文字での語の分断（R6反例）
               "INTER" + chr(0x200B) + "NAL",            # zero-widthでの語の分断
+              "ＭＥＲＧＥ" + "＿ＬＯＧ",                 # 全角表記の検疫語彙（R7反例）
+              "ＱＡ" + "＿ＲＥＰＯＲＴ",                 # 全角表記の検疫語彙（R7反例）
+              "ｒｕｎ" + "＿ｉｄ",                       # 全角小文字表記の検疫語彙
+              "submit" + "１",                           # 全角数字を含むID語彙
           ]
           for _s in _selftest:
               if not check_line(_s):
