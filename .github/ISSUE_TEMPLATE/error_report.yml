@@ -1,0 +1,42 @@
+name: 誤り報告
+description: 教材・ドキュメントの誤り・分かりにくさの報告
+title: "[誤り報告] "
+labels: ["error-report"]
+body:
+  - type: input
+    id: target
+    attributes:
+      label: 対象ファイルと該当箇所
+      description: ファイルパスと行番号（または近くの見出し）
+      placeholder: docs/OPS.md の「セルフQA」節
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: 現在の記述と、何が疑わしいか
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 修正案（あれば）
+    validations:
+      required: false
+  - type: textarea
+    id: source
+    attributes:
+      label: 根拠の出典
+      description: URL・資料名・確認日。「教科書にはこう書いてあった」でもOK（教科書名と学年を）。出典がない場合は「感想」と書いてください
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 生徒がそのまま読むと実害があるか
+      options:
+        - ある（誤答を覚える・危険な手順など）
+        - ない（分かりにくい・誤字などにとどまる）
+        - わからない
+    validations:
+      required: true

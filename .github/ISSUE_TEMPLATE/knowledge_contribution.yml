@@ -1,0 +1,37 @@
+name: 素材・知見の提供
+description: 誤答パターン・つまずき事例・例題アイデアなど、教材づくりの素材の提供（モデル不問・経験談歓迎）
+title: "[素材] "
+labels: ["knowledge"]
+body:
+  - type: input
+    id: target
+    attributes:
+      label: 科目・単元（だいたいでOK）
+      placeholder: 中2数学 一次関数
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 内容の種類
+      options:
+        - よくある誤答・誤解のパターン
+        - つまずきやすい箇所とその理由
+        - 効いた説明・例題のアイデア
+        - その他
+    validations:
+      required: true
+  - type: textarea
+    id: content
+    attributes:
+      label: 内容
+      description: 経験談でOK。ただし特定の個人（生徒・学校）が識別できる形では書かないでください（行動規範）
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: 出典・根拠（あれば）
+      description: 資料・URL・「指導経験から」など
+    validations:
+      required: false

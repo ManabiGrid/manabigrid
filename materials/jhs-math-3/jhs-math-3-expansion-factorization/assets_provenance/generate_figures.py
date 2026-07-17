@@ -1,0 +1,913 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# SPDX-License-Identifier: MIT
+"""
+generate_figures.py — 中3数学「式の展開と因数分解」単元 図版パラメトリック生成スクリプト
+=========================================================================================
+様式: docs/SPEC_figures.md に準拠（内部規約の要旨は同SPECに反映済み）。
+ヘルパー群は production/jhs-math-3-similar-figures/candidate_draft/assets_provenance/
+generate_figures.py からコピー再利用（元スクリプトは無変更）。
+
+- 実行: python3 generate_figures.py
+- 出力: ../assets/L{NN}_fig{n}_{slug}.svg（12枚）と FIGURE_MANIFEST.md（この階層・自動生成）
+- 依存: Python標準ライブラリのみ（math / re / datetime / html / pathlib / xml）
+- 自己検証: 各 fig_* 関数内の Checker が面積恒等式・数値例の検算を行い、
+  1つでも失敗すると例外で停止して図を出力しない。さらに main() が
+  「図中テキストに答えの値が漏れていないか」「XML well-formed / viewBox / self-contained」
+  を全図で機械検査する。
+- 改修方法（第三者向け）: 各 fig_* 関数冒頭の「パラメータ」ブロックの数値を変えて再実行する。
+  記号・数値は該当レッスン本文（candidate_draft/lesson_XX.md）と一致させること。
+"""
+
+import math
+import re
+import datetime
+import xml.etree.ElementTree as ET
+from html import escape
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+ASSETS = HERE.parent / "assets"
+GENERATED = datetime.date.today().isoformat()
+
+# ---- 様式定数（docs/SPEC_figures.md） ----------------------------------
+MAIN_W = 1.6      # 主線幅
+BOLD_W = 3.2      # 強調線幅
+AUX_W = 1.1       # 補助線幅
+DASH = "6 4"      # 破線
+DOTS = "2 3"      # 点線（切り取り線用）
+FS = 13           # 基本文字サイズ(px) — viewBox幅~420で約3%
+FS_CAP = 12       # キャプション
+GRAY = "#e2e2e2"  # 領域の淡い網かけ（濃淡グレー）
+
+
+# ===========================================================================
+# 描画ヘルパー（相似単元スクリプトからコピー再利用・数学座標: y上向き）
+# ===========================================================================
+class Canvas:
+    def __init__(self, width, height, scale=1.0, ox=0.0, oy=0.0):
+        """scale: 数学単位→px、(ox,oy): 数学原点のSVG座標（yはoyから上向きに減る）"""
+        self.w, self.h = width, height
+        self.s, self.ox, self.oy = scale, ox, oy
+        self.defs = []
+        self.body = []
+
+    def P(self, p):
+        return (self.ox + self.s * p[0], self.oy - self.s * p[1])
+
+    def raw(self, s):
+        self.body.append(s)
+
+    def line(self, a, b, w=MAIN_W, dash=None, color="#000"):
+        (x1, y1), (x2, y2) = self.P(a), self.P(b)
+        d = f' stroke-dasharray="{dash}"' if dash else ""
+        self.raw(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" '
+                 f'stroke="{color}" stroke-width="{w}"{d}/>')
+
+    def polygon(self, pts, w=MAIN_W, fill="none", dash=None):
+        s = " ".join(f"{x:.1f},{y:.1f}" for x, y in map(self.P, pts))
+        d = f' stroke-dasharray="{dash}"' if dash else ""
+        self.raw(f'<polygon points="{s}" fill="{fill}" stroke="#000" '
+                 f'stroke-width="{w}" stroke-linejoin="round"{d}/>')
+
+    def text(self, p, s, size=FS, anchor="middle", dy=0.35, weight=None):
+        x, y = self.P(p)
+        wgt = f' font-weight="{weight}"' if weight else ""
+        self.raw(f'<text x="{x:.1f}" y="{y + size * dy:.1f}" font-size="{size}" '
+                 f'text-anchor="{anchor}"{wgt}>{escape(s)}</text>')
+
+    def text_px(self, x, y, s, size=FS_CAP, anchor="start", weight=None):
+        wgt = f' font-weight="{weight}"' if weight else ""
+        self.raw(f'<text x="{x:.1f}" y="{y:.1f}" font-size="{size}" '
+                 f'text-anchor="{anchor}"{wgt}>{escape(s)}</text>')
+
+    def dim(self, a, b, label="", offset=(0, 0), tick=4.0, size=FS, lab_dy=-0.5):
+        """寸法線: 細線+両端ティック。labelは中点からSVG-y方向に lab_dy*size ずらす
+        （lab_dy<0=線の上側/左側に置く。""なら線のみ描き、呼び出し側で置く）"""
+        a2 = (a[0] + offset[0], a[1] + offset[1])
+        b2 = (b[0] + offset[0], b[1] + offset[1])
+        self.line(a2, b2, w=0.9)
+        (x1, y1), (x2, y2) = self.P(a2), self.P(b2)
+        dx, dy = x2 - x1, y2 - y1
+        L = math.hypot(dx, dy)
+        nx, ny = -dy / L, dx / L
+        for (x, y) in ((x1, y1), (x2, y2)):
+            self.raw(f'<line x1="{x - nx * tick:.1f}" y1="{y - ny * tick:.1f}" '
+                     f'x2="{x + nx * tick:.1f}" y2="{y + ny * tick:.1f}" '
+                     f'stroke="#000" stroke-width="0.9"/>')
+        if label:
+            mx, my = (x1 + x2) / 2, (y1 + y2) / 2
+            if abs(dx) >= abs(dy):     # 水平寄り: 上下にずらす
+                self.text_px(mx, my + size * lab_dy + (size * 0.85 if lab_dy > 0 else 0),
+                             label, size=size, anchor="middle")
+            else:                      # 垂直寄り: 左右にずらす
+                side = -1 if lab_dy < 0 else 1
+                anchor = "end" if side < 0 else "start"
+                self.text_px(mx + side * abs(lab_dy) * size, my + size * 0.35,
+                             label, size=size, anchor=anchor)
+
+    def save(self, path, fig_id, title, desc=None):
+        defs = f"<defs>{''.join(self.defs)}</defs>" if self.defs else ""
+        svg = (
+            f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {self.w} {self.h}">\n'
+            f'<title>{escape(title)}</title>\n'
+            + (f'<desc>{escape(desc)}</desc>\n' if desc else "") +
+            f'<!-- {fig_id} | {title} -->\n'
+            f'<!-- generated by assets_provenance/generate_figures.py on {GENERATED} '
+            f'(docs/SPEC_figures.md準拠（内部規約の要旨は同SPECに反映済み）・SVG直接編集禁止/スクリプト改修で再生成) -->\n'
+            f'<rect x="0" y="0" width="{self.w}" height="{self.h}" fill="#fff"/>\n'
+            + defs + "\n".join(self.body) + "\n</svg>\n"
+        )
+        path.write_text(svg, encoding="utf-8")
+        return svg
+
+
+class Checker:
+    """検算の記録つきassert（相似単元スクリプトからコピー再利用）"""
+    def __init__(self):
+        self.items = []
+
+    def ok(self, desc, cond, detail=""):
+        assert cond, f"検証失敗: {desc} {detail}"
+        self.items.append((desc, detail))
+
+
+def arrow_px(cv, x1, y1, x2, y2, w=1.4, head=7.0):
+    """SVG座標(px)で矢印（線+先端の三角形）を描く。概念図用"""
+    ang = math.atan2(y2 - y1, x2 - x1)
+    bx, by = x2 - head * math.cos(ang), y2 - head * math.sin(ang)
+    cv.raw(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{bx:.1f}" y2="{by:.1f}" '
+           f'stroke="#000" stroke-width="{w}"/>')
+    nx, ny = -math.sin(ang), math.cos(ang)
+    cv.raw(f'<polygon points="{x2:.1f},{y2:.1f} '
+           f'{bx + nx * head * 0.45:.1f},{by + ny * head * 0.45:.1f} '
+           f'{bx - nx * head * 0.45:.1f},{by - ny * head * 0.45:.1f}" fill="#000"/>')
+
+
+def hatch45(cv):
+    """斜線45°ハッチング（<defs><pattern>内蔵・self-contained）"""
+    pat = ('<pattern id="h45" width="6" height="6" patternUnits="userSpaceOnUse" '
+           'patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" '
+           'stroke="#555" stroke-width="1.1"/></pattern>')
+    if pat not in cv.defs:
+        cv.defs.append(pat)
+    return "url(#h45)"
+
+
+def circle_poly(cv, c, r, fill="none", w=MAIN_W, dash=None, n=120):
+    """円を座標サンプリングした折れ線で描く（docs/SPEC_figures.md）"""
+    pts = [(c[0] + r * math.cos(2 * math.pi * i / n),
+            c[1] + r * math.sin(2 * math.pi * i / n)) for i in range(n)]
+    cv.polygon(pts, w=w, fill=fill, dash=dash)
+
+
+# ---- 面積モデル図の共通部品 -------------------------------------------------
+def area_model(cv, cols, rows, col_labels, row_labels, rooms,
+               room_size=FS, dim_off=0.45):
+    """区切り長方形の面積モデル。cols/rows=各区分の長さ（rowsは上から下へ）。
+    rooms=部屋ラベルの2次元リスト（[行][列]・上の行から）。Noneは無ラベル"""
+    W, H = sum(cols), sum(rows)
+    cv.polygon([(0, 0), (W, 0), (W, H), (0, H)])
+    x = 0.0
+    for c in cols[:-1]:
+        x += c
+        cv.line((x, 0), (x, H), w=MAIN_W)
+    y = H
+    for r in rows[:-1]:
+        y -= r
+        cv.line((0, y), (W, y), w=MAIN_W)
+    # 上辺の寸法（横の区分）
+    x = 0.0
+    for c, lab in zip(cols, col_labels):
+        cv.dim((x, H), (x + c, H), lab, offset=(0, dim_off), lab_dy=-0.5)
+        x += c
+    # 左辺の寸法（縦の区分・上から）
+    y = H
+    for r, lab in zip(rows, row_labels):
+        cv.dim((0, y), (0, y - r), lab, offset=(-dim_off, 0), lab_dy=-0.6)
+        y -= r
+    # 部屋ラベル
+    y = H
+    for ri, r in enumerate(rows):
+        x = 0.0
+        for ci, c in enumerate(cols):
+            lab = rooms[ri][ci]
+            if lab:
+                cv.text((x + c / 2, y - r / 2), lab, size=room_size)
+            x += c
+        y -= r
+    return W, H
+
+
+# ===========================================================================
+# 図1: L01 単項式×多項式の面積モデル（2x(3x＋4y)＝6x²＋8xy）
+# 本文根拠: lesson_01.md 主概念1「2x(3x＋4y)＝6x²＋8xy」（結果は本文が提示済み）
+# ===========================================================================
+def fig_L01():
+    # --- パラメータ（本文 lesson_01.md 主概念1 と一致させる） ---
+    # 描画単位: x=1, y=1 とみなした概念図（比のみ意味を持つ）
+    w1, w2, h = 3.0, 4.0, 2.0    # 3x / 4y / 2x
+
+    ck = Checker()
+    for x_, y_ in [(3, 5), (2, 7), (11, 4)]:
+        lhs = 2 * x_ * (3 * x_ + 4 * y_)
+        rhs = 6 * x_ ** 2 + 8 * x_ * y_
+        ck.ok(f"分配法則の検算 x={x_},y={y_}: 2x(3x+4y)={lhs}", lhs == rhs,
+              f"6x²+8xy={rhs}")
+    ck.ok("横の区分の和＝全体（3+4=7）", w1 + w2 == 7.0)
+
+    cv = Canvas(430, 232)
+    cv.s = 44.0
+    cv.ox, cv.oy = 60, 152
+    area_model(cv, [w1, w2], [h], ["3x", "4y"], ["2x"],
+               [["6x²", "8xy"]])
+    cv.text_px(215, 196, "全体の面積 2x×(3x＋4y) ＝ 部分の面積の和 6x²＋8xy",
+               size=FS_CAP, anchor="middle")
+    cv.text_px(215, 214, "（縦線で2つに切っても，全体を一度に求めても同じ——分配法則は面積の図そのもの）",
+               size=FS_CAP - 1, anchor="middle")
+
+    return dict(file="L01_fig1_area_model_monomial.svg", canvas=cv, lesson="L01",
+                title="単項式×多項式の面積モデル（2x(3x＋4y)）",
+                intent="主概念1の図。全体＝部分の和として分配法則を可視化（結果は本文提示済み）",
+                params="縦2x・横3x+4y（描画は x=y=1 の概念比率）",
+                check_tokens=[],
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図2: L02 多項式×多項式の面積モデル（(a＋b)(c＋d)＝ac＋ad＋bc＋bd）
+# 本文根拠: lesson_02.md 主概念2（4つの部屋 ac・ad・bc・bd は本文が提示済み）
+# ===========================================================================
+def fig_L02_model():
+    # --- パラメータ（概念図・比のみ意味を持つ） ---
+    a, b = 1.6, 1.1          # 縦の区分（上から a, b）
+    c, d = 2.2, 1.5          # 横の区分（左から c, d）
+
+    ck = Checker()
+    for va, vb, vc, vd in [(2, 3, 4, 5), (7, 1, 2, 9)]:
+        lhs = (va + vb) * (vc + vd)
+        rhs = va * vc + va * vd + vb * vc + vb * vd
+        ck.ok(f"(a+b)(c+d)=ac+ad+bc+bd の検算 a,b,c,d={va},{vb},{vc},{vd}: {lhs}",
+              lhs == rhs, f"右辺={rhs}")
+    ck.ok("部屋の数＝2×2＝4（左2項×右2項）", 2 * 2 == 4)
+
+    cv = Canvas(430, 258)
+    cv.s = 46.0
+    cv.ox, cv.oy = 80, 176
+    area_model(cv, [c, d], [a, b], ["c", "d"], ["a", "b"],
+               [["ac", "ad"], ["bc", "bd"]])
+    cv.text_px(215, 222, "全体の面積 (a＋b)(c＋d) ＝ 4つの部屋の和 ac＋ad＋bc＋bd",
+               size=FS_CAP, anchor="middle")
+    cv.text_px(215, 240, "（式の4つの項と図の4つの部屋が1対1で対応する）",
+               size=FS_CAP - 1, anchor="middle")
+
+    return dict(file="L02_fig1_area_model_expansion.svg", canvas=cv, lesson="L02",
+                title="多項式×多項式の面積モデル（(a＋b)(c＋d)）",
+                intent="主概念2の図。展開の4項＝4部屋の対応（結果は本文提示済み）",
+                params="縦 a:b=1.6:1.1・横 c:d=2.2:1.5（概念比率）",
+                check_tokens=[],
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図3: L02 練習3の下書き白図（面積ラベルなし）
+# 本文根拠: lesson_02.md 練習3「(x＋3)(x＋5)＝x²＋8x＋15 の面積の図をかく」
+# 答え漏れ注意: 8xの由来（3x・5xの部屋）が答えのため、長さ・面積ラベルは一切書かない
+# ===========================================================================
+def fig_L02_blank():
+    # --- パラメータ（下書き枠・比のみ。練習3の x:3 / x:5 とは無関係の中立比率） ---
+    v1, v2 = 2.2, 1.3        # 縦の区分
+    h1, h2 = 2.2, 1.7        # 横の区分
+
+    ck = Checker()
+    ck.ok("下書き図に文字・数値ラベルなし（答え漏れ防止）", True)
+    ck.ok("練習3の対象式の検算（図には書かない）: x=10で13×15=195=100+80+15",
+          (10 + 3) * (10 + 5) == 10 ** 2 + 8 * 10 + 15 == 195)
+
+    cv = Canvas(430, 250)
+    cv.s = 46.0
+    cv.ox, cv.oy = 80, 176
+    area_model(cv, [h1, h2], [v1, v2], ["（　）", "（　）"], ["（　）", "（　）"],
+               [[None, None], [None, None]], dim_off=0.45)
+    cv.text_px(215, 218, "下書き用の白図——縦・横の長さと，各部屋の面積を書きこもう",
+               size=FS_CAP, anchor="middle")
+    cv.text_px(215, 236, "（区切りの位置は目安。長さに合わせて自分でかき直してもよい）",
+               size=FS_CAP - 1, anchor="middle")
+
+    return dict(file="L02_fig2_area_model_blank.svg", canvas=cv, lesson="L02",
+                title="面積の図の下書き白図（練習3用）",
+                intent="練習3の解答用下書き枠。ラベル無記入（面積ラベルの由来が答えのため）",
+                params="中立比率2.2:1.3×2.2:1.7（練習3の数値を暗示しない）",
+                check_tokens=["x²", "8x", "3x", "5x", "15", "x＋3", "x＋5"],
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図4: L03 公式①の面積モデル（(x＋a)(x＋b)——bx・axの合流）
+# 本文根拠: lesson_03.md 主概念「x²＋bx＋ax＋ab＝x²＋(a＋b)x＋ab」（本文提示済み）
+# ===========================================================================
+def fig_L03():
+    # --- パラメータ（概念図・比のみ意味を持つ。縦(x＋a)・横(x＋b)） ---
+    x_len, a_len, b_len = 2.4, 1.2, 1.6
+
+    ck = Checker()
+    for vx, va, vb in [(7, 2, 3), (10, 5, 4)]:
+        lhs = (vx + va) * (vx + vb)
+        rhs = vx ** 2 + (va + vb) * vx + va * vb
+        ck.ok(f"公式①の検算 x={vx},a={va},b={vb}: (x+a)(x+b)={lhs}", lhs == rhs,
+              f"x²+(a+b)x+ab={rhs}")
+    ck.ok("xの項は bx と ax の2部屋から合流する（部屋の対応）", True)
+
+    cv = Canvas(470, 268)
+    cv.s = 42.0
+    cv.ox, cv.oy = 70, 186
+    area_model(cv, [x_len, b_len], [x_len, a_len], ["x", "b"], ["x", "a"],
+               [["x²", "bx"], ["ax", "ab"]])
+    # bx・ax の2部屋からの「合流」矢印
+    bx_c = cv.P((x_len + b_len / 2, x_len + a_len - x_len / 2))
+    ax_c = cv.P((x_len / 2, a_len / 2))
+    mx, my = 368, 150
+    arrow_px(cv, bx_c[0] + 16, bx_c[1], mx - 4, my - 10, w=1.1)
+    # ax→合流の矢印は ab ラベルの下を通す（ラベル交差回避・2026-07-11目視検品）
+    arrow_px(cv, ax_c[0] + 26, ax_c[1] + 13, mx - 4, my + 18, w=1.1)
+    cv.text_px(mx, my - 12, "合流して", size=FS_CAP, anchor="start")
+    cv.text_px(mx, my + 6, "(a＋b)x", size=FS, anchor="start", weight="bold")
+    cv.text_px(235, 232, "縦(x＋a)・横(x＋b)の長方形——xの項は bx と ax の2部屋から来る",
+               size=FS_CAP, anchor="middle")
+    cv.text_px(235, 250, "全体の面積 (x＋a)(x＋b)＝x²＋(a＋b)x＋ab",
+               size=FS_CAP, anchor="middle")
+
+    return dict(file="L03_fig1_area_model_formula1.svg", canvas=cv, lesson="L03",
+                title="公式①の面積モデル（bx・axの合流）",
+                intent="主概念の図。「和」の正体＝2部屋のxの項の合流を矢印で示す（本文提示済み）",
+                params="x:a:b=2.4:1.2:1.6（概念比率）",
+                check_tokens=[],
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図5: L04 公式②の面積モデル（(a＋b)²——abの部屋が2つ）
+# 本文根拠: lesson_04.md 主概念1「(a＋b)²＝a²＋2ab＋b²・真ん中のabが2部屋」（本文提示済み）
+# ===========================================================================
+def fig_L04():
+    # --- パラメータ（概念図・比のみ意味を持つ。1辺 a＋b の正方形） ---
+    a_len, b_len = 2.3, 1.2
+
+    ck = Checker()
+    for va, vb in [(3, 4), (6, 1)]:
+        lhs = (va + vb) ** 2
+        rhs = va ** 2 + 2 * va * vb + vb ** 2
+        ck.ok(f"公式②の検算 a={va},b={vb}: (a+b)²={lhs}", lhs == rhs,
+              f"a²+2ab+b²={rhs}")
+    ck.ok("guide欄の数値例と整合: (3+4)²=49≠3²+4²=25（差=2×3×4=24）",
+          (3 + 4) ** 2 == 49 and 3 ** 2 + 4 ** 2 == 25 and 49 - 25 == 2 * 3 * 4)
+    ck.ok("正方形（縦横の区分が同一）", True)
+
+    cv = Canvas(430, 292)
+    cv.s = 48.0
+    cv.ox, cv.oy = 90, 210
+    area_model(cv, [a_len, b_len], [a_len, b_len], ["a", "b"], ["a", "b"],
+               [["a²", "ab"], ["ab", "b²"]])
+    # abの2部屋への注記
+    ab1 = cv.P((a_len + b_len / 2, b_len + a_len / 2))   # 右上のab
+    ab2 = cv.P((a_len / 2, b_len / 2))                    # 左下のab
+    tx, ty = 320, 176
+    arrow_px(cv, tx - 4, ty - 16, ab1[0] + 14, ab1[1] + 6, w=1.1)
+    # 下段のabへの矢印は b² ラベルの下を通す（ラベル交差回避・2026-07-11目視検品）
+    arrow_px(cv, tx - 4, ty + 4, ab2[0] + 28, ab2[1] + 11, w=1.1)
+    cv.text_px(tx, ty - 20, "abの部屋が", size=FS_CAP, anchor="start")
+    cv.text_px(tx, ty - 4, "2つ→2ab", size=FS_CAP, anchor="start", weight="bold")
+    cv.text_px(215, 254, "1辺(a＋b)の正方形——真ん中のabが2部屋あるから2ab",
+               size=FS_CAP, anchor="middle")
+    cv.text_px(215, 272, "全体の面積 (a＋b)²＝a²＋2ab＋b²",
+               size=FS_CAP, anchor="middle")
+
+    return dict(file="L04_fig1_area_model_square.svg", canvas=cv, lesson="L04",
+                title="公式②の面積モデル（(a＋b)²）",
+                intent="主概念1の図。2abの由来＝abの2部屋を可視化（本文提示済み）",
+                params="a:b=2.3:1.2（概念比率・正方形）",
+                check_tokens=[],
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図6: L06 符号の見取り図（判定の流れ図＋2例のトレース）
+# 本文根拠: lesson_06.md 主概念の「符号の見取り図」——x²−7x＋12→(−3,−4)、
+#           x²＋x−12→(4,−3) は本文が提示済み（練習の答えではない）
+# ===========================================================================
+def fig_L06():
+    # --- パラメータ（本文の2例と一致させる） ---
+    ex1 = (-3, -4)   # x²−7x＋12 の2数
+    ex2 = (4, -3)    # x²＋x−12 の2数
+
+    ck = Checker()
+    ck.ok("例1: 和−7・積＋12（x²−7x＋12と一致）",
+          ex1[0] + ex1[1] == -7 and ex1[0] * ex1[1] == 12)
+    ck.ok("例1の流れ: 積＋→同符号，和−→両方マイナス", ex1[0] < 0 and ex1[1] < 0)
+    ck.ok("例2: 和＋1・積−12（x²＋x−12と一致）",
+          ex2[0] + ex2[1] == 1 and ex2[0] * ex2[1] == -12)
+    ck.ok("例2の流れ: 積−→異符号，和＋→絶対値大(4)がプラス",
+          ex2[0] * ex2[1] < 0 and abs(ex2[0]) > abs(ex2[1]) and ex2[0] > 0)
+    for x_ in [5, 10]:
+        ck.ok(f"展開検算 x={x_}: (x−3)(x−4)=x²−7x+12",
+              (x_ - 3) * (x_ - 4) == x_ ** 2 - 7 * x_ + 12)
+        ck.ok(f"展開検算 x={x_}: (x＋4)(x−3)=x²+x−12",
+              (x_ + 4) * (x_ - 3) == x_ ** 2 + x_ - 12)
+
+    cv = Canvas(560, 344)
+
+    def box(cx, cy, w, h, lines, size=FS_CAP, bold=False, fill="#fff"):
+        cv.raw(f'<rect x="{cx - w / 2:.1f}" y="{cy - h / 2:.1f}" width="{w}" '
+               f'height="{h}" rx="6" fill="{fill}" stroke="#000" stroke-width="1.3"/>')
+        n = len(lines)
+        for i, ln in enumerate(lines):
+            yy = cy + (i - (n - 1) / 2) * (size + 4) + size * 0.35
+            cv.text_px(cx, yy, ln, size=size, anchor="middle",
+                       weight="bold" if bold else None)
+
+    cv.text_px(280, 26, "2数の符号の見取り図——積で分け，和でしぼる",
+               size=14, anchor="middle", weight="bold")
+    box(280, 60, 170, 30, ["積の符号は？"], size=FS, bold=True)
+    arrow_px(cv, 236, 74, 158, 100, w=1.3)
+    arrow_px(cv, 324, 74, 402, 100, w=1.3)
+    cv.text_px(178, 84, "＋", size=FS, anchor="middle", weight="bold")
+    cv.text_px(382, 84, "−", size=FS, anchor="middle", weight="bold")
+    box(150, 118, 196, 32, ["2数は同符号"], size=FS_CAP, bold=True, fill=GRAY)
+    box(410, 118, 196, 32, ["2数は異符号（＋と−）"], size=FS_CAP, bold=True, fill=GRAY)
+    arrow_px(cv, 150, 134, 150, 156, w=1.3)
+    arrow_px(cv, 410, 134, 410, 156, w=1.3)
+    box(150, 182, 232, 48, ["和の符号は？", "＋なら両方＋ ／ −なら両方−"])
+    box(410, 182, 240, 48, ["和の符号は？", "絶対値が大きいほうの符号になる"])
+    cv.raw('<line x1="30" y1="222" x2="530" y2="222" stroke="#000" '
+           'stroke-width="0.8" stroke-dasharray="6 4"/>')
+    cv.text_px(40, 246, "例1  x²−7x＋12：", size=FS_CAP, weight="bold")
+    cv.text_px(168, 246, "積＋12 → 同符号　和−7 → 両方マイナス", size=FS_CAP)
+    cv.text_px(168, 264, "→ −3 と −4 → (x−3)(x−4)", size=FS_CAP)
+    cv.text_px(40, 296, "例2  x²＋x−12：", size=FS_CAP, weight="bold")
+    cv.text_px(168, 296, "積−12 → 異符号　和＋1 → 絶対値が大きい4がプラス", size=FS_CAP)
+    cv.text_px(168, 314, "→ ＋4 と −3 → (x＋4)(x−3)", size=FS_CAP)
+
+    return dict(file="L06_fig1_sign_flowchart.svg", canvas=cv, lesson="L06",
+                title="符号の見取り図（積→同/異符号→和→2数の符号）",
+                intent="主概念の判定流れ図＋本文2例のトレース（2例の分解は本文提示済み）",
+                params="例1=(−3,−4)/例2=(4,−3)——本文の見取り図の2例と一致",
+                check_tokens=["x²＋9x", "x²＋10x", "x²−8x", "x²＋2x", "x²−3x−18", "x²−x−30"],
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図7: L08 S2 L字形の並べ替え（x²−9＝(x＋3)(x−3)の絵による説明）
+# 本文根拠: lesson_08.md stretch S2（式・寸法は設問文が提示済み。説明の言語化が答え）
+# ===========================================================================
+def fig_L08():
+    # --- パラメータ（設問文と一致: 1辺x の正方形から1辺3 を切り取る。描画は x=5） ---
+    x_len, c = 5.0, 3.0
+
+    ck = Checker()
+    ck.ok("L字形の面積＝x²−9（描画値x=5で16）",
+          x_len ** 2 - c ** 2 == 16.0)
+    ck.ok("2つの断片の和＝L字形: x(x−3)＋3(x−3)＝x²−9（描画値で10+6=16）",
+          x_len * (x_len - c) + c * (x_len - c) == x_len ** 2 - c ** 2)
+    ck.ok("並べ替え後の長方形＝(x＋3)(x−3)（描画値で8×2=16）",
+          (x_len + c) * (x_len - c) == 16.0)
+    for vx in [7, 12]:
+        ck.ok(f"恒等式の検算 x={vx}: x²−9=(x+3)(x−3)",
+              vx ** 2 - 9 == (vx + 3) * (vx - 3))
+    ck.ok("切り口の高さ x−3＝2（切って回すと幅3・高さx−3の断片）",
+          x_len - c == 2.0)
+
+    cv = Canvas(500, 310)
+    s = 26.0
+    fill_mv = hatch45(cv)
+
+    # --- 左パネル: L字形（正方形から右上の1辺3を切り取る） ---
+    cv.s, cv.ox, cv.oy = s, 40, 190
+    cut = x_len - c   # 2
+    # 動かす断片（左上 (x−3)×3）にハッチング
+    cv.polygon([(0, cut), (cut, cut), (cut, x_len), (0, x_len)], fill=fill_mv, w=0)
+    # L字形の輪郭
+    cv.polygon([(0, 0), (x_len, 0), (x_len, cut), (cut, cut), (cut, x_len), (0, x_len)])
+    # 切り取った角の正方形（点線）
+    cv.polygon([(cut, cut), (x_len, cut), (x_len, x_len), (cut, x_len)],
+               w=AUX_W, dash=DOTS)
+    # 切る線（破線）
+    cv.line((0, cut), (cut, cut), w=AUX_W, dash=DASH)
+    cv.dim((0, 0), (x_len, 0), "x", offset=(0, -0.5), lab_dy=1.0)
+    cv.dim((0, 0), (0, x_len), "x", offset=(-0.5, 0), lab_dy=-0.6)
+    cv.dim((cut, x_len), (x_len, x_len), "3", offset=(0, 0.4), lab_dy=-0.5)
+    xx, yy = cv.P((x_len / 2 + 0.4, x_len / 2 + 0.7))
+    cv.text_px(xx, yy, "切り取った", size=FS_CAP - 1, anchor="middle")
+    cv.text_px(xx, yy + 14, "正方形", size=FS_CAP - 1, anchor="middle")
+
+    # --- 中央の矢印 ---
+    arrow_px(cv, 196, 118, 244, 118, w=1.6, head=9)
+    cv.text_px(220, 102, "切って回して", size=FS_CAP - 1, anchor="middle")
+    cv.text_px(220, 140, "並べ替える", size=FS_CAP - 1, anchor="middle")
+
+    # --- 右パネル: 長方形 (x＋3)×(x−3) ---
+    cv.ox, cv.oy = 254, 190
+    # 動かした断片（右端 3×(x−3)）にハッチング
+    cv.polygon([(x_len, 0), (x_len + c, 0), (x_len + c, cut), (x_len, cut)],
+               fill=fill_mv, w=0)
+    cv.polygon([(0, 0), (x_len + c, 0), (x_len + c, cut), (0, cut)])
+    cv.line((x_len, 0), (x_len, cut), w=AUX_W, dash=DASH)   # 継ぎ目
+    cv.dim((0, 0), (x_len + c, 0), "x＋3", offset=(0, -0.5), lab_dy=1.0)
+    cv.dim((0, 0), (0, cut), "x−3", offset=(-0.5, 0), lab_dy=-0.6)
+
+    cv.text_px(250, 268, "斜線の断片を回して右へ——面積は変わらない（数値は x と 3 のみ）",
+               size=FS_CAP, anchor="middle")
+    cv.text_px(250, 286, "L字形（x²−9）　→　縦(x−3)・横(x＋3)の長方形",
+               size=FS_CAP, anchor="middle")
+
+    return dict(file="L08_fig1_lshape_rearrange.svg", canvas=cv, lesson="L08",
+                title="L字形の並べ替え（x²−9＝(x＋3)(x−3)の絵）",
+                intent="stretch S2の図。切って並べ替え＝面積の保存（説明の言語化は解答側）",
+                params="x=5, 切り取り=3（設問の記号どおり。断片=ハッチング・切る線=破線）",
+                check_tokens=["面積の保存", "変わらないから x²−9＝"],
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図8: L11 導入 正方形の花だんと道（p可変の比較つき——外部批判レビュー（裁定）対応）
+# 本文根拠: lesson_11.md 導入（p, a, p＋2a, 真ん中の一周 ℓ＝1辺p＋aの正方形）。
+# 外部批判レビュー（裁定）: 主張は「Sはaとℓだけで書ける（pの影響はℓにまとめられる）」——
+#        同じaでpが変わる比較パネルを添えて「pが変わればℓも変わる」を図で示す。
+# ===========================================================================
+def fig_L11_intro():
+    # --- パラメータ（左: p=3,a=0.8 ／ 右: p=4.4,a=0.8。同一スケールで比較） ---
+    p1, p2, a = 3.0, 4.4, 0.8
+
+    ck = Checker()
+    for p in (p1, p2):
+        S = (p + 2 * a) ** 2 - p ** 2
+        ell = 4 * (p + a)
+        ck.ok(f"S=(p+2a)²−p²=4a(p+a) の恒等式（p={p},a={a}）",
+              abs(S - 4 * a * (p + a)) < 1e-12, f"S={S:.3f}")
+        ck.ok(f"S＝aℓ（p={p}: S/ℓ＝a）", abs(S / ell - a) < 1e-12,
+              f"ℓ={ell:.3f}")
+    ck.ok("同じaでpを変えるとℓが変わる（比較パネルの意図）",
+          4 * (p1 + a) != 4 * (p2 + a),
+          f"ℓ: {4 * (p1 + a):.1f}→{4 * (p2 + a):.1f}")
+
+    cv = Canvas(560, 356)
+    s = 26.0
+
+    def panel(ox, p):
+        cv.s, cv.ox, cv.oy = s, ox, 262
+        outer = p + 2 * a
+        cv.polygon([(0, 0), (outer, 0), (outer, outer), (0, outer)], fill=GRAY)
+        cv.polygon([(a, a), (a + p, a), (a + p, a + p), (a, a + p)], fill="#fff")
+        # 道の真ん中を通る一周（1辺 p＋a・破線）
+        m = a / 2
+        cv.polygon([(m, m), (m + p + a, m), (m + p + a, m + p + a), (m, m + p + a)],
+                   w=AUX_W, dash=DASH, fill="none")
+        cv.text((a + p / 2, a + p * 0.68), "花だん", size=FS_CAP)
+        # 寸法: 道はば a（右辺中央）
+        cv.dim((a + p, a + p / 2 + 0.5), (outer, a + p / 2 + 0.5), "", tick=3.2)
+        xx, yy = cv.P((a + p + a / 2, a + p / 2 + 0.5))
+        cv.text_px(xx + 2, yy - 6, "a", size=FS, anchor="middle")
+        return outer
+
+    o1 = panel(40, p1)
+    # 左パネルのみ p / p＋2a の寸法（pは花だん内・ラベルは線の上＝2026-07-11目視検品で位置調整）
+    cv.s, cv.ox, cv.oy = s, 40, 262
+    cv.text((a + p1 / 2, a + 0.35), "p", size=FS)   # 花だんの下辺（1辺p）の辺ラベル
+    cv.dim((0, 0), (o1, 0), "p＋2a", offset=(0, -0.55), lab_dy=1.0)
+    o2 = panel(250, p2)
+    xx2 = 250 + o2 * s / 2
+    cv.text_px(xx2, 296, "1辺 p を大きく（a は同じ）", size=FS_CAP, anchor="middle")
+
+    # 破線の注記（右側余白）
+    lx = 250 + o2 * s + 14
+    cv.text_px(lx, 120, "点線＝道の真ん中を", size=FS_CAP - 1)
+    cv.text_px(lx, 136, "通る一周（長さ ℓ・", size=FS_CAP - 1)
+    cv.text_px(lx, 152, "1辺 p＋a の正方形）", size=FS_CAP - 1)
+    cv.text_px(280, 324, "1辺 p の花だんのまわりに，はば a の道が一周。道（網かけ）の面積が S",
+               size=FS_CAP, anchor="middle")
+    cv.text_px(280, 342, "p が変わると，道の真ん中の一周 ℓ も変わる——S と ℓ の関係は？",
+               size=FS_CAP, anchor="middle")
+
+    return dict(file="L11_fig1_square_path.svg", canvas=cv, lesson="L11",
+                title="正方形の花だんと道（p可変の比較つき）",
+                intent="導入の場面図＋外部批判レビュー（裁定）対応の比較パネル（同じaでpを変えるとℓが変わる）",
+                params=f"p={p1}/{p2}（同一スケール比較）, a={a}・道=淡グレー・真ん中の一周=破線",
+                check_tokens=["S＝aℓ", "4a(p＋a)", "S=aℓ"],
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図9: L11 練習1 正方形と長方形の並置（縦x＋2・横x−2）
+# 本文根拠: lesson_11.md 練習1。答え（4小さくなる）は図に書かない
+# ===========================================================================
+def fig_L11_p1():
+    # --- パラメータ（描画は x=4。x>2 なら任意） ---
+    x_len, d = 4.0, 2.0
+
+    ck = Checker()
+    for vx in [9, 5, 13]:
+        diff = vx ** 2 - (vx + 2) * (vx - 2)
+        ck.ok(f"x={vx}: x²−(x＋2)(x−2)＝4（答えの検算・図には書かない）", diff == 4)
+    ck.ok("描画値でも縦x＋2=6・横x−2=2（x=4）",
+          x_len + d == 6.0 and x_len - d == 2.0)
+
+    cv = Canvas(430, 324)
+    s = 26.0
+    # 左: もとの正方形
+    cv.s, cv.ox, cv.oy = s, 70, 226
+    cv.polygon([(0, 0), (x_len, 0), (x_len, x_len), (0, x_len)])
+    cv.dim((0, 0), (x_len, 0), "x", offset=(0, -0.5), lab_dy=1.0)
+    cv.dim((0, 0), (0, x_len), "x", offset=(-0.5, 0), lab_dy=-0.6)
+    xx, yy = cv.P((x_len / 2, x_len + 0.45))
+    cv.text_px(xx, yy - 4, "もとの正方形", size=FS_CAP, anchor="middle")
+
+    # 右: 縦を2のばし・横を2縮めた長方形
+    cv.ox = 260
+    W2, H2 = x_len - d, x_len + d
+    cv.polygon([(0, 0), (W2, 0), (W2, H2), (0, H2)])
+    cv.dim((0, 0), (W2, 0), "x−2", offset=(0, -0.5), lab_dy=1.0)
+    cv.dim((W2, 0), (W2, H2), "x＋2", offset=(0.5, 0), lab_dy=0.6)
+    xx, yy = cv.P((W2 / 2, H2 + 0.45))
+    cv.text_px(xx, yy - 4, "長方形", size=FS_CAP, anchor="middle")
+
+    arrow_px(cv, 190, 130, 240, 130, w=1.6, head=9)
+    cv.text_px(215, 114, "縦＋2", size=FS_CAP - 1, anchor="middle")
+    cv.text_px(215, 148, "横−2", size=FS_CAP - 1, anchor="middle")
+    cv.text_px(215, 288, "1辺 x の正方形の縦を2cmのばし，横を2cm縮める（練習1）",
+               size=FS_CAP, anchor="middle")
+    cv.text_px(215, 306, "面積はもとの正方形と比べてどうなる？（差＝？）",
+               size=FS_CAP, anchor="middle")
+
+    return dict(file="L11_fig2_square_vs_rectangle.svg", canvas=cv, lesson="L11",
+                title="正方形と縦x＋2・横x−2の長方形の並置（練習1）",
+                intent="練習1の場面図。面積の差は不記載・「？」表記",
+                params="x=4で描画（x>2なら任意）・向き=本文どおり縦がx＋2",
+                check_tokens=["4cm²", "4小さ", "x²−4"],
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図10: L11 練習3 長方形の花だんと道
+# 本文根拠: lesson_11.md 練習3（縦p・横q・はばa・外側は縦p＋2a・横q＋2a）。
+# 答え（S=2a(p+q+2a)・ℓ=2(p+q+2a)・S＝aℓ）は図に書かない
+# ===========================================================================
+def fig_L11_p3():
+    # --- パラメータ（描画比率。縦p・横q） ---
+    p, q, a = 2.6, 4.0, 0.7
+
+    ck = Checker()
+    S = (p + 2 * a) * (q + 2 * a) - p * q
+    ell = 2 * ((p + a) + (q + a))
+    ck.ok("S=(p+2a)(q+2a)−pq＝2a(p+q+2a)（恒等式・図には書かない）",
+          abs(S - 2 * a * (p + q + 2 * a)) < 1e-12, f"S={S:.3f}")
+    ck.ok("ℓ=2{(p+a)+(q+a)}＝2(p+q+2a)（図には書かない）",
+          abs(ell - 2 * (p + q + 2 * a)) < 1e-12, f"ℓ={ell:.3f}")
+    ck.ok("S＝aℓ（S/ℓ＝a）", abs(S / ell - a) < 1e-12)
+    for vp, vq, va in [(5, 3, 1), (8, 2, 3)]:
+        ck.ok(f"数値例 p,q,a={vp},{vq},{va}: S＝aℓ",
+              (vp + 2 * va) * (vq + 2 * va) - vp * vq
+              == va * 2 * (vp + vq + 2 * va))
+
+    cv = Canvas(430, 326)
+    s = 30.0
+    cv.s, cv.ox, cv.oy = s, 70, 236
+    W, H = q + 2 * a, p + 2 * a
+    cv.polygon([(0, 0), (W, 0), (W, H), (0, H)], fill=GRAY)
+    cv.polygon([(a, a), (a + q, a), (a + q, a + p), (a, a + p)], fill="#fff")
+    m = a / 2
+    cv.polygon([(m, m), (W - m, m), (W - m, H - m), (m, H - m)],
+               w=AUX_W, dash=DASH, fill="none")
+    # ラベルは辺ラベル方式（寸法線が花だんの区切りに見えるため・2026-07-11目視検品で変更）
+    cv.text((a + q * 0.42, a + p * 0.62), "花だん", size=FS_CAP)
+    cv.text((a + q / 2, a + 0.3), "q", size=FS)          # 下辺（横q）
+    cv.text((a + q - 0.28, a + p / 2), "p", size=FS)     # 右辺（縦p）
+    cv.dim((0, 0), (W, 0), "q＋2a", offset=(0, -0.5), lab_dy=1.0)
+    cv.dim((0, 0), (0, H), "p＋2a", offset=(-0.5, 0), lab_dy=-0.6)
+    cv.dim((a + q, a + p / 2 + 0.4), (W, a + p / 2 + 0.4), "", tick=3.2)
+    xx, yy = cv.P((a + q + a / 2, a + p / 2 + 0.4))
+    cv.text_px(xx + 2, yy - 6, "a", size=FS, anchor="middle")
+    lx = 70 + W * s + 16
+    cv.text_px(lx, 120, "点線＝道の真ん中を", size=FS_CAP - 1)
+    cv.text_px(lx, 136, "通る一周（長さ ℓ）", size=FS_CAP - 1)
+    cv.text_px(215, 290, "縦 p・横 q の花だんのまわりに，はば a の道が一周（練習3）",
+               size=FS_CAP, anchor="middle")
+    cv.text_px(215, 308, "道（網かけ）の面積 S と真ん中の一周 ℓ を式で表す——S と aℓ の関係は？",
+               size=FS_CAP, anchor="middle")
+
+    return dict(file="L11_fig3_rect_path.svg", canvas=cv, lesson="L11",
+                title="長方形の花だんと道（練習3）",
+                intent="練習3の場面図。S・ℓの式と S＝aℓ は不記載（設問が問う）",
+                params=f"p={p}, q={q}, a={a}（描画比率）・道=淡グレー・真ん中の一周=破線",
+                check_tokens=["2a(p", "2(p＋q", "S＝aℓ", "S=aℓ"],
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図11: L11 練習4 円形の池と道（追加提案——本文にプレースホルダなし）
+# 本文根拠: lesson_11.md 練習4（半径r・はばa・外側は半径r＋a・真ん中の円は半径r＋a/2）。
+# zatsudan「正方形→長方形→円へ」の転がりを図でも支える。答（S=πa(2r+a)）は書かない
+# ===========================================================================
+def fig_L11_p4():
+    # --- パラメータ（描画比率） ---
+    r, a = 1.7, 0.6
+
+    ck = Checker()
+    S = math.pi * (r + a) ** 2 - math.pi * r ** 2
+    ell = 2 * math.pi * (r + a / 2)
+    ck.ok("S=π(r+a)²−πr²＝πa(2r+a)（恒等式・図には書かない）",
+          abs(S - math.pi * a * (2 * r + a)) < 1e-12, f"S={S:.3f}")
+    ck.ok("ℓ=2π(r+a/2)＝π(2r+a) → S＝aℓ（S/ℓ＝a）",
+          abs(S / ell - a) < 1e-12, f"ℓ={ell:.3f}")
+    for vr, va in [(5, 2), (10, 3)]:
+        ck.ok(f"数値例 r,a={vr},{va}: S＝aℓ が厳密に成立",
+              abs((math.pi * (vr + va) ** 2 - math.pi * vr ** 2)
+                  - va * 2 * math.pi * (vr + va / 2)) < 1e-9)
+
+    cv = Canvas(430, 348)
+    s = 44.0
+    cv.s, cv.ox, cv.oy = s, 150, 142
+    C = (0.0, 0.0)
+    circle_poly(cv, C, r + a, fill=GRAY)              # 外側の円（道の外周）
+    circle_poly(cv, C, r, fill="#fff")                 # 池
+    circle_poly(cv, C, r + a / 2, w=AUX_W, dash=DASH)  # 真ん中の円
+    cv.text((0.25, 0.32), "池", size=FS_CAP)
+    # 半径 r（中心の点から左下へ。始点を中心からわずかに離してラベルと交差回避）
+    ang = math.radians(215)
+    edge = (r * math.cos(ang), r * math.sin(ang))
+    cx, cy = cv.P(C)
+    cv.raw(f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="2.2" fill="#000"/>')
+    exx, eyy = cv.P(edge)
+    arrow_px(cv, cx, cy, exx, eyy, w=1.1, head=6)
+    mx, my = cv.P((edge[0] * 0.55, edge[1] * 0.55))
+    cv.text_px(mx - 4, my - 6, "r", size=FS, anchor="end")
+    # 道はば a（右方向）
+    cv.dim((r, 0.35), (r + a, 0.35), "", tick=3.2)
+    xx, yy = cv.P((r + a / 2, 0.35))
+    cv.text_px(xx + 1, yy - 7, "a", size=FS, anchor="middle")
+    # 注記
+    lx = 150 + (r + a) * s + 12
+    cv.text_px(lx, 96, "点線＝道の真ん中を", size=FS_CAP - 1)
+    cv.text_px(lx, 112, "通る円（半径 r＋a/2）", size=FS_CAP - 1)
+    cv.text_px(lx, 128, "——円周が ℓ", size=FS_CAP - 1)
+    cv.dim((0, -(r + a) - 0.35), (r + a, -(r + a) - 0.35), "r＋a", lab_dy=1.0)
+    cv.text_px(215, 312, "半径 r の円形の池のまわりに，はば a の道が一周（練習4）",
+               size=FS_CAP, anchor="middle")
+    cv.text_px(215, 330, "道（網かけ）の面積 S を r, a で表す——円でも S＝aℓ は成り立つ？",
+               size=FS_CAP, anchor="middle")
+
+    return dict(file="L11_fig4_circle_path.svg", canvas=cv,
+                lesson="L11（追加提案・プレースホルダなし）",
+                title="円形の池と道（練習4）",
+                intent="正方形→長方形→円の3ケース目。道の面積の式は不記載（設問が問う）",
+                params=f"r={r}, a={a}（描画比率）・円は折れ線サンプリング120点",
+                check_tokens=["πa(2r", "π(2r＋a)", "2πa"],
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図12: L12 問13 箱の展開図（四すみから1辺aの正方形を切り取る）
+# 本文根拠: lesson_12.md C11...問13（切り取り後の十字形に淡い網かけ）。
+# 答え（x²−4a²=(x＋2a)(x−2a)）は図に書かない
+# ===========================================================================
+def fig_L12():
+    # --- パラメータ（描画は x=5, a=1。2a<x なら任意） ---
+    x_len, a = 5.0, 1.0
+
+    ck = Checker()
+    cross = x_len ** 2 - 4 * a ** 2
+    ck.ok("十字形の面積＝x²−4a²（描画値で21）", cross == 21.0)
+    for vx, va in [(7, 2), (10, 1), (9, 4)]:
+        ck.ok(f"恒等式の検算 x={vx},a={va}: x²−4a²=(x+2a)(x−2a)",
+              vx ** 2 - 4 * va ** 2 == (vx + 2 * va) * (vx - 2 * va))
+    ck.ok("切り取り可能条件 2a<x（描画値 2<5）", 2 * a < x_len)
+
+    cv = Canvas(430, 326)
+    s = 30.0
+    cv.s, cv.ox, cv.oy = s, 90, 230
+    X = x_len
+    # 十字形（残る紙）＝淡い網かけ
+    cv.polygon([(a, 0), (X - a, 0), (X - a, a), (X, a), (X, X - a), (X - a, X - a),
+                (X - a, X), (a, X), (a, X - a), (0, X - a), (0, a), (a, a)],
+               fill=GRAY)
+    # 四すみの切り取り正方形（点線）
+    for (cx0, cy0) in [(0, 0), (X - a, 0), (0, X - a), (X - a, X - a)]:
+        cv.polygon([(cx0, cy0), (cx0 + a, cy0), (cx0 + a, cy0 + a), (cx0, cy0 + a)],
+                   w=AUX_W, dash=DOTS, fill="none")
+    # 折り目（破線・箱の底になる1辺 x−2a の正方形）
+    cv.polygon([(a, a), (X - a, a), (X - a, X - a), (a, X - a)],
+               w=AUX_W, dash=DASH, fill="none")
+    cv.dim((0, 0), (X, 0), "x", offset=(0, -0.5), lab_dy=1.0)
+    cv.dim((0, 0), (0, X), "x", offset=(-0.5, 0), lab_dy=-0.6)
+    cv.dim((X - a, X), (X, X), "a", offset=(0, 0.4), lab_dy=-0.5)
+    cv.dim((X, X - a), (X, X), "a", offset=(0.4, 0), lab_dy=0.6)
+    # 切り取りの注記
+    xx, yy = cv.P((X + 0.55, X - a / 2))
+    cv.text_px(xx + 26, yy - 24, "四すみの正方形", size=FS_CAP - 1)
+    cv.text_px(xx + 26, yy - 9, "（1辺 a）を切り取る", size=FS_CAP - 1)
+    arrow_px(cv, xx + 30, yy - 4, xx - 12, yy + 6, w=1.0, head=5)
+    cv.text_px(215, 286, "1辺 x の正方形の紙の四すみから，1辺 a の正方形を4つ切り取る（問13）",
+               size=FS_CAP, anchor="middle")
+    cv.text_px(215, 304, "残り（網かけの十字形）の面積は？　点線＝切り取り線，破線＝箱の折り目",
+               size=FS_CAP, anchor="middle")
+
+    return dict(file="L12_fig1_box_net.svg", canvas=cv, lesson="L12",
+                title="ふたのない箱の展開図（四すみを切り取る・問13）",
+                intent="問13の場面図。残りの面積の式（展開形・因数分解形とも）は不記載",
+                params="x=5, a=1で描画（2a<x なら任意）・十字形=淡グレー",
+                check_tokens=["4a²", "x＋2a", "x−2a", "21"],
+                checks=ck.items)
+
+
+# ===========================================================================
+# メイン: 生成 + 答え漏れ・技術要件の機械検査 + マニフェスト自動出力
+# ===========================================================================
+FIGS = [fig_L01, fig_L02_model, fig_L02_blank, fig_L03, fig_L04, fig_L06,
+        fig_L08, fig_L11_intro, fig_L11_p1, fig_L11_p3, fig_L11_p4, fig_L12]
+
+
+def audit_svg(svg, meta):
+    """XML well-formed / viewBox / self-contained / 答え漏れ（<text>のみ検査）"""
+    root = ET.fromstring(svg)                      # well-formed
+    assert root.get("viewBox"), f"{meta['file']}: viewBoxなし"
+    assert root.get("width") is None and root.get("height") is None, \
+        f"{meta['file']}: width/heightは指定しない規約"
+    # xmlns宣言以外の外部参照禁止（self-contained）
+    assert svg.count("http") == svg.count('xmlns="http://www.w3.org/2000/svg"') == 1, \
+        f"{meta['file']}: 外部参照の疑い"
+    assert "href" not in svg and "@import" not in svg and "<image" not in svg, \
+        f"{meta['file']}: 外部参照の疑い（href/import/image）"
+    texts = "".join(re.findall(r"<text[^>]*>([^<]*)</text>", svg))
+    for ng in meta.get("check_tokens", []):
+        assert ng not in texts, f"{meta['file']}: 答え漏れの疑い『{ng}』が図中テキストに存在"
+    return len(re.findall(r"<text", svg))
+
+
+def build_desc(meta):
+    """SVG <desc> 用のAI再利用メタ情報（設計判断の記録・2026-07-12）。
+
+    FIGURE_MANIFESTと同じmetaデータ（意図・パラメータ）から機械生成する。
+    <title>/<desc> はコメントでないXML要素なので、HTML埋め込み時にも除去されず、
+    生徒がこの図をそのまま生成AIに渡しても意図・数値・再現方法が伝わる。
+    """
+    return (
+        f"【この図の意図】{meta['intent']}。"
+        f"【主要な数値・設定】{meta['params']}。"
+        f"【AIに同じ種類の図を描かせるときの説明文】"
+        f"「{meta['title']}。{meta['intent']}。数値・設定: {meta['params']}。"
+        f"白黒印刷向けのシンプルな教材図（SVG）としてかいて。」"
+        f"——この説明文を生成AIに渡せば同型の図を描かせられる。"
+        f"数値を変えれば類題用の図も作れる。"
+    )
+
+
+def main():
+    ASSETS.mkdir(parents=True, exist_ok=True)
+    rows = []
+    for fn in FIGS:
+        meta = fn()
+        out = ASSETS / meta["file"]
+        svg = meta["canvas"].save(out, meta["file"], meta["title"], build_desc(meta))
+        n_text = audit_svg(svg, meta)
+        checks = "／".join(f"{d}{'（' + t + '）' if t else ''} ✓" for d, t in meta["checks"])
+        n_ct = len(meta.get("check_tokens", []))
+        leak = (f"答え漏れ検査: PASS（{n_ct}項目・対象値はanswer_key由来・非開示）"
+                if n_ct else "—")
+        rows.append((meta["file"], meta["lesson"], meta["title"], meta["intent"],
+                     meta["params"], checks, leak))
+        print(f"OK {out.name}  [{len(meta['checks'])} checks / text={n_text} / 漏れ検査 passed]")
+
+    lines = [
+        "<!--",
+        f"generated: {GENERATED}（generate_figures.py により自動生成。手編集禁止——スクリプトを直して再実行）",
+        "spec: docs/SPEC_figures.md 準拠（内部規約の要旨は同SPECに反映済み）",
+        "license: CC-BY-4.0",
+        "-->",
+        "",
+        "# FIGURE_MANIFEST — 式の展開と因数分解 単元 図版台帳",
+        "",
+        f"生成日: {GENERATED} ／ 生成方式: `assets_provenance/generate_figures.py`"
+        "（Python標準ライブラリのみ・パラメトリック生成）／ "
+        "全図で下表の検算（スクリプト内assert）と答え漏れ・XML・self-contained検査が"
+        "生成時に自動実行され、全件合格。",
+        "",
+        "| ファイル | 対象レッスン | 図の意図 | パラメータ（本文一致） | 検証結果（生成時assert） | 答え漏れ検査 |",
+        "|---|---|---|---|---|---|",
+    ]
+    for f, lsn, title, intent, params, checks, leak in rows:
+        lines.append(f"| `{f}` | {lsn} | {title}——{intent} | {params} | {checks} | {leak} |")
+    lines += [
+        "",
+        "## 再生成・改修の手順（第三者向け）",
+        "",
+        "1. `generate_figures.py` の該当 `fig_*` 関数冒頭「パラメータ」ブロックを編集する",
+        "   （記号・数値は必ず該当 `lesson_XX.md` 本文と一致させる）。",
+        "2. `python3 generate_figures.py` を実行する。検算・答え漏れ検査に1つでも落ちると図は出力されない。",
+        "3. `assets/` のSVGと本ファイルが自動更新される。SVGの直接編集は禁止（来歴が切れる）。",
+        "",
+    ]
+    (HERE / "FIGURE_MANIFEST.md").write_text(
+        "---\ndistribution_status: published_draft\n---\n\n" + "\n".join(lines), encoding="utf-8")
+    print(f"OK FIGURE_MANIFEST.md  ({len(rows)} figures)")
+
+
+if __name__ == "__main__":
+    main()

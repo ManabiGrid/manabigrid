@@ -1,0 +1,28 @@
+name: 新単元の着手宣言・提案
+description: 未着手単元の制作宣言、または新しい単元の提案
+title: "【着手】unit_id（この部分を単元IDに置き換えてください）"
+labels: ["unit-proposal"]
+body:
+  - type: input
+    id: unit
+    attributes:
+      label: 対象単元
+      description: curriculum/PROGRESS_INDEX.md の unit_id（新提案の場合は科目・学年・単元名）
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 種別
+      options:
+        - 着手宣言（自分のAIで制作します）
+        - 提案のみ（誰かに作ってほしい）
+    validations:
+      required: true
+  - type: textarea
+    id: plan
+    attributes:
+      label: 進め方の予定
+      description: 使うAI・想定期間など。docs/prompts/UNIT_PROMPT_TEMPLATE.md の工程（調査→正規化→執筆→QA）を順に実行してください
+    validations:
+      required: false

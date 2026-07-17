@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一次関数 インタラクティブ教材入口（候補ドラフト）</title>
+<style>
+  :root {
+    color-scheme: light;
+    --ink: #172026;
+    --muted: #5a6872;
+    --paper: #fffdf8;
+    --line: #d7ddd8;
+    --mint: #cfeee4;
+    --mint-strong: #087f6f;
+    --sun: #ffd66b;
+    --sky: #d8ecff;
+    --coral: #ff8b6e;
+    --panel: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    color: var(--ink);
+    background:
+      linear-gradient(180deg, #f3fbf7 0, #fffdf8 42%, #f8fbff 100%);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+    line-height: 1.65;
+  }
+  .boundary {
+    background: #263238;
+    color: #fff;
+    padding: 8px 18px;
+    font-size: .88rem;
+    font-weight: 700;
+  }
+  header {
+    padding: 26px 20px 18px;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero {
+    max-width: 1080px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr);
+    gap: 18px;
+    align-items: end;
+  }
+  h1 {
+    margin: 0;
+    font-size: clamp(1.7rem, 3vw, 2.5rem);
+    letter-spacing: 0;
+    line-height: 1.2;
+  }
+  .lead {
+    margin: 12px 0 0;
+    max-width: 740px;
+    font-size: 1.02rem;
+  }
+  .status-board {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 8px 24px rgba(23, 32, 38, .08);
+  }
+  .status-board h2 {
+    margin: 0 0 8px;
+    font-size: .95rem;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .chip {
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 3px 9px;
+    background: #f7faf8;
+    color: var(--muted);
+    font-size: .78rem;
+    white-space: nowrap;
+  }
+  main {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 18px 20px 54px;
+  }
+  .notice {
+    border: 1px solid #e7c468;
+    background: #fff7d6;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin: 0 0 18px;
+    font-size: .93rem;
+  }
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 14px 0 20px;
+  }
+  .quick-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 7px 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 700;
+  }
+  .quick-link:hover,
+  .lesson-card a:hover {
+    border-color: var(--mint-strong);
+    box-shadow: 0 0 0 3px rgba(8, 127, 111, .14);
+  }
+  h2 {
+    margin: 26px 0 10px;
+    font-size: 1.18rem;
+  }
+  .lesson-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .lesson-card {
+    display: grid;
+    grid-template-columns: 62px minmax(0, 1fr);
+    gap: 12px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px;
+    min-height: 190px;
+    box-shadow: 0 8px 22px rgba(23, 32, 38, .06);
+  }
+  .lesson-tag {
+    display: grid;
+    place-items: center;
+    height: 62px;
+    border-radius: 8px;
+    background: var(--mint);
+    color: #064d43;
+    font-weight: 900;
+    font-size: 1.15rem;
+  }
+  .lesson-card:nth-child(2) .lesson-tag { background: var(--sky); color: #174f77; }
+  .lesson-card:nth-child(3) .lesson-tag { background: var(--sun); color: #5b4100; }
+  .lesson-card:nth-child(4) .lesson-tag { background: #ffe0d8; color: #78331f; }
+  .lesson-card h3 {
+    margin: 0 0 4px;
+    font-size: 1.06rem;
+    line-height: 1.35;
+  }
+  .purpose {
+    margin: 0 0 10px;
+    color: var(--muted);
+    font-size: .94rem;
+  }
+  .lesson-card a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #0b7265;
+    background: #0b7265;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 800;
+  }
+  .fallback {
+    margin: 10px 0 0;
+    padding: 9px 10px;
+    border-left: 4px solid var(--coral);
+    background: #fff8f3;
+    font-size: .9rem;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  th, td {
+    border-bottom: 1px solid var(--line);
+    padding: 9px 10px;
+    text-align: left;
+    vertical-align: top;
+    font-size: .93rem;
+  }
+  th { background: #eef7f3; }
+  tr:last-child td { border-bottom: 0; }
+  .footnote {
+    color: var(--muted);
+    font-size: .88rem;
+  }
+  @media (max-width: 760px) {
+    .hero,
+    .lesson-grid { grid-template-columns: 1fr; }
+    .lesson-card { grid-template-columns: 54px minmax(0, 1fr); }
+    main { padding-inline: 14px; }
+    header { padding-inline: 14px; }
+  }
+  @media print {
+    body { background: #fff; }
+    .toolbar, .lesson-card a { display: none; }
+    .lesson-card, .status-board { box-shadow: none; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="boundary">候補ドラフト（人間レビュー前）・自己学習用に配布可</div>
+<header>
+  <div class="hero">
+    <div>
+      <h1>一次関数 Interactive Tools</h1>
+      <p class="lead">授業で「動かして見せる」ための入口です。表、グラフ、交点、変域を、必要な場面だけ短く確認できます！</p>
+    </div>
+    <section class="status-board" aria-label="review status">
+      <h2>Review status</h2>
+      <div class="chips">
+        <span class="chip">一次関数パッケージ v1.0</span>
+        <span class="chip">teacher projection</span>
+        <span class="chip">static fallbackあり</span>
+        <span class="chip">browser test未完了</span>
+      </div>
+    </section>
+  </div>
+</header>
+<main>
+  <p class="notice">prototype本体は未公開です（今後追加予定）。このページは各prototypeの用途と、prototypeなしで授業を進めるためのFallback（紙上代替手順）の一覧として使えます。</p>
+
+  <nav class="toolbar" aria-label="quick links">
+    <a class="quick-link" href="student_textbook_print.html">生徒用HTML</a>
+    <a class="quick-link" href="teacher_guide.html">教師ガイドHTML</a>
+    <a class="quick-link" href="answer_key_supplement.md">解答key</a>
+    <span class="quick-link">検証レポート（未公開・今後追加予定）</span>
+  </nav>
+
+  <h2>使う場面で選ぶ</h2>
+  <section class="lesson-grid" aria-label="prototype list">
+    <article class="lesson-card">
+      <div class="lesson-tag">L2</div>
+      <div>
+        <h3>変化の割合 table explorer</h3>
+        <p class="purpose">表から「yの値」と「増加量」を分けます。y÷xの誤答をここで止めましょう！</p>
+        <span class="unpublished">L2を開く（未公開・今後追加予定）</span>
+        <p class="fallback">Fallback: Δx・Δy・Δy÷Δx の3列を板書し、1つは手計算で確認。</p>
+      </div>
+    </article>
+
+    <article class="lesson-card">
+      <div class="lesson-tag">L3/4</div>
+      <div>
+        <h3>graph slider / graph reader</h3>
+        <p class="purpose">式、傾き、切片、グラフを往復します。式から？グラフから？授業場面で分けて使います。</p>
+        <span class="unpublished">L3/4を開く（未公開・今後追加予定）</span>
+        <p class="fallback">Fallback: 方眼プリントに (0,b) と「右へ1・上へa」の矢印を書き込む。</p>
+      </div>
+    </article>
+
+    <article class="lesson-card">
+      <div class="lesson-tag">L6</div>
+      <div>
+        <h3>intersection visualizer</h3>
+        <p class="purpose">交点の座標と連立方程式の解をつなぎます。答えはxだけでなく点で見る！</p>
+        <span class="unpublished">L6を開く（未公開・今後追加予定）</span>
+        <p class="fallback">Fallback: 2直線の交点に印をつけ、座標の組を両方の式へ代入。</p>
+      </div>
+    </article>
+
+    <article class="lesson-card">
+      <div class="lesson-tag">L7</div>
+      <div>
+        <h3>modeling / domain simulator</h3>
+        <p class="purpose">式で計算できる値と、場面で使える値を分けます。x=15は本当に使える？</p>
+        <span class="unpublished">L7を開く（未公開・今後追加予定）</span>
+        <p class="fallback">Fallback: x=0,4,8,12 の表とグラフを使い、変域外の値を言葉で説明。</p>
+      </div>
+    </article>
+  </section>
+
+  <h2>レビュー用一覧</h2>
+  <p><span class="unpublished">prototype review dashboardを開く（未公開・今後追加予定）</span></p>
+
+  <h2>カバレッジ</h2>
+  <table>
+    <tr><th>レッスン</th><th>prototype</th><th>状態</th></tr>
+    <tr><td>L1</td><td>なし</td><td>static優先。比例との違いは本文と板書で扱う。</td></tr>
+    <tr><td>L2</td><td>table explorer</td><td>未公開（レビュー中）。実機テストは未完了。</td></tr>
+    <tr><td>L3/L4</td><td>graph slider</td><td>未公開（レビュー中）。L3とL4は授業内で分けて使う。</td></tr>
+    <tr><td>L5</td><td>なし</td><td>未作成。将来spec候補は内部処理用ビュー（非同梱）に保管。</td></tr>
+    <tr><td>L6</td><td>intersection visualizer</td><td>未公開（レビュー中）。教師投影限定。</td></tr>
+    <tr><td>L7</td><td>domain simulator</td><td>未公開（レビュー中）。実機テストは未完了。</td></tr>
+  </table>
+
+  <p class="footnote">このページは分析、通信、保存機能を持たない静的HTMLです。学習者への配布、公開、販売、外部アップロードは承認されていません。</p>
+</main>
+</body>
+</html>

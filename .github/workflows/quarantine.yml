@@ -1,0 +1,158 @@
+# quarantine.yml — 内部語彙の混入検査と verify_required 削除検知（軽量CI）
+# 目的: 公開ツリーに内部管理用の語彙・ID・フラグ・ローカルパスが混入したらCIで失敗させる。
+#       PRで verify_required（要原典確認の印）の行が削除されていたらジョブを失敗させる
+#       （正当な解除の手順は CONTRIBUTING.md「来歴のルール2」参照——メンテナ判断でoverride）。
+# 実装メモ: 検査対象には .github も含める。検査パターンは文字クラス（[ ]）等で
+#           ひと文字ずつ崩して書いてある。こう書かないと、このファイル自身の
+#           パターン定義行が検査に引っかかるため（定義行だけを実質除外する方式）。
+# 供給網対策: actions は commit SHA 固定・workflow permissions は contents: read のみ。
+
+name: quarantine
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  quarantine:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          fetch-depth: 0
+
+      - name: Internal vocabulary grep (fail on hit)
+        run: |
+          set -u
+          PATTERNS='INTERNA[L][_]ONLY
+          [/]Users[/]
+          MERGE[_]LOG
+          QA[_]REPORT
+          submit[0-9]
+          D[0-9]+[-]H[0-9]+
+          \bD[0-9]{1,2}\b
+          public[_]release[_]ready
+          student[_]distribution[_]ready
+          external[_]upload[_]ready
+          sale[_]ready
+          canonical[_]status
+          run[_]id
+          source[_]package
+          オーナ[ー]
+          監[督]
+          改稿キュ[ー]'
+          FAIL=0
+          while IFS= read -r pat; do
+            pat="$(echo "$pat" | sed 's/^ *//')"
+            [ -z "$pat" ] && continue
+            HITS="$(grep -rInE --binary-files=without-match \
+              --exclude-dir=.git \
+              -e "$pat" . || true)"
+            if [ -n "$HITS" ]; then
+              echo "::error::quarantine vocabulary detected (pattern: $pat)"
+              echo "$HITS"
+              FAIL=1
+            fi
+          done <<EOF
+          $PATTERNS
+          EOF
+          exit "$FAIL"
+
+      - name: Unicode evasion check (zero-width / fullwidth-digit IDs / normalized internal IDs)
+        run: |
+          python3 - <<'PYEOF'
+          import os, re, sys, unicodedata
+          # 検査1: zero-width系文字（U+200B〜U+200D, U+2060, U+FEFF）は全面禁止
+          zw = re.compile("[" + "".join(chr(c) for c in (0x200B, 0x200C, 0x200D, 0x2060, 0xFEFF)) + "]")
+          # 検査2: 全角数字・全角英字による内部ID偽装（例: 英大文字+全角数字、全角英字+数字）
+          #        全角数字そのものは日本語本文で正当に使われるため、ID形の文脈に限定する
+          fw_digit = "".join(chr(c) for c in range(0xFF10, 0xFF1A))   # 全角の0-9
+          fw_upper = "".join(chr(c) for c in range(0xFF21, 0xFF3B))   # 全角のA-Z
+          fake_id = re.compile("(?:[A-Z][" + fw_digit + "]|[" + fw_upper + "][0-9" + fw_digit + "])")
+          # 検査3: NFKC正規化後の内部ID・内部ラベル（R3監査 指摘#2対応）
+          #        パターン文字列は連結で崩して書く——このファイル自身の定義行が
+          #        検査に引っかからないようにするため（既存grep方式と同じ趣旨）。
+          #        区切り記号: hyphen / 各種dash（‐‑‒–—―−）/ 長音ー / 全角－
+          dash = "-‐‑‒–—―−ー－" + "・･·./:_" + " " + "\u00A0"  # R4対応: 中黒・句点系・空白等の区切りゆれ12種を追加
+          pat_d_id = re.compile("(?<![0-9A-Za-z])" + "D" + "[" + dash + "][0-9]")
+          pat_hr_id = re.compile("(?<![0-9A-Za-z])" + "H" + "R" + "[" + dash + "]?[0-9]")
+          word_internal = "INTER" + "NAL"
+          word_naibu = "内部" + "用"  # 「内部」+「用」の内部ラベル
+          bad = []
+          for root, dirs, files in os.walk("."):
+              dirs[:] = [d for d in dirs if d != ".git"]
+              for name in files:
+                  path = os.path.join(root, name)
+                  try:
+                      text = open(path, encoding="utf-8").read()
+                  except (UnicodeDecodeError, OSError):
+                      continue
+                  for i, line in enumerate(text.splitlines(), 1):
+                      if zw.search(line):
+                          bad.append(f"{path}:{i}: zero-width character")
+                      if fake_id.search(line):
+                          bad.append(f"{path}:{i}: fullwidth-obfuscated ID: {line.strip()[:80]}")
+                      norm = unicodedata.normalize("NFKC", line)
+                      if pat_d_id.search(norm):
+                          bad.append(f"{path}:{i}: normalized internal D-id: {line.strip()[:80]}")
+                      if pat_hr_id.search(norm):
+                          bad.append(f"{path}:{i}: normalized internal HR-id: {line.strip()[:80]}")
+                      if word_internal in norm:
+                          bad.append(f"{path}:{i}: internal label (EN): {line.strip()[:80]}")
+                      if word_naibu in norm:
+                          bad.append(f"{path}:{i}: internal label (JA): {line.strip()[:80]}")
+          if bad:
+              print("::error::unicode evasion / internal-id detected")
+              print("\n".join(bad))
+              sys.exit(1)
+          print("OK: no zero-width / fullwidth-obfuscated / normalized internal IDs")
+          PYEOF
+
+      - name: Fail if verify_required lines are removed in PR diff
+        if: github.event_name == 'pull_request'
+        run: |
+          set -u
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.event.pull_request.head.sha }}"
+          REMOVED="$(git diff "$BASE" "$HEAD" -- . | grep -E '^-' | grep -v -E '^---' | grep -c 'verify_required' || true)"
+          if [ "$REMOVED" -gt 0 ]; then
+            echo "::error::This PR removes $REMOVED line(s) containing 'verify_required'. Removal is only accepted together with a source-verification record (CONTRIBUTING.md 来歴のルール2). A maintainer may override this failure after confirming the record."
+            git diff "$BASE" "$HEAD" -- . | grep -E '^-' | grep -v -E '^---' | grep 'verify_required' || true
+            exit 1
+          fi
+          echo "No verify_required removals detected."
+
+      - name: Warn on .github changes in PR diff
+        if: github.event_name == 'pull_request'
+        run: |
+          set -u
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.event.pull_request.head.sha }}"
+          CHANGED="$(git diff --name-only "$BASE" "$HEAD" -- .github/ || true)"
+          if [ -n "$CHANGED" ]; then
+            echo "::warning::This PR changes files under .github/ (CI/テンプレートの変更はメンテナが必ず内容確認すること):"
+            echo "$CHANGED"
+          else
+            echo "No .github changes."
+          fi
+
+  quality:
+    # 品質の機械検査（リンク照合・アンカー照合・frontmatter検査・
+    # ビュー生成器テスト・図版再生成検算）。内容は tools/ci_checks.py を参照。
+    # 図版の再生成は一時ディレクトリで行い、リポジトリ内のSVGは書き換えない。
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.x"
+
+      - name: Run quality checks (links / anchors / frontmatter / view generator / figures)
+        run: python3 tools/ci_checks.py

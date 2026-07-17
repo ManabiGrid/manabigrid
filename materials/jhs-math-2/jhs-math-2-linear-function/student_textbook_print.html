@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一次関数 生徒向け候補ドラフト</title>
+<style>
+  :root { color-scheme: light; }
+  body { margin: 0; background: #f7f7f4; color: #1f2933; font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif; line-height: 1.75; }
+  .internal-boundary { background: #7a2e2e; color: #fff; padding: 10px 18px; font-weight: 700; }
+  main { max-width: 920px; margin: 0 auto; padding: 22px 24px 64px; background: #fff; }
+  h1 { font-size: 1.75rem; border-bottom: 3px solid #2f5d62; padding-bottom: .35rem; }
+  h2 { font-size: 1.32rem; margin-top: 2.1rem; color: #173f46; }
+  h3 { font-size: 1.05rem; margin-top: 1.4rem; }
+  p, li { font-size: 1rem; }
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+  th, td { border: 1px solid #c7d0d3; padding: .45rem .55rem; vertical-align: top; }
+  th { background: #e9f0f1; }
+  pre { background: #f2f4f7; border: 1px solid #ccd4da; padding: .75rem; overflow-x: auto; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  blockquote { margin: 1rem 0; padding: .75rem 1rem; border-left: 5px solid #7a2e2e; background: #fff4f2; }
+  .box-nerai, .box-rei, .box-kangae, .box-machigai, .box-tashikame, .box-furikaeri { padding: .45rem .65rem; border-left: 5px solid #2f5d62; background: #f2f7f6; }
+  .box-machigai { border-left-color: #a75a3b; background: #fff7ef; }
+  .box-tashikame { border-left-color: #5d6fa3; background: #f4f6ff; }
+  .meta { color: #4b5563; font-size: .92rem; }
+  @page { size: A4; margin: 14mm; }
+  @media print {
+    body { background: #fff; } main { max-width: none; padding: 0; }
+    .no-print { display: none; }
+    section.lesson { break-before: page; }
+    table, pre, blockquote, .box-rei, .box-tashikame { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="internal-boundary">候補ドラフト（人間レビュー前） / 生徒向け（解答なし） / 自己学習用に配布可</div>
+<main>
+<h1>一次関数（生徒向け・候補ドラフト）</h1>
+<blockquote>【候補ドラフト（人間レビュー前）】人間による最終レビューはこれからのドラフトです。自己学習用に配布可。</blockquote>
+<h2>この単元で見えるようにしたいこと</h2>
+<p>一次関数は、ひとことで言うと「はじめの量」と「一定のペース」を式にしたものです！</p>
+<pre><code>y = ax + b</code></pre>
+<p><code>a</code> は変わるペース、<code>b</code> ははじめの量です。表、式、グラフは別々の道具に見えますが、同じ関係を別の形で表しています。</p>
+<p>最初は、文字の名前を覚えることよりも、「どれだけずつ変わるか」と「どこから始まるか」を分けて見ていきましょう。</p>
+<h2>単元の見取り図</h2>
+<table><thead><tr><th>レッスン</th><th>すること</th><th>キーワード</th></tr></thead><tbody><tr><td>L1</td><td>比例に「はじめの量」を足す</td><td>y=ax+b</td></tr><tr><td>L2</td><td>増え方を数で表す</td><td>変化の割合</td></tr><tr><td>L3</td><td>式からグラフをかく</td><td>傾き・切片</td></tr><tr><td>L4</td><td>グラフから式を読む</td><td>読み取り</td></tr><tr><td>L5</td><td>手がかりから式を決める</td><td>2つの条件</td></tr><tr><td>L6</td><td>方程式とグラフをつなぐ</td><td>交点</td></tr><tr><td>L7</td><td>場面で使う</td><td>変域</td></tr></tbody></table>
+<p>L1〜L2で「式の意味」、L3〜L5で「式とグラフの行き来」、L6〜L7で「使い方」へ進みます。</p>
+<h2 class="lesson-heading">L1 比例から一次関数へ</h2>
+<h3 class="box box-nerai">今日のねらい</h3>
+<p>比例 <code>y=ax</code> に「はじめからある量」を加えると、一次関数 <code>y=ax+b</code> になることを理解します。</p>
+<h3 class="">導入場面</h3>
+<p>空の水そうに、1分あたり3Lずつ水を入れるとします。x分後の水の量をyLとすると、式は <code>y=3x</code> です。</p>
+<p>では、はじめから2L入っている水そうならどうでしょう。1分で3Lずつ増えることは同じですが、スタートが0ではありません。</p>
+<h3 class="box box-rei">例</h3>
+<p>はじめ2L、毎分3L増える水そうでは、</p>
+<pre><code>y = 3x + 2</code></pre>
+<p>となります。<code>3x</code> は増えた分、<code>+2</code> ははじめから入っていた分です。</p>
+<h3 class="box box-kangae">考え方</h3>
+<p>比例では、xが0のときyも0でした。一次関数では、xが0のときのyが0とは限りません。</p>
+<ul><li><code>a</code>: xが1増えるときにyがどれだけ変わるか</li><li><code>b</code>: x=0のときのy</li></ul>
+<p>比例は、<code>b=0</code> の一次関数と見ることもできます。</p>
+<h3 class="box box-machigai">よくあるまちがい</h3>
+<p><code>y=3x+2</code> の「+2」を「毎分2Lずつ増える分」と読んでしまうまちがいがあります。<code>+2</code> は時間がたっても変わらない「はじめの量」です。増えるペースは <code>3x</code> の3だけが表しています。</p>
+<h3 class="box box-tashikame">たしかめ</h3>
+<p>① はじめ500円持っていて、毎日50円ずつ貯金します。x日後の金額をy円とすると、式は何ですか。</p>
+<p>② はじめ6L入っている水そうに、毎分2Lずつ水を入れます。x分後の水の量をyLとして式を作り、5分後の水の量を求めましょう。</p>
+<h3 class="box box-furikaeri">ふり返り</h3>
+<p>「増えるペース」と「はじめの量」を分けて見られましたか。</p>
+<h2 class="lesson-heading">L2 変化の割合</h2>
+<h3 class="box box-nerai">今日のねらい</h3>
+<p>表の中の値と、値の増え方を区別し、変化の割合が <code>a</code> にあたることを理解します。</p>
+<h3 class="">導入場面</h3>
+<p><code>y=3x+2</code> の表を見ます。</p>
+<table><thead><tr><th>x</th><th>0</th><th>1</th><th>2</th><th>3</th></tr></thead><tbody><tr><td>y</td><td>2</td><td>5</td><td>8</td><td>11</td></tr></tbody></table>
+<p>yの値は2、5、8、11と変わります。増加量は、5-2、8-5、11-8なので、どこでも3です。</p>
+<p>ここで見るのは、yの値そのものではなく、yがどれだけ増えたかです。どこを比べればよいでしょうか？</p>
+<h3 class="box box-rei">例</h3>
+<p>変化の割合は、次のように考えます。</p>
+<pre><code>変化の割合 = yの増加量 ÷ xの増加量</code></pre>
+<p>つまり、<code>y÷x</code> ではなく、「yの増加量」を「xの増加量」で割ります。</p>
+<p>この表では、xが1増えるたびにyが3増えるので、変化の割合は3です。</p>
+<h3 class="box box-kangae">考え方</h3>
+<p><code>b</code> はスタート量なので、どこから始まるかを決めます。一方、変化の割合は増え方です。だから <code>y=3x+2</code> でも <code>y=3x+10</code> でも、変化の割合は3です。</p>
+<p>xが1ずつでなく、2や3ずつ増える表でも同じです。たとえばxが2から5まで増えるなら、xの増加量は3です。yの増加量を、この3で割ります。</p>
+<h3 class="box box-machigai">よくあるまちがい</h3>
+<p>表の<code>y</code>の値をそのまま<code>x</code>で割って（<code>y÷x</code>）、変化の割合としてしまうまちがいがあります。上の表で <code>8÷2=4</code> と計算しても、それは変化の割合ではありません。割るのは「増加量どうし」です。</p>
+<h3 class="box box-tashikame">たしかめ</h3>
+<p>① <code>y=4x-1</code> で、xが2から5まで増えるとき、xの増加量、yの増加量、変化の割合を求めましょう。</p>
+<p>② <code>y=-2x+7</code> で、xが1から4まで増えるとき、yの増加量と変化の割合を求めましょう。</p>
+<h3 class="box box-furikaeri">ふり返り</h3>
+<p>「yの値」そのものと「yの増えた量」を混ぜずに読めましたか。</p>
+<h2 class="lesson-heading">L3 式からグラフへ</h2>
+<h3 class="box box-nerai">今日のねらい</h3>
+<p>一次関数の式から点を取り、グラフが直線になることを確認します。</p>
+<h3 class="">導入場面</h3>
+<p><code>y=2x+1</code> で、xにいくつか値を入れてみます。</p>
+<table><thead><tr><th>x</th><th>0</th><th>1</th><th>2</th><th>3</th></tr></thead><tbody><tr><td>y</td><td>1</td><td>3</td><td>5</td><td>7</td></tr></tbody></table>
+<p>この点を座標平面に取ると、まっすぐ並びます。</p>
+<p>このレッスンでは、式から表を作り、表から点を取る流れに集中しましょう。グラフから式を読むことは、次のレッスンで扱います。</p>
+<h3 class="box box-rei">例</h3>
+<p><code>b=1</code> なので、グラフはy軸の1のところを通ります。<code>a=2</code> なので、xが1増えるとyは2増えます。</p>
+<h3 class="box box-kangae">考え方</h3>
+<p><code>b</code> は切片、<code>a</code> は傾きとしてグラフに表れます。</p>
+<ul><li>切片: y軸と交わるところ</li><li>傾き: 右へ進んだときの上がり方</li></ul>
+<h3 class="box box-machigai">よくあるまちがい</h3>
+<p>切片を「x軸と交わるところ」と混ぜてしまうまちがいがあります。切片 <code>b</code> は「x=0のときのy」、つまり<strong>y軸</strong>の上の点です。グラフをかくときは、まずy軸上の <code>(0, b)</code> に点を打ちます。</p>
+<h3 class="box box-tashikame">たしかめ</h3>
+<p>① <code>y=x+2</code> の表を作り、点を3つ取って直線を引きましょう。</p>
+<p>② <code>y=2x-3</code> の切片と傾きを言い、x=0、1、2のときのyを求めて表にしましょう。</p>
+<h3 class="box box-furikaeri">ふり返り</h3>
+<p>式の <code>a</code> と <code>b</code> が、グラフのどこに見えるか説明できますか。</p>
+<h2 class="lesson-heading">L4 グラフから式へ</h2>
+<h3 class="box box-nerai">今日のねらい</h3>
+<p>グラフから切片と傾きを読み取り、式を復元します。</p>
+<h3 class="">導入場面</h3>
+<p>グラフがy軸の2を通り、右に1進むと上に3進むとします。このとき、切片と傾きは何になるでしょうか？</p>
+<p>前のレッスンとは向きが逆です。ここでは、すでにあるグラフから、切片と傾きを読み取ります。</p>
+<h3 class="box box-rei">例</h3>
+<p>切片が2、傾きが3なら、式は</p>
+<pre><code>y = 3x + 2</code></pre>
+<p>です。</p>
+<h3 class="box box-kangae">考え方</h3>
+<p>右に進むと下がる直線では、傾きは負になります。たとえば右に1進むと2下がるなら、傾きは <code>-2</code> です。</p>
+<p>読み取りやすい格子点を2つ選ぶと、傾きを計算しやすくなります。</p>
+<p>たとえば、右へ3進む間に上へ2進むなら、傾きは <code>2÷3 = 2/3</code> です。</p>
+<h3 class="box box-machigai">よくあるまちがい</h3>
+<p>右下がりの直線を見て、傾きを正の数で答えてしまうまちがいがあります。「右へ進んだとき、上がるなら正、下がるなら負」。まず上がるか下がるかを言葉にしてから、数を読みましょう。</p>
+<h3 class="box box-tashikame">たしかめ</h3>
+<p>① 点 <code>(0,1)</code> と <code>(3,3)</code> を通る直線の傾きを求め、式を作りましょう。</p>
+<p>② 切片が4で、右に1進むと2下がる直線の式を作りましょう。</p>
+<h3 class="box box-furikaeri">ふり返り</h3>
+<p>「上がる」「下がる」を、傾きの正負と結びつけられましたか。</p>
+<h2 class="lesson-heading">L5 条件から式を決める</h2>
+<h3 class="box box-nerai">今日のねらい</h3>
+<p>傾きと1点、または2点から一次関数の式を求めます。</p>
+<h3 class="">導入場面</h3>
+<p>一次関数 <code>y=ax+b</code> で決めるものは、<code>a</code> と <code>b</code> の2つです。だから、手がかりが2つあれば式を決められます。</p>
+<h3 class="">例1 傾きと1点</h3>
+<p>傾きが2で、点 <code>(3,7)</code> を通るとします。</p>
+<pre><code>y = 2x + b
+7 = 2×3 + b
+7 = 6 + b
+b = 1</code></pre>
+<p>式は <code>y=2x+1</code> です。</p>
+<h3 class="">例2 2点</h3>
+<p>点 <code>(1,5)</code> と <code>(4,11)</code> を通るとします。</p>
+<p>2点から傾きを求めるときは、2つの点のx座標が異なることを先に確認します。</p>
+<pre><code>a = (11-5) ÷ (4-1) = 6 ÷ 3 = 2</code></pre>
+<p>傾きは2です。あとは点 <code>(1,5)</code> を使うと、</p>
+<pre><code>5 = 2×1 + b
+b = 3</code></pre>
+<p>式は <code>y=2x+3</code> です。2つの点のどちらを使っても、同じ式になります！</p>
+<h3 class="box box-kangae">考え方</h3>
+<p>2点から式を決める方法は、2点のx座標が異なる場合に使います。x座標が同じ2点は、この単元の <code>y=ax+b</code> の決定問題とは分けて考えます。</p>
+<h3 class="box box-machigai">よくあるまちがい</h3>
+<p>x座標を確かめずに、いきなり傾きの計算を始めてしまうまちがいがあります。最初の一手は「2点のx座標がちがうことの確認」です。</p>
+<h3 class="box box-tashikame">たしかめ</h3>
+<p>① 点 <code>(2,7)</code> と <code>(5,16)</code> を通る一次関数の式を求めましょう。</p>
+<p>② 傾きが <code>-1</code> で、点 <code>(4,1)</code> を通る一次関数の式を求めましょう。</p>
+<h3 class="box box-furikaeri">ふり返り</h3>
+<p>式を決めるために、まず何を求めればよいか言えますか。</p>
+<h2 class="lesson-heading">L6 二元一次方程式とグラフ</h2>
+<h3 class="box box-nerai">今日のねらい</h3>
+<p>yについて解くと <code>y=ax+b</code> の形になる二元一次方程式を、グラフと連立方程式の解に結びつけます。</p>
+<h3 class="">導入場面</h3>
+<p><code>2x+y=6</code> は、xとyを使った方程式です。yについて解くと、</p>
+<pre><code>y = -2x + 6</code></pre>
+<p>となり、一次関数のグラフとして表せます。</p>
+<p>2つの式を同時に満たすxとyを探す考え方は、連立方程式の考え方とつながります。</p>
+<h3 class="box box-rei">例</h3>
+<p>もう1つ、<code>x+2y=8</code> をyについて解きます。</p>
+<pre><code>2y = -x + 8
+y = -(1/2)x + 4</code></pre>
+<p>2つのグラフをかくと、交わる点があります。その点は、2つの式のどちらにも当てはまるでしょうか？</p>
+<h3 class="box box-kangae">考え方</h3>
+<p>交点は、2つの直線の両方に乗っている点です。つまり、2つの方程式のどちらにも当てはまります。</p>
+<p>交点を探すときは、片方の式を <code>y=...</code> と見て、「もう一方の式でも同じ y になる x はどれか」と考えます。</p>
+<p>このレッスンでは、yについて解くと <code>y=ax+b</code> の形になる方程式を考えます。</p>
+<h3 class="box box-machigai">よくあるまちがい</h3>
+<p>交点を聞かれて <code>x=2</code> とだけ答えてしまうまちがいがあります。交点は座標平面上の<strong>点</strong>なので、答えは <code>(2, 3)</code> のように x と y の組で言います。</p>
+<h3 class="box box-tashikame">たしかめ</h3>
+<p>① まず <code>x+y=5</code> は、yについて見ると <code>y=5-x</code> と表せます。そのうえで、もう一方の式でも同じ y になる x を探します。</p>
+<p><code>x+y=5</code> と <code>y=2x-1</code> の交点の座標を求め、その点を2つの式に代入して確認しましょう。</p>
+<p>② <code>3x+y=9</code> をyについて解き、傾きと切片を答えましょう。</p>
+<h3 class="box box-furikaeri">ふり返り</h3>
+<p>交点の座標が「連立方程式の解」と言える理由を説明できますか。</p>
+<h2 class="lesson-heading">L7 一次関数の利用</h2>
+<h3 class="box box-nerai">今日のねらい</h3>
+<p>現実に近い場面を一次関数としてモデル化し、式が使える範囲も考えます。</p>
+<h3 class="">導入場面</h3>
+<p>深さ40cmの水そうがあります。はじめの水の深さは4cmです。水を入れると、水面の高さは1分あたり3cmずつ上がります。</p>
+<h3 class="box box-rei">例</h3>
+<p>x分後の水の深さをycmとすると、</p>
+<pre><code>y = 3x + 4</code></pre>
+<p>です。水そうの深さは40cmなので、</p>
+<pre><code>40 = 3x + 4
+36 = 3x
+x = 12</code></pre>
+<p>12分でいっぱいになります。したがって、この場面で式を使える範囲は</p>
+<pre><code>0 ≤ x ≤ 12</code></pre>
+<p>です。</p>
+<p>これは「0分後から12分後まで」という意味です。12分をこえるとどうなるでしょう？水そうから水があふれるので、この式だけで場面を表すことはできません。</p>
+<h3 class="box box-kangae">考え方</h3>
+<p>式に入れれば計算できる値でも、場面として意味があるとは限りません。一次関数を使うときは、式だけでなく、使える範囲も考えます。</p>
+<h3 class="box box-machigai">よくあるまちがい</h3>
+<p>「計算できる」と「場面で使える」を混ぜてしまうまちがいがあります。<code>y=3x+4</code> に <code>x=100</code> を入れれば計算はできますが、この水そうの場面では意味がありません。答えを出したら、その値が場面に合っているか一度確かめます。</p>
+<h3 class="box box-tashikame">たしかめ</h3>
+<p>① はじめ20m前にいる人Aが毎分60m、後ろから出発する人Bが毎分80mで進むとします。BがAに追いつくのは何分後ですか。</p>
+<p>ヒント: AとBの差は、1分ごとに <code>80-60=20m</code> ずつ縮まります。</p>
+<p><strong>追加ヒント（自分で考えたあと）</strong></p>
+<p>式で見るなら、Aさんは <code>y=60x+20</code>、Bさんは <code>y=80x</code> と表せます。追いつくときは、2つの y が同じになります。</p>
+<p>② 上の水そうの式 <code>y=3x+4</code> で、5分後の水の深さを求めましょう。また、<code>x=15</code> はこの場面で使えますか。理由も答えましょう。</p>
+<h3 class="box box-furikaeri">ふり返り</h3>
+<p>「式では計算できるけれど、場面では使えない値」を見分けられましたか。</p>
+<h2>単元のまとめ</h2>
+<p>一次関数は、表、式、グラフ、場面をつなぐ道具です。</p>
+<ul><li>式を見ると、増え方とスタート量がわかる。</li><li>表を見ると、変化の割合を確かめられる。</li><li>グラフを見ると、全体の傾向や交点が見える。</li><li>場面を見ると、式が使える範囲が決まる。</li></ul>
+<p>この4つを行き来できると、一次関数はぐっと使いやすくなります！</p>
+<h2>用語ミニ整理</h2>
+<table><thead><tr><th>用語</th><th>意味</th></tr></thead><tbody><tr><td>一次関数</td><td><code>y=ax+b</code> の形で表せる関係</td></tr><tr><td>変化の割合</td><td>yの増加量 ÷ xの増加量</td></tr><tr><td>傾き</td><td>右に1進んだときの上がり下がり（式の <code>a</code>）</td></tr><tr><td>切片</td><td>y軸と交わるところのy（式の <code>b</code>、x=0のときのy）</td></tr><tr><td>交点</td><td>2つのグラフが交わる点。座標 <code>(x, y)</code> の組で表す</td></tr><tr><td>変域</td><td>その場面で式を使える x の範囲</td></tr></tbody></table>
+<h2>解答について</h2>
+<p>この本文には、たしかめの解答を入れていません。解答は answer_key_supplement.md（自己採点用）にあります。解いてから開くことをおすすめします。</p>
+</main>
+</body>
+</html>

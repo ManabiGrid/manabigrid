@@ -1,0 +1,19 @@
+name: 質問（なんでも）
+description: 教材のわからないところ・使い方など、なんでも気軽にどうぞ
+title: "【質問】"
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **書きこむ前の注意**: ここに書いた内容はインターネット全体に公開されます。
+        **名前・学校名・住所・連絡先など、個人がわかる情報は書かないでください。**
+        （名乗らなくても大丈夫です。個人情報を書かずに送りたい場合は、GitHubアカウント不要の[おたよりフォーム](https://docs.google.com/forms/d/e/1FAIpQLSeKBOQ9EB_DGfkh7Y0LYU83w6ghkPTQfH65BSFjVVWtwEEt9Q/viewform)も使えます）
+  - type: textarea
+    id: question
+    attributes:
+      label: 質問内容
+      description: どの教材のどこで困っているか（分かる範囲でOK）。個人情報（名前・学校名・住所・連絡先など）は書かないでください
+      placeholder: 例）materials/jhs-math-3/jhs-math-3-square-roots/lesson_02.md の問3の解き方がわかりません
+    validations:
+      required: true
