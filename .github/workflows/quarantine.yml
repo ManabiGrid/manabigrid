@@ -62,12 +62,21 @@ jobs:
           EOF
           exit "$FAIL"
 
-      - name: Unicode evasion check (zero-width / fullwidth-digit IDs / normalized internal IDs)
+      - name: Unicode evasion check (invisible chars / fullwidth IDs / normalized internal IDs)
         run: |
           python3 - <<'PYEOF'
           import os, re, sys, unicodedata
-          # 検査1: zero-width系文字（U+200B〜U+200D, U+2060, U+FEFF）は全面禁止
-          zw = re.compile("[" + "".join(chr(c) for c in (0x200B, 0x200C, 0x200D, 0x2060, 0xFEFF)) + "]")
+          # 検査1: 不可視・結合系文字は全面禁止（R6対応で拡張）
+          #        旧zero-width列挙（U+200B〜U+200D, U+2060, U+FEFF）に代えて、Unicodeカテゴリで
+          #        網羅する: Cf（書式）・Mn/Me（結合）・異体字セレクタU+FE00〜FE0F。
+          #        現在の公開ツリーにこれらの文字は0件であることを実測済み（正当な用途がない）。
+          def _is_invisible(ch):
+              return (unicodedata.category(ch) in ("Cf", "Mn", "Me")
+                      or 0xFE00 <= ord(ch) <= 0xFE0F)
+          # 照合前の除去: 不可視文字で語やIDを分断する回避（例: 結合書記素接合子での分断）を
+          #        無効化するため、検出パターン照合は不可視文字を除去した文字列に対して行う
+          def _strip_invisible(s):
+              return "".join(ch for ch in s if not _is_invisible(ch))
           # 検査2: 全角数字・全角英字による内部ID偽装（例: 英大文字+全角数字、全角英字+数字）
           #        全角数字そのものは日本語本文で正当に使われるため、ID形の文脈に限定する
           fw_digit = "".join(chr(c) for c in range(0xFF10, 0xFF1A))   # 全角の0-9
@@ -78,25 +87,44 @@ jobs:
           #        検査に引っかからないようにするため（既存grep方式と同じ趣旨）。
           #        区切り記号の集合は下の dash 文字列が正本（数は len(dash) の実測が正。
           #        文書側で「◯種」と数を要約すると数え方の版ズレが起きたため、数は書かない）。
-          #        R5対応: タブ・ビュレット類を追加し、複合区切り（区切りの連続）を最大3文字まで検出
+          #        R6対応: 複合区切りの上限を撤廃（区切りの連続は長さ無制限で検出）
           dash = "-‐‑‒–—―−ー－" + "・･·./:_" + " " + "\u00A0" + "\t" + "•‣∙"
-          sep = "[" + dash + "]{1,3}"
+          sep = "[" + dash + "]+"
           pat_d_id = re.compile("(?<![0-9A-Za-z])" + "D" + sep + "[0-9]")
           pat_hr_id = re.compile("(?<![0-9A-Za-z])" + "H" + "R" + "(?:" + sep + ")?[0-9]")
-          # 自己試験: 単一・複合区切りの合成例を検出器が捕捉できることを実行のたびに確認する
-          # （文字列は連結で崩して書く——このファイル自身が検査に引っかからないため）
+          word_internal = "INTER" + "NAL"
+          word_naibu = "内部" + "用"  # 「内部」+「用」の内部ラベル
+          def check_line(line):
+              issues = []
+              if any(_is_invisible(ch) for ch in line):
+                  issues.append("invisible/combining character")
+              if fake_id.search(line):
+                  issues.append("fullwidth-obfuscated ID")
+              norm = unicodedata.normalize("NFKC", _strip_invisible(line))
+              if pat_d_id.search(norm):
+                  issues.append("normalized internal D-id")
+              if pat_hr_id.search(norm):
+                  issues.append("normalized internal HR-id")
+              if word_internal in norm:
+                  issues.append("internal label (EN)")
+              if word_naibu in norm:
+                  issues.append("internal label (JA)")
+              return issues
+          # 自己試験: 単一・複合・不可視分断の合成例を検出できることを実行のたびに確認する
+          # （文字列は連結・chr()で崩して書く——このファイル自身が検査に引っかからないため）
           _selftest = [
               "D" + "-" + "1", "D" + "・" + "7", "D" + "・" + " " + "7",
               "D" + "：" + "-" + "7", "D" + "\t" + "7", "D" + "•" + "7",
               "H" + "R" + "3", "H" + "R" + "－" + "2",
+              "D" + "・" * 4 + "7",                      # 複合区切りの上限超え（R6反例）
+              "D" + "・" + chr(0x034F) + "7",           # 不可視文字での分断（R6反例）
+              "INTER" + chr(0x034F) + "NAL",            # 不可視文字での語の分断（R6反例）
+              "INTER" + chr(0x200B) + "NAL",            # zero-widthでの語の分断
           ]
           for _s in _selftest:
-              _n = unicodedata.normalize("NFKC", _s)
-              if not (pat_d_id.search(_n) or pat_hr_id.search(_n)):
-                  print("::error::quarantine self-test failed (synthetic separator pattern not detected)")
+              if not check_line(_s):
+                  print("::error::quarantine self-test failed (synthetic evasion not detected)")
                   sys.exit(1)
-          word_internal = "INTER" + "NAL"
-          word_naibu = "内部" + "用"  # 「内部」+「用」の内部ラベル
           bad = []
           for root, dirs, files in os.walk("."):
               dirs[:] = [d for d in dirs if d != ".git"]
@@ -107,24 +135,13 @@ jobs:
                   except (UnicodeDecodeError, OSError):
                       continue
                   for i, line in enumerate(text.splitlines(), 1):
-                      if zw.search(line):
-                          bad.append(f"{path}:{i}: zero-width character")
-                      if fake_id.search(line):
-                          bad.append(f"{path}:{i}: fullwidth-obfuscated ID: {line.strip()[:80]}")
-                      norm = unicodedata.normalize("NFKC", line)
-                      if pat_d_id.search(norm):
-                          bad.append(f"{path}:{i}: normalized internal D-id: {line.strip()[:80]}")
-                      if pat_hr_id.search(norm):
-                          bad.append(f"{path}:{i}: normalized internal HR-id: {line.strip()[:80]}")
-                      if word_internal in norm:
-                          bad.append(f"{path}:{i}: internal label (EN): {line.strip()[:80]}")
-                      if word_naibu in norm:
-                          bad.append(f"{path}:{i}: internal label (JA): {line.strip()[:80]}")
+                      for issue in check_line(line):
+                          bad.append(f"{path}:{i}: {issue}: {line.strip()[:80]}")
           if bad:
               print("::error::unicode evasion / internal-id detected")
               print("\n".join(bad))
               sys.exit(1)
-          print("OK: no zero-width / fullwidth-obfuscated / normalized internal IDs")
+          print("OK: no invisible / fullwidth-obfuscated / normalized internal IDs")
           PYEOF
 
       - name: Fail if verify_required lines are removed in PR diff
