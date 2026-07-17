@@ -58,7 +58,7 @@
 
 ## 参加のしかた（貢献の案内）
 
-くわしくは **[CONTRIBUTING.md](CONTRIBUTING.md)（参加ガイド）** へ。型は6つあります:
+くわしくは **[CONTRIBUTING.md](CONTRIBUTING.md)（参加ガイド）** へ。型は7つあります:
 
 | 型 | 概要 | 使うAI・道具 |
 |---|---|---|
@@ -68,7 +68,9 @@
 | 新単元の制作 | 公開プロンプトで1単元を直列に仕上げてPR | **Claude Fable 5 限定**（Pro反証はメンテナ側で実施・理科のみ例外あり→ [docs/MODEL_POLICY.md](docs/MODEL_POLICY.md) §5） |
 | デザイン | 図版・レイアウト・読みやすさの提案〜実装 | 指定なし |
 | 仕組みへの提案 | 工程・検査・構造の改善（【設計】Issueで議論から） | 指定なし |
+| 広める | SNSでの紹介・友達や同僚に教える・学校や塾で話題にする | 何もいりません |
 
+- **広めることも立派な貢献です**——このプロジェクトは知られるほど、教材が必要な子に届き、誤り報告や改善の目が増え、教材の質が上がります。リンクをひとつ紹介してもらえるだけでありがたいです
 - **良かった点の報告も、誤り報告と同じくらい歓迎です**——「どの説明が効いたか」が分かると、その良さを他の単元へ広げられます（[おたよりフォーム](https://docs.google.com/forms/d/e/1FAIpQLSeKBOQ9EB_DGfkh7Y0LYU83w6ghkPTQfH65BSFjVVWtwEEt9Q/viewform)は匿名OK・アカウント不要）
 
 - いちばん簡単な参加: あなたの Claude Code（Fable 5）にこのリポジトリのURLを渡して「参加したい。進めておいて」と言うだけです（[CLAUDE.md](CLAUDE.md) が案内します。Fable 5 以外のAIには [AGENTS.md](AGENTS.md)）。行動規範は [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
