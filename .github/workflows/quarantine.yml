@@ -115,7 +115,9 @@ jobs:
                   issues.append("invisible/combining character")
               if fake_id.search(line):
                   issues.append("fullwidth-obfuscated ID")
-              norm = unicodedata.normalize("NFKC", _strip_invisible(line))
+              # R8対応: 除去→NFKC→再除去の反復適用。NFKC適用で初めて不可視・結合系に
+              #        変わる文字（例: 半角濁点はLm→NFKCで結合文字Mn）も除去され、処理順に依存しない
+              norm = _strip_invisible(unicodedata.normalize("NFKC", _strip_invisible(line)))
               if pat_d_id.search(norm):
                   issues.append("normalized internal D-id")
               if pat_hr_id.search(norm):
@@ -147,6 +149,8 @@ jobs:
               "ＱＡ" + "＿ＲＥＰＯＲＴ",                 # 全角表記の検疫語彙（R7反例）
               "ｒｕｎ" + "＿ｉｄ",                       # 全角小文字表記の検疫語彙
               "submit" + "１",                           # 全角数字を含むID語彙
+              "Ｍ" + chr(0xFF9E) + "ＥＲＧＥ" + "＿ＬＯＧ",  # NFKC後に不可視化する文字での分断（R8反例）
+              "Ｑ" + chr(0xFF9E) + "Ａ" + "＿ＲＥＰＯＲＴ",  # 同上（R8反例）
           ]
           for _s in _selftest:
               if not check_line(_s):
