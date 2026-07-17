@@ -646,10 +646,10 @@ def fig_L12():
 # ===========================================================================
 def fig_L15_tree():
     # --- パラメータ（本文 主概念1・実寸比で描く） ---
-    D, ANG, EYE = 10.0, 35.0, 1.5     # 水平距離m・見上げ角°・目の高さm
+    DIST, ANG, EYE = 10.0, 35.0, 1.5     # 水平距離m・見上げ角°・目の高さm
     H_ANS = 8.5                        # 本文の答（約8.5m）
 
-    h_above_eye = D * math.tan(math.radians(ANG))   # 目の高さから先端まで
+    h_above_eye = DIST * math.tan(math.radians(ANG))   # 目の高さから先端まで
     ck = Checker()
     ck.ok("tan35°×10m＝約7m（本文「約3.5cm×200=約7m」と一致）",
           abs(h_above_eye - 7.0) < 0.01, f"={h_above_eye:.4f}m")
@@ -659,9 +659,9 @@ def fig_L15_tree():
     treetop = h_above_eye + EYE
     Pg = (0.0, 0.0)                  # 地点P（観測者の足元）
     E = (0.0, EYE)                   # 目
-    T = (D, 0.0)                     # 木の根元
-    Atop = (D, treetop)              # 木の先端A
-    Hh = (D, EYE)                    # 目の高さの水平線が木と交わる点
+    T = (DIST, 0.0)                     # 木の根元
+    Atop = (DIST, treetop)              # 木の先端A
+    Hh = (DIST, EYE)                    # 目の高さの水平線が木と交わる点
 
     cv = Canvas(400, 282)
     cv.s = 22.0
@@ -675,8 +675,8 @@ def fig_L15_tree():
            f'stroke="#000" stroke-width="1.4"/>')
     cv.dot(E, r=2.2)
     # 木（幹＋最小限の樹冠。先端=A）
-    cv.line(T, (D, treetop - 1.7), w=BOLD_W)
-    cv.polygon([Atop, (D - 0.75, treetop - 1.8), (D + 0.75, treetop - 1.8)], w=1.4)
+    cv.line(T, (DIST, treetop - 1.7), w=BOLD_W)
+    cv.polygon([Atop, (DIST - 0.75, treetop - 1.8), (DIST + 0.75, treetop - 1.8)], w=1.4)
     # 視線と水平線
     cv.line(E, Atop, w=AUX_W)
     cv.line(E, Hh, w=AUX_W, dash=DASH)
@@ -688,11 +688,11 @@ def fig_L15_tree():
     x, y = cv.P(Pg); cv.text_px(x - 15, y + 17, "P", size=FS, anchor="middle", weight="bold")
     x, y = cv.P(Atop); cv.text_px(x + 14, y + 2, "A", size=FS, anchor="middle", weight="bold")
     # 寸法: 10m（地面）・1.5m（目の高さ）・木の高さ？
-    cv.dim((0, 0), (D, 0), "10m", offset=(0, -0.62))
+    cv.dim((0, 0), (DIST, 0), "10m", offset=(0, -0.62))
     cv.dim((0, 0), (0, EYE), "", offset=(-0.55, 0))
     x, y = cv.P((-0.75, EYE / 2)); cv.text_px(x - 2, y + 4, "1.5m", size=12, anchor="end")
-    cv.dim((D, 0), (D, treetop), "", offset=(1.15, 0))
-    x, y = cv.P((D + 1.15, treetop / 2))
+    cv.dim((DIST, 0), (DIST, treetop), "", offset=(1.15, 0))
+    x, y = cv.P((DIST + 1.15, treetop / 2))
     cv.text_px(x + 6, y, "木の高さ", size=12); cv.text_px(x + 6, y + 15, "＝？", size=12)
     cv.text_px(200, 262, "水平距離10m・見上げる角35°・目の高さ1.5m（主概念1・実寸比）",
                size=FS_CAP, anchor="middle")

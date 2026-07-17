@@ -76,10 +76,25 @@ jobs:
           # 検査3: NFKC正規化後の内部ID・内部ラベル（R3監査 指摘#2対応）
           #        パターン文字列は連結で崩して書く——このファイル自身の定義行が
           #        検査に引っかからないようにするため（既存grep方式と同じ趣旨）。
-          #        区切り記号: hyphen / 各種dash（‐‑‒–—―−）/ 長音ー / 全角－
-          dash = "-‐‑‒–—―−ー－" + "・･·./:_" + " " + "\u00A0"  # R4対応: 中黒・句点系・空白等の区切りゆれ12種を追加
-          pat_d_id = re.compile("(?<![0-9A-Za-z])" + "D" + "[" + dash + "][0-9]")
-          pat_hr_id = re.compile("(?<![0-9A-Za-z])" + "H" + "R" + "[" + dash + "]?[0-9]")
+          #        区切り記号の集合は下の dash 文字列が正本（数は len(dash) の実測が正。
+          #        文書側で「◯種」と数を要約すると数え方の版ズレが起きたため、数は書かない）。
+          #        R5対応: タブ・ビュレット類を追加し、複合区切り（区切りの連続）を最大3文字まで検出
+          dash = "-‐‑‒–—―−ー－" + "・･·./:_" + " " + "\u00A0" + "\t" + "•‣∙"
+          sep = "[" + dash + "]{1,3}"
+          pat_d_id = re.compile("(?<![0-9A-Za-z])" + "D" + sep + "[0-9]")
+          pat_hr_id = re.compile("(?<![0-9A-Za-z])" + "H" + "R" + "(?:" + sep + ")?[0-9]")
+          # 自己試験: 単一・複合区切りの合成例を検出器が捕捉できることを実行のたびに確認する
+          # （文字列は連結で崩して書く——このファイル自身が検査に引っかからないため）
+          _selftest = [
+              "D" + "-" + "1", "D" + "・" + "7", "D" + "・" + " " + "7",
+              "D" + "：" + "-" + "7", "D" + "\t" + "7", "D" + "•" + "7",
+              "H" + "R" + "3", "H" + "R" + "－" + "2",
+          ]
+          for _s in _selftest:
+              _n = unicodedata.normalize("NFKC", _s)
+              if not (pat_d_id.search(_n) or pat_hr_id.search(_n)):
+                  print("::error::quarantine self-test failed (synthetic separator pattern not detected)")
+                  sys.exit(1)
           word_internal = "INTER" + "NAL"
           word_naibu = "内部" + "用"  # 「内部」+「用」の内部ラベル
           bad = []
