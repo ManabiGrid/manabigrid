@@ -162,38 +162,62 @@ def check_anchors() -> list[str]:
     return problems
 
 
+def parse_frontmatter(text: str) -> tuple[str | None, str | None]:
+    """frontmatter本文と問題文を返す。(fm, None)=正常 / (None, None)=frontmatterなし / (None, 問題文)=不正。
+
+    終端は「行全体が --- 」との完全一致で判定する（R10対応: `---oops` のような
+    偽終端を部分一致で受理しない）。GitHubのfrontmatter解釈と同じ厳密さに合わせる。
+    """
+    lines = text.split("\n")
+    if not lines or lines[0].rstrip() != "---":
+        return None, None
+    for i in range(1, len(lines)):
+        if lines[i].rstrip() == "---":
+            return "\n".join(lines[1:i]), None
+    return None, "frontmatter が正規の終端行（--- 単独行）で閉じていない"
+
+
+def _selftest_parse_frontmatter() -> None:
+    # 偽終端・未閉鎖を検出できることを実行のたびに確認する（R10反例の回帰試験）
+    ok, err = parse_frontmatter("---\na: 1\n---\n本文")
+    assert ok == "a: 1" and err is None
+    ok, err = parse_frontmatter("---\na: 1\n---oops\n本文")
+    assert ok is None and err is not None, "偽終端 ---oops を受理してはならない"
+    ok, err = parse_frontmatter("---\na: 1\n本文")
+    assert ok is None and err is not None, "未閉鎖frontmatterを受理してはならない"
+    ok, err = parse_frontmatter("本文だけ")
+    assert ok is None and err is None
+
+
 def check_frontmatter() -> list[str]:
     problems: list[str] = []
+    _selftest_parse_frontmatter()
     # 正規YAMLパース（R9対応: GitHubが赤エラーを出す構文不正を検出する）。
-    # PyYAMLはCI側でバージョン固定で導入する。ローカルに無い場合はパースを
-    # スキップして注意を出す（distribution_status の行検査は常に実行）。
+    # PyYAML未導入は検査不能として失敗にする（R10対応: fail-openにしない）。
     try:
         import yaml  # type: ignore
     except ImportError:
-        yaml = None
-        print("  [note] PyYAML未導入のためfrontmatterのYAML構文検査をスキップ（CIでは実行される）", file=sys.stderr)
+        return ["PyYAML未導入のためfrontmatterのYAML構文検査を実行できない（python3 -m pip install PyYAML==6.0.2 で導入すること）"]
     tracked = subprocess.run(
         ["git", "ls-files", "-z", "*.md"], capture_output=True, cwd=REPO
     ).stdout.decode()
     for rel in sorted(f for f in tracked.split("\0") if f):
         path = REPO / rel
         text = path.read_text(encoding="utf-8", errors="replace")
-        if not text.startswith("---\n"):
+        fm, err = parse_frontmatter(text)
+        if err is not None:
+            problems.append(f"{rel}: {err}")
+            continue
+        if fm is None:
             if rel.startswith("materials/"):
                 problems.append(f"{rel}: frontmatter がない")
             continue
-        end = text.find("\n---", 4)
-        if end == -1:
-            problems.append(f"{rel}: frontmatter が閉じていない")
-            continue
-        fm = text[4:end]
         if rel.startswith("materials/") and not re.search(r"^distribution_status:\s*\S+", fm, re.MULTILINE):
             problems.append(f"{rel}: frontmatter に distribution_status がない")
-        if yaml is not None:
-            try:
-                yaml.safe_load(fm)
-            except Exception as e:
-                problems.append(f"{rel}: frontmatter がYAMLとして不正（GitHubで赤エラー表示になる）: {str(e).splitlines()[0]}")
+        try:
+            yaml.safe_load(fm)
+        except Exception as e:
+            problems.append(f"{rel}: frontmatter がYAMLとして不正（GitHubで赤エラー表示になる）: {str(e).splitlines()[0]}")
     return problems
 
 

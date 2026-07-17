@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   quarantine:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
@@ -152,16 +152,22 @@ jobs:
               "submit" + "１",                           # 全角数字を含むID語彙
               "Ｍ" + chr(0xFF9E) + "ＥＲＧＥ" + "＿ＬＯＧ",  # NFKC後に不可視化する文字での分断（R8反例）
               "Ｑ" + chr(0xFF9E) + "Ａ" + "＿ＲＥＰＯＲＴ",  # 同上（R8反例）
+              "docs/" + "INTER" + "NAL" + "_ONLY_" + "D" + "-" + "7.txt",  # パス名だけに禁止語（R10反例）
+              "materials/" + "MERGE" + "_" + "LOG" + ".md",               # 同上（R10反例）
           ]
           for _s in _selftest:
               if not check_line(_s):
                   print("::error::quarantine self-test failed (synthetic evasion not detected)")
                   sys.exit(1)
           bad = []
+          # R10対応: ファイル名・ディレクトリ名（パス文字列そのもの）にも同じ検出器を適用する
+          #        （本文では止まる語彙がパスでは素通りする経路を塞ぐ）
           for root, dirs, files in os.walk("."):
               dirs[:] = [d for d in dirs if d != ".git"]
               for name in files:
                   path = os.path.join(root, name)
+                  for issue in check_line(path):
+                      bad.append(f"path:{path}: {issue}")
                   try:
                       text = open(path, encoding="utf-8").read()
                   except (UnicodeDecodeError, OSError):
@@ -186,9 +192,14 @@ jobs:
                   for issue in check_line(line):
                       bad.append(f"history:{c[:12]}:meta:{i}: {issue}: {line.strip()[:80]}")
           seen = set()
+          seen_paths = set()
           for entry in _git("rev-list", "--objects", "--all").decode(errors="replace").splitlines():
               parts = entry.split(" ", 1)
               sha, path = parts[0], (parts[1] if len(parts) > 1 else "")
+              if path and path not in seen_paths:
+                  seen_paths.add(path)
+                  for issue in check_line(path):
+                      bad.append(f"history:path:{path}: {issue}")
               if sha in seen:
                   continue
               seen.add(sha)
@@ -242,7 +253,7 @@ jobs:
     # 品質の機械検査（リンク照合・アンカー照合・frontmatter検査・
     # ビュー生成器テスト・図版再生成検算）。内容は tools/ci_checks.py を参照。
     # 図版の再生成は一時ディレクトリで行い、リポジトリ内のSVGは書き換えない。
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
