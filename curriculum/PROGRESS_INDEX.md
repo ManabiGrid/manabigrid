@@ -42,22 +42,22 @@
 | 公開済 | · |
 | 人間レビュー済 | · |
 | 外部レビュー済 | 20 |
-| QA済 | 1 |
+| QA済 | 21 |
 | ドラフト | 3 |
 | 調査済 | 2 |
-| 未着手 | 411 |
+| 未着手 | 391 |
 | **計** | **437** |
 
 ## 集計（科目 × 状態）
 
 | 科目 | 公開済 | 人間レビュー済 | 外部レビュー済 | QA済 | ドラフト | 調査済 | 未着手 | 計 |
 |---|---|---|---|---|---|---|---|---|
-| 数学 | · | · | 16 | 1 | 3 | · | 45 | 65 |
+| 数学 | · | · | 16 | 21 | 3 | · | 25 | 65 |
 | 英語 | · | · | 1 | · | · | · | 47 | 48 |
 | 国語 | · | · | 1 | · | · | 1 | 44 | 46 |
 | 理科 | · | · | 1 | · | · | · | 144 | 145 |
 | 社会 | · | · | 1 | · | · | 1 | 131 | 133 |
-| **計** | · | · | **20** | **1** | **3** | **2** | **411** | **437** |
+| **計** | · | · | **20** | **21** | **3** | **2** | **391** | **437** |
 
 ## 公開コア（public_core）
 
@@ -69,26 +69,26 @@
 
 | 学校段階・学年 | 単元名 | unit_id | 状態 |
 |---|---|---|---|
-| 中1 | 度数分布表・ヒストグラム・度数折れ線 | `jhs-math-1-data-distribution--frequency-distribution` | **未着手** |
-| 中1 | 相対度数（D(1)限定） | `jhs-math-1-data-distribution--relative-frequency` | **未着手** |
-| 中1 | 代表値と範囲（小6既習の学び直し） | `jhs-math-1-data-distribution--representative-values-range` | **未着手** |
-| 中1 | 不確定な事象の起こりやすさ（頻度確率） | `jhs-math-1-empirical-probability` | **未着手** |
-| 中1 | 一次式の計算 | `jhs-math-1-letters-and-expressions--calculation` | **未着手** |
-| 中1 | 文字を用いた式の表し方と数量関係（--relationships統合） | `jhs-math-1-letters-and-expressions--representation` | **未着手** |
-| 中1 | 一次方程式の文章題 | `jhs-math-1-linear-equations--applications` | **未着手** |
-| 中1 | 方程式と等式の性質 | `jhs-math-1-linear-equations--meaning-equivalence` | **未着手** |
-| 中1 | 一次方程式の解法 | `jhs-math-1-linear-equations--solving` | **未着手** |
-| 中1 | 基本の作図と図形の移動（作図による条件の表現を含む・--locus-intro統合） | `jhs-math-1-plane-figures--construction-movement` | **未着手** |
-| 中1 | 円・おうぎ形と接線 | `jhs-math-1-plane-figures--sector-circle` | **未着手** |
-| 中1 | 正負の数の加法・減法 | `jhs-math-1-positive-negative-numbers--addition-subtraction` | **未着手** |
-| 中1 | 正負の数の活用 | `jhs-math-1-positive-negative-numbers--applications` | **未着手** |
-| 中1 | 正負の数の意味・大小・絶対値 | `jhs-math-1-positive-negative-numbers--meaning-order` | **未着手** |
-| 中1 | 正負の数の乗法・除法と累乗 | `jhs-math-1-positive-negative-numbers--multiplication-division-powers` | **未着手** |
-| 中1 | 比例・反比例の活用 | `jhs-math-1-proportion-inverse-proportion--applications` | **未着手** |
-| 中1 | 反比例の関係とグラフ | `jhs-math-1-proportion-inverse-proportion--inverse-proportion` | **未着手** |
-| 中1 | 比例の関係とグラフ | `jhs-math-1-proportion-inverse-proportion--proportion` | **未着手** |
-| 中1 | 柱体・錐体・球の表面積と体積 | `jhs-math-1-solid-figures--surface-area-volume` | **未着手** |
-| 中1 | 空間図形の見取図・投影図・切断 | `jhs-math-1-solid-figures--views-sections` | **未着手** |
+| 中1 | 度数分布表・ヒストグラム・度数折れ線 | `jhs-math-1-data-distribution--frequency-distribution` | **QA済** |
+| 中1 | 相対度数（D(1)限定） | `jhs-math-1-data-distribution--relative-frequency` | **QA済** |
+| 中1 | 代表値と範囲（小6既習の学び直し） | `jhs-math-1-data-distribution--representative-values-range` | **QA済** |
+| 中1 | 不確定な事象の起こりやすさ（頻度確率） | `jhs-math-1-empirical-probability` | **QA済** |
+| 中1 | 一次式の計算 | `jhs-math-1-letters-and-expressions--calculation` | **QA済** |
+| 中1 | 文字を用いた式の表し方と数量関係（--relationships統合） | `jhs-math-1-letters-and-expressions--representation` | **QA済** |
+| 中1 | 一次方程式の文章題 | `jhs-math-1-linear-equations--applications` | **QA済** |
+| 中1 | 方程式と等式の性質 | `jhs-math-1-linear-equations--meaning-equivalence` | **QA済** |
+| 中1 | 一次方程式の解法 | `jhs-math-1-linear-equations--solving` | **QA済** |
+| 中1 | 基本の作図と図形の移動（作図による条件の表現を含む・--locus-intro統合） | `jhs-math-1-plane-figures--construction-movement` | **QA済** |
+| 中1 | 円・おうぎ形と接線 | `jhs-math-1-plane-figures--sector-circle` | **QA済** |
+| 中1 | 正負の数の加法・減法 | `jhs-math-1-positive-negative-numbers--addition-subtraction` | **QA済** |
+| 中1 | 正負の数の活用 | `jhs-math-1-positive-negative-numbers--applications` | **QA済** |
+| 中1 | 正負の数の意味・大小・絶対値 | `jhs-math-1-positive-negative-numbers--meaning-order` | **QA済** |
+| 中1 | 正負の数の乗法・除法と累乗 | `jhs-math-1-positive-negative-numbers--multiplication-division-powers` | **QA済** |
+| 中1 | 比例・反比例の活用 | `jhs-math-1-proportion-inverse-proportion--applications` | **QA済** |
+| 中1 | 反比例の関係とグラフ | `jhs-math-1-proportion-inverse-proportion--inverse-proportion` | **QA済** |
+| 中1 | 比例の関係とグラフ | `jhs-math-1-proportion-inverse-proportion--proportion` | **QA済** |
+| 中1 | 柱体・錐体・球の表面積と体積 | `jhs-math-1-solid-figures--surface-area-volume` | **QA済** |
+| 中1 | 空間図形の見取図・投影図・切断 | `jhs-math-1-solid-figures--views-sections` | **QA済** |
 | 中2 | 二等辺三角形・平行四辺形の性質と証明 | `jhs-math-2-congruence-and-proof--isosceles-parallelogram` | **外部レビュー済** |
 | 中2 | 証明のしくみと書き方 | `jhs-math-2-congruence-and-proof--proof` | **外部レビュー済** |
 | 中2 | 三角形の合同条件と基本性質 | `jhs-math-2-congruence-and-proof--triangle-congruence` | **外部レビュー済** |
@@ -797,26 +797,26 @@
 | `jhs-jpn-3-shiryou-houkoku` | 資料を統合して報告する | 国語 | 中3 | 公開コア | **未着手** |
 | `jhs-jpn-3-shosha` | 中3書写：文字文化の豊かさと効果的な文字 | 国語 | 中3 | 公開コア | **未着手** |
 | `jhs-jpn-all-kanji-goi-unyou` | 中学・漢字と語彙の運用：同訓異字/熟語の構成/文脈判断 | 国語 | 全学年 | 公開コア | **外部レビュー済** |
-| `jhs-math-1-data-distribution--frequency-distribution` | 度数分布表・ヒストグラム・度数折れ線 | 数学 | 中1 | 公開コア | **未着手** |
-| `jhs-math-1-data-distribution--relative-frequency` | 相対度数（D(1)限定） | 数学 | 中1 | 公開コア | **未着手** |
-| `jhs-math-1-data-distribution--representative-values-range` | 代表値と範囲（小6既習の学び直し） | 数学 | 中1 | 公開コア | **未着手** |
-| `jhs-math-1-empirical-probability` | 不確定な事象の起こりやすさ（頻度確率） | 数学 | 中1 | 公開コア | **未着手** |
-| `jhs-math-1-letters-and-expressions--calculation` | 一次式の計算 | 数学 | 中1 | 公開コア | **未着手** |
-| `jhs-math-1-letters-and-expressions--representation` | 文字を用いた式の表し方と数量関係（--relationships統合） | 数学 | 中1 | 公開コア | **未着手** |
-| `jhs-math-1-linear-equations--applications` | 一次方程式の文章題 | 数学 | 中1 | 公開コア | **未着手** |
-| `jhs-math-1-linear-equations--meaning-equivalence` | 方程式と等式の性質 | 数学 | 中1 | 公開コア | **未着手** |
-| `jhs-math-1-linear-equations--solving` | 一次方程式の解法 | 数学 | 中1 | 公開コア | **未着手** |
-| `jhs-math-1-plane-figures--construction-movement` | 基本の作図と図形の移動（作図による条件の表現を含む・--locus-intro統合） | 数学 | 中1 | 公開コア | **未着手** |
-| `jhs-math-1-plane-figures--sector-circle` | 円・おうぎ形と接線 | 数学 | 中1 | 公開コア | **未着手** |
-| `jhs-math-1-positive-negative-numbers--addition-subtraction` | 正負の数の加法・減法 | 数学 | 中1 | 公開コア | **未着手** |
-| `jhs-math-1-positive-negative-numbers--applications` | 正負の数の活用 | 数学 | 中1 | 公開コア | **未着手** |
-| `jhs-math-1-positive-negative-numbers--meaning-order` | 正負の数の意味・大小・絶対値 | 数学 | 中1 | 公開コア | **未着手** |
-| `jhs-math-1-positive-negative-numbers--multiplication-division-powers` | 正負の数の乗法・除法と累乗 | 数学 | 中1 | 公開コア | **未着手** |
-| `jhs-math-1-proportion-inverse-proportion--applications` | 比例・反比例の活用 | 数学 | 中1 | 公開コア | **未着手** |
-| `jhs-math-1-proportion-inverse-proportion--inverse-proportion` | 反比例の関係とグラフ | 数学 | 中1 | 公開コア | **未着手** |
-| `jhs-math-1-proportion-inverse-proportion--proportion` | 比例の関係とグラフ | 数学 | 中1 | 公開コア | **未着手** |
-| `jhs-math-1-solid-figures--surface-area-volume` | 柱体・錐体・球の表面積と体積 | 数学 | 中1 | 公開コア | **未着手** |
-| `jhs-math-1-solid-figures--views-sections` | 空間図形の見取図・投影図・切断 | 数学 | 中1 | 公開コア | **未着手** |
+| `jhs-math-1-data-distribution--frequency-distribution` | 度数分布表・ヒストグラム・度数折れ線 | 数学 | 中1 | 公開コア | **QA済** |
+| `jhs-math-1-data-distribution--relative-frequency` | 相対度数（D(1)限定） | 数学 | 中1 | 公開コア | **QA済** |
+| `jhs-math-1-data-distribution--representative-values-range` | 代表値と範囲（小6既習の学び直し） | 数学 | 中1 | 公開コア | **QA済** |
+| `jhs-math-1-empirical-probability` | 不確定な事象の起こりやすさ（頻度確率） | 数学 | 中1 | 公開コア | **QA済** |
+| `jhs-math-1-letters-and-expressions--calculation` | 一次式の計算 | 数学 | 中1 | 公開コア | **QA済** |
+| `jhs-math-1-letters-and-expressions--representation` | 文字を用いた式の表し方と数量関係（--relationships統合） | 数学 | 中1 | 公開コア | **QA済** |
+| `jhs-math-1-linear-equations--applications` | 一次方程式の文章題 | 数学 | 中1 | 公開コア | **QA済** |
+| `jhs-math-1-linear-equations--meaning-equivalence` | 方程式と等式の性質 | 数学 | 中1 | 公開コア | **QA済** |
+| `jhs-math-1-linear-equations--solving` | 一次方程式の解法 | 数学 | 中1 | 公開コア | **QA済** |
+| `jhs-math-1-plane-figures--construction-movement` | 基本の作図と図形の移動（作図による条件の表現を含む・--locus-intro統合） | 数学 | 中1 | 公開コア | **QA済** |
+| `jhs-math-1-plane-figures--sector-circle` | 円・おうぎ形と接線 | 数学 | 中1 | 公開コア | **QA済** |
+| `jhs-math-1-positive-negative-numbers--addition-subtraction` | 正負の数の加法・減法 | 数学 | 中1 | 公開コア | **QA済** |
+| `jhs-math-1-positive-negative-numbers--applications` | 正負の数の活用 | 数学 | 中1 | 公開コア | **QA済** |
+| `jhs-math-1-positive-negative-numbers--meaning-order` | 正負の数の意味・大小・絶対値 | 数学 | 中1 | 公開コア | **QA済** |
+| `jhs-math-1-positive-negative-numbers--multiplication-division-powers` | 正負の数の乗法・除法と累乗 | 数学 | 中1 | 公開コア | **QA済** |
+| `jhs-math-1-proportion-inverse-proportion--applications` | 比例・反比例の活用 | 数学 | 中1 | 公開コア | **QA済** |
+| `jhs-math-1-proportion-inverse-proportion--inverse-proportion` | 反比例の関係とグラフ | 数学 | 中1 | 公開コア | **QA済** |
+| `jhs-math-1-proportion-inverse-proportion--proportion` | 比例の関係とグラフ | 数学 | 中1 | 公開コア | **QA済** |
+| `jhs-math-1-solid-figures--surface-area-volume` | 柱体・錐体・球の表面積と体積 | 数学 | 中1 | 公開コア | **QA済** |
+| `jhs-math-1-solid-figures--views-sections` | 空間図形の見取図・投影図・切断 | 数学 | 中1 | 公開コア | **QA済** |
 | `jhs-math-2-congruence-and-proof--isosceles-parallelogram` | 二等辺三角形・平行四辺形の性質と証明 | 数学 | 中2 | 公開コア | **外部レビュー済** |
 | `jhs-math-2-congruence-and-proof--proof` | 証明のしくみと書き方 | 数学 | 中2 | 公開コア | **外部レビュー済** |
 | `jhs-math-2-congruence-and-proof--triangle-congruence` | 三角形の合同条件と基本性質 | 数学 | 中2 | 公開コア | **外部レビュー済** |
