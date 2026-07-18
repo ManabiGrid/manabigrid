@@ -23,26 +23,26 @@
 
 | unit_id | 単元名 | 学校段階・学年 | 状態 | 備考 |
 |---|---|---|---|---|
-| `jhs-math-1-positive-negative-numbers--addition-subtraction` | 正負の数の加法・減法 | 中1 | QA済 | 親成果物（12レッスン）参照・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-positive-negative-numbers--applications` | 正負の数の活用 | 中1 | QA済 | 親成果物（12レッスン）参照・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-positive-negative-numbers--meaning-order` | 正負の数の意味・大小・絶対値 | 中1 | QA済 | 親成果物（12レッスン）参照・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-positive-negative-numbers--multiplication-division-powers` | 正負の数の乗法・除法と累乗 | 中1 | QA済 | 親成果物（12レッスン）参照・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-letters-and-expressions--calculation` | 一次式の計算 | 中1 | QA済 | 親成果物（12レッスン）参照・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-letters-and-expressions--representation` | 文字を用いた式の表し方と数量関係（--relationships統合） | 中1 | QA済 | 親成果物（12レッスン）参照・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-linear-equations--applications` | 一次方程式の文章題 | 中1 | QA済 | 親成果物（10レッスン）参照・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-linear-equations--meaning-equivalence` | 方程式と等式の性質 | 中1 | QA済 | 親成果物（10レッスン）参照・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-linear-equations--solving` | 一次方程式の解法 | 中1 | QA済 | 親成果物（10レッスン）参照・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-proportion-inverse-proportion--applications` | 比例・反比例の活用 | 中1 | QA済 | 親成果物（12レッスン）参照・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-proportion-inverse-proportion--inverse-proportion` | 反比例の関係とグラフ | 中1 | QA済 | 親成果物（12レッスン）参照・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-proportion-inverse-proportion--proportion` | 比例の関係とグラフ | 中1 | QA済 | 親成果物（12レッスン）参照・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-plane-figures--construction-movement` | 基本の作図と図形の移動（作図による条件の表現を含む・--locus-intro統合） | 中1 | QA済 | 親成果物（12レッスン）参照・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-plane-figures--sector-circle` | 円・おうぎ形と接線 | 中1 | QA済 | 親成果物（12レッスン）参照・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-solid-figures--surface-area-volume` | 柱体・錐体・球の表面積と体積 | 中1 | QA済 | 親成果物（11レッスン）参照・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-solid-figures--views-sections` | 空間図形の見取図・投影図・切断 | 中1 | QA済 | 親成果物（11レッスン）参照・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-data-distribution--frequency-distribution` | 度数分布表・ヒストグラム・度数折れ線 | 中1 | QA済 | 親成果物（8レッスン）参照・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-data-distribution--relative-frequency` | 相対度数（D(1)限定） | 中1 | QA済 | 親成果物（8レッスン）参照・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-data-distribution--representative-values-range` | 代表値と範囲（小6既習の学び直し） | 中1 | QA済 | 親成果物（8レッスン）参照・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-empirical-probability` | 不確定な事象の起こりやすさ（頻度確率） | 中1 | QA済 | 新設（中1D(2)の独立単元化）・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
+| `jhs-math-1-positive-negative-numbers--addition-subtraction` | 正負の数の加法・減法 | 中1 | 外部レビュー済 | 親成果物（12レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-positive-negative-numbers--applications` | 正負の数の活用 | 中1 | 外部レビュー済 | 親成果物（12レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-positive-negative-numbers--meaning-order` | 正負の数の意味・大小・絶対値 | 中1 | 外部レビュー済 | 親成果物（12レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-positive-negative-numbers--multiplication-division-powers` | 正負の数の乗法・除法と累乗 | 中1 | 外部レビュー済 | 親成果物（12レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-letters-and-expressions--calculation` | 一次式の計算 | 中1 | 外部レビュー済 | 親成果物（12レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-letters-and-expressions--representation` | 文字を用いた式の表し方と数量関係（--relationships統合） | 中1 | 外部レビュー済 | 親成果物（12レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-linear-equations--applications` | 一次方程式の文章題 | 中1 | 外部レビュー済 | 親成果物（10レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-linear-equations--meaning-equivalence` | 方程式と等式の性質 | 中1 | 外部レビュー済 | 親成果物（10レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-linear-equations--solving` | 一次方程式の解法 | 中1 | 外部レビュー済 | 親成果物（10レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-proportion-inverse-proportion--applications` | 比例・反比例の活用 | 中1 | 外部レビュー済 | 親成果物（12レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-proportion-inverse-proportion--inverse-proportion` | 反比例の関係とグラフ | 中1 | 外部レビュー済 | 親成果物（12レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-proportion-inverse-proportion--proportion` | 比例の関係とグラフ | 中1 | 外部レビュー済 | 親成果物（12レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-plane-figures--construction-movement` | 基本の作図と図形の移動（作図による条件の表現を含む・--locus-intro統合） | 中1 | 外部レビュー済 | 親成果物（12レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-plane-figures--sector-circle` | 円・おうぎ形と接線 | 中1 | 外部レビュー済 | 親成果物（12レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-solid-figures--surface-area-volume` | 柱体・錐体・球の表面積と体積 | 中1 | 外部レビュー済 | 親成果物（11レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-solid-figures--views-sections` | 空間図形の見取図・投影図・切断 | 中1 | 外部レビュー済 | 親成果物（11レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-data-distribution--frequency-distribution` | 度数分布表・ヒストグラム・度数折れ線 | 中1 | 外部レビュー済 | 親成果物（8レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-data-distribution--relative-frequency` | 相対度数（D(1)限定） | 中1 | 外部レビュー済 | 親成果物（8レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-data-distribution--representative-values-range` | 代表値と範囲（小6既習の学び直し） | 中1 | 外部レビュー済 | 親成果物（8レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-empirical-probability` | 不確定な事象の起こりやすさ（頻度確率） | 中1 | 外部レビュー済 | 新設（中1D(2)の独立単元化）・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
 | `jhs-math-2-expression-calculation--polynomial-calculation` | 単項式・多項式の計算 | 中2 | 外部レビュー済 | 親成果物（10レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
 | `jhs-math-2-expression-calculation--proof-by-expression` | 文字式による説明 | 中2 | 外部レビュー済 | 親成果物（10レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
 | `jhs-math-2-simultaneous-equations` | 連立方程式 | 中2 | 外部レビュー済 |  |
@@ -78,13 +78,13 @@
 
 | parent_id | 名称 | 学校段階・学年 | 状態 | 備考 |
 |---|---|---|---|---|
-| `jhs-math-1-positive-negative-numbers` | 正負の数 | 中1 | QA済 | 原本教材（12レッスン）を親単位で保全・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-letters-and-expressions` | 文字と式 | 中1 | QA済 | 原本教材（12レッスン）を親単位で保全・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-linear-equations` | 一次方程式 | 中1 | QA済 | 原本教材（10レッスン）を親単位で保全・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-proportion-inverse-proportion` | 比例と反比例 | 中1 | QA済 | 原本教材（12レッスン）を親単位で保全・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-plane-figures` | 平面図形 | 中1 | QA済 | 原本教材（12レッスン）を親単位で保全・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-solid-figures` | 空間図形 | 中1 | QA済 | 原本教材（11レッスン）を親単位で保全・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
-| `jhs-math-1-data-distribution` | データの活用（度数分布・ヒストグラム） | 中1 | QA済 | 原本教材（8レッスン）を親単位で保全・セルフQA（11項目・独立再QA通過）完了 2026-07-18 |
+| `jhs-math-1-positive-negative-numbers` | 正負の数 | 中1 | 外部レビュー済 | 原本教材（12レッスン）を親単位で保全・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-letters-and-expressions` | 文字と式 | 中1 | 外部レビュー済 | 原本教材（12レッスン）を親単位で保全・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-linear-equations` | 一次方程式 | 中1 | 外部レビュー済 | 原本教材（10レッスン）を親単位で保全・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-proportion-inverse-proportion` | 比例と反比例 | 中1 | 外部レビュー済 | 原本教材（12レッスン）を親単位で保全・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-plane-figures` | 平面図形 | 中1 | 外部レビュー済 | 原本教材（12レッスン）を親単位で保全・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-solid-figures` | 空間図形 | 中1 | 外部レビュー済 | 原本教材（11レッスン）を親単位で保全・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
+| `jhs-math-1-data-distribution` | データの活用（度数分布・ヒストグラム） | 中1 | 外部レビュー済 | 原本教材（8レッスン）を親単位で保全・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18 |
 | `jhs-math-2-expression-calculation` | 式の計算 | 中2 | 外部レビュー済 | 原本教材（10レッスン）を親単位で保全 |
 | `jhs-math-2-congruence-and-proof` | 図形の合同と証明 | 中2 | 外部レビュー済 | 原本教材（16レッスン）を親単位で保全 |
 | `hs-math-i-numbers-and-expressions` | 数と式 | 高校 数学Ⅰ | 未着手 |  |
