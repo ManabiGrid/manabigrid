@@ -46,7 +46,7 @@
 | `jhs-math-2-expression-calculation--polynomial-calculation` | 単項式・多項式の計算 | 中2 | 人間レビュー済 | 親成果物（10レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
 | `jhs-math-2-expression-calculation--proof-by-expression` | 文字式による説明 | 中2 | 人間レビュー済 | 親成果物（10レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
 | `jhs-math-2-simultaneous-equations` | 連立方程式 | 中2 | 人間レビュー済 | 人間レビュー（現役塾講師による通読）完了 2026-07-19 |
-| `jhs-math-2-linear-function` | 一次関数 | 中2 | QA済 |  |
+| `jhs-math-2-linear-function` | 一次関数 | 中2 | 外部レビュー済 | 初期制作単元（Run A）・外部批判レビュー（GPT-5.6 Pro・指摘18件の全件裁定と限定修正）完了 2026-07-19 |
 | `jhs-math-2-congruence-and-proof--isosceles-parallelogram` | 二等辺三角形・平行四辺形の性質と証明 | 中2 | 人間レビュー済 | 親成果物（16レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
 | `jhs-math-2-congruence-and-proof--proof` | 証明のしくみと書き方 | 中2 | 人間レビュー済 | 親成果物（16レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
 | `jhs-math-2-congruence-and-proof--triangle-congruence` | 三角形の合同条件と基本性質 | 中2 | 人間レビュー済 | 親成果物（16レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
