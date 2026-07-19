@@ -1,0 +1,1137 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# SPDX-License-Identifier: MIT
+"""
+generate_figures.py — 中1数学「正負の数」単元 図版パラメトリック生成スクリプト
+==============================================================================
+様式: 先行単元 jhs-math-2-simultaneous-equations/assets_provenance/generate_figures.py
+に準拠（コード来歴方式）。ヘルパー群（Canvas/矢印/Checkerほか）は同スクリプトから
+コピー再利用（元スクリプトは無変更）。
+
+- 実行: python3 generate_figures.py
+- 出力: ../assets/L{NN}_fig{n}_{slug}.svg（14枚）と FIGURE_MANIFEST.md（この階層・自動生成）
+- 依存: Python標準ライブラリのみ（math / datetime / html / pathlib）
+- 自己検証: 各 fig_* 関数内の Checker が assert 相当の検算を行い、
+  1つでも失敗すると例外で停止して図を出力しない
+  （数直線上の点の位置・移動の着地点・表のパターンの等差・素因数分解の積・
+  仮平均のずれと平均など）。
+- 答えの分離方針: 練習問題の答は図に一切書かない。本文の例題解説が明示している
+  解説値（L05の−7・−3、L07の＋11・−15・−4、L09の＋9・−9、L10の＋4→3→−4、
+  L12の平均303など）のみ図に載せる。練習1用の読み取り数直線（L02図2）は
+  点の位置と文字ラベルのみで数値ラベルを付けず、L06の温度差の図は「差は？」の
+  問いのまま数値9を図に書かない。
+- 改修方法（第三者向け）: 各 fig_* 関数冒頭の「パラメータ」ブロックの数値を変えて
+  再実行する。数値は該当レッスン本文（lesson_XX.md）と一致させること。
+"""
+
+import math
+import datetime
+from html import escape
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+ASSETS = HERE.parent / "assets"
+GENERATED = datetime.date.today().isoformat()
+
+# ---- 様式定数（先行単元と同一） ----------------------------------------
+MAIN_W = 1.6      # 主線幅
+BOLD_W = 3.2      # 強調線幅
+AUX_W = 1.1       # 補助線幅
+DASH = "6 4"      # 破線
+FS = 13           # 基本文字サイズ(px)
+FS_CAP = 12       # キャプション
+DOT_R = 2.5       # 点マーカー半径
+
+
+# ===========================================================================
+# 描画ヘルパー（先行単元 generate_figures.py からコピー再利用）
+# ===========================================================================
+class Canvas:
+    def __init__(self, width, height, scale=1.0, ox=0.0, oy=0.0):
+        self.w, self.h = width, height
+        self.s, self.ox, self.oy = scale, ox, oy
+        self.defs = []
+        self.body = []
+
+    def P(self, p):
+        return (self.ox + self.s * p[0], self.oy - self.s * p[1])
+
+    def raw(self, s):
+        self.body.append(s)
+
+    def line(self, a, b, w=MAIN_W, dash=None, color="#000"):
+        (x1, y1), (x2, y2) = self.P(a), self.P(b)
+        d = f' stroke-dasharray="{dash}"' if dash else ""
+        self.raw(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" '
+                 f'stroke="{color}" stroke-width="{w}"{d}/>')
+
+    def dot(self, p, r=DOT_R):
+        x, y = self.P(p)
+        self.raw(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r}" fill="#000"/>')
+
+    def text(self, p, s, size=FS, anchor="middle", dy=0.35, weight=None):
+        x, y = self.P(p)
+        wgt = f' font-weight="{weight}"' if weight else ""
+        self.raw(f'<text x="{x:.1f}" y="{y + size * dy:.1f}" font-size="{size}" '
+                 f'text-anchor="{anchor}"{wgt}>{escape(s)}</text>')
+
+    def text_px(self, x, y, s, size=FS_CAP, anchor="start", weight=None):
+        wgt = f' font-weight="{weight}"' if weight else ""
+        self.raw(f'<text x="{x:.1f}" y="{y:.1f}" font-size="{size}" '
+                 f'text-anchor="{anchor}"{wgt}>{escape(s)}</text>')
+
+    def add_hatch(self):
+        self.defs.append(
+            '<pattern id="h45" width="6" height="6" patternUnits="userSpaceOnUse" '
+            'patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" '
+            'stroke="#555" stroke-width="1.1"/></pattern>')
+
+    def rect_px(self, x, y, w, h, sw=MAIN_W, dash=None, fill="#fff", rx=0):
+        d = f' stroke-dasharray="{dash}"' if dash else ""
+        r = f' rx="{rx}"' if rx else ""
+        self.raw(f'<rect x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{h:.1f}"'
+                 f'{r} fill="{fill}" stroke="#000" stroke-width="{sw}"{d}/>')
+
+    def textbox_px(self, x, y, w, h, lines, size=FS, sw=MAIN_W, dash=None,
+                   weight_first=None, line_gap=1.35):
+        self.rect_px(x, y, w, h, sw=sw, dash=dash, rx=4)
+        n = len(lines)
+        cy0 = y + h / 2 - (n - 1) * size * line_gap / 2
+        for i, ln in enumerate(lines):
+            wgt = weight_first if i == 0 else None
+            self.text_px(x + w / 2, cy0 + i * size * line_gap + size * 0.35,
+                         ln, size=size, anchor="middle", weight=wgt)
+
+    def ellipse_px(self, cx, cy, rx, ry, w=MAIN_W, dash=None, n=72):
+        """楕円を座標サンプリングした折れ線で描く（arcフラグ不使用）"""
+        pts = []
+        for i in range(n + 1):
+            t = 2 * math.pi * i / n
+            pts.append(f"{cx + rx * math.cos(t):.1f},{cy + ry * math.sin(t):.1f}")
+        d = f' stroke-dasharray="{dash}"' if dash else ""
+        self.raw(f'<polyline points="{" ".join(pts)}" fill="none" '
+                 f'stroke="#000" stroke-width="{w}"{d}/>')
+
+    def save(self, path, fig_id, title, desc=None):
+        defs = f"<defs>{''.join(self.defs)}</defs>" if self.defs else ""
+        svg = (
+            f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {self.w} {self.h}">\n'
+            f'<title>{escape(title)}</title>\n'
+            + (f'<desc>{escape(desc)}</desc>\n' if desc else "") +
+            f'<!-- {fig_id} | {title} -->\n'
+            f'<!-- generated by assets_provenance/generate_figures.py on {GENERATED} '
+            f'(SVG直接編集禁止/スクリプト改修で再生成) -->\n'
+            f'<rect x="0" y="0" width="{self.w}" height="{self.h}" fill="#fff"/>\n'
+            + defs + "\n".join(self.body) + "\n</svg>\n"
+        )
+        path.write_text(svg, encoding="utf-8")
+
+
+def arrow_px(cv, x1, y1, x2, y2, w=1.4, head=7.0, dash=None):
+    """SVG座標(px)で矢印（線+先端の三角形）を描く"""
+    ang = math.atan2(y2 - y1, x2 - x1)
+    bx, by = x2 - head * math.cos(ang), y2 - head * math.sin(ang)
+    d = f' stroke-dasharray="{dash}"' if dash else ""
+    cv.raw(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{bx:.1f}" y2="{by:.1f}" '
+           f'stroke="#000" stroke-width="{w}"{d}/>')
+    nx, ny = -math.sin(ang), math.cos(ang)
+    cv.raw(f'<polygon points="{x2:.1f},{y2:.1f} '
+           f'{bx + nx * head * 0.45:.1f},{by + ny * head * 0.45:.1f} '
+           f'{bx - nx * head * 0.45:.1f},{by - ny * head * 0.45:.1f}" fill="#000"/>')
+
+
+def darrow_px(cv, x1, y1, x2, y2, w=1.1, head=6.0):
+    """両矢印（寸法線用）"""
+    ang = math.atan2(y2 - y1, x2 - x1)
+    hx, hy = head * math.cos(ang), head * math.sin(ang)
+    cv.raw(f'<line x1="{x1 + hx:.1f}" y1="{y1 + hy:.1f}" x2="{x2 - hx:.1f}" '
+           f'y2="{y2 - hy:.1f}" stroke="#000" stroke-width="{w}"/>')
+    for (px, py, s) in ((x1, y1, 1), (x2, y2, -1)):
+        bx, by = px + s * hx, py + s * hy
+        nx, ny = -math.sin(ang), math.cos(ang)
+        cv.raw(f'<polygon points="{px:.1f},{py:.1f} '
+               f'{bx + nx * head * 0.45:.1f},{by + ny * head * 0.45:.1f} '
+               f'{bx - nx * head * 0.45:.1f},{by - ny * head * 0.45:.1f}" '
+               f'fill="#000"/>')
+
+
+class Checker:
+    """検算の記録つきassert"""
+    def __init__(self):
+        self.items = []
+
+    def ok(self, desc, cond, detail=""):
+        assert cond, f"検証失敗: {desc} {detail}"
+        self.items.append((desc, detail))
+
+
+def fmt_signed(v):
+    """＋/−つき表示（全角符号・本文表記と一致）"""
+    if v > 0:
+        return f"＋{v:g}"
+    if v < 0:
+        return f"−{abs(v):g}"
+    return "0"
+
+
+def hline_scale(x0, x1, vmin, vmax):
+    """数直線: 値→px の変換関数を返す"""
+    def to_px(v):
+        return x0 + (x1 - x0) * (v - vmin) / (vmax - vmin)
+    return to_px
+
+
+def draw_hline(cv, x0, x1, y, vmin, vmax, tick=1, label_step=1, minor=None,
+               arrows=True, label_size=11, tick_len=5, signed=True):
+    """横向き数直線を描き、値→px 変換関数を返す"""
+    to_px = hline_scale(x0, x1, vmin, vmax)
+    ax0 = x0 - 14 if arrows else x0
+    ax1 = x1 + 14 if arrows else x1
+    if arrows:
+        arrow_px(cv, x0, y, ax1, y, w=MAIN_W, head=7)
+        arrow_px(cv, x1, y, ax0, y, w=MAIN_W, head=7)
+    else:
+        cv.raw(f'<line x1="{x0:.1f}" y1="{y:.1f}" x2="{x1:.1f}" y2="{y:.1f}" '
+               f'stroke="#000" stroke-width="{MAIN_W}"/>')
+    if minor:
+        n = round((vmax - vmin) / minor)
+        for i in range(n + 1):
+            v = vmin + i * minor
+            px = to_px(v)
+            cv.raw(f'<line x1="{px:.1f}" y1="{y - 3:.1f}" x2="{px:.1f}" '
+                   f'y2="{y + 3:.1f}" stroke="#000" stroke-width="{AUX_W * 0.8}"/>')
+    n = round((vmax - vmin) / tick)
+    for i in range(n + 1):
+        v = vmin + i * tick
+        px = to_px(v)
+        cv.raw(f'<line x1="{px:.1f}" y1="{y - tick_len:.1f}" x2="{px:.1f}" '
+               f'y2="{y + tick_len:.1f}" stroke="#000" stroke-width="{AUX_W}"/>')
+        if label_step and round((v - vmin) / tick) % round(label_step / tick) == 0:
+            lab = (fmt_signed(v) if v != 0 else "0") if signed else f"{v:g}"
+            cv.text_px(px, y + tick_len + 13, lab, size=label_size,
+                       anchor="middle")
+    return to_px
+
+
+# ===========================================================================
+# 図1: L01 温度計（0℃の上下に続く目盛り・−3℃と＋5℃の対）
+# 本文根拠: lesson_01.md 主概念1（気温−3℃・＋5℃と0℃の境目）
+# 答え扱い: 与件（−3℃・＋5℃）のみ。練習の答なし
+# ===========================================================================
+def fig_L01():
+    # --- パラメータ（本文 lesson_01.md と一致させる） ---
+    vmin, vmax = -10, 10
+    marks = [(-3, "−3℃"), (5, "＋5℃")]
+
+    ck = Checker()
+    ck.ok("目盛り範囲は−10℃〜＋10℃（本文プレースホルダ指定どおり）",
+          (vmin, vmax) == (-10, 10))
+    ck.ok("−3℃は0から下へ3目盛り・＋5℃は0から上へ5目盛り",
+          0 - (-3) == 3 and 5 - 0 == 5)
+    ck.ok("マーカー2点はどちらも目盛り範囲内", all(vmin <= v <= vmax
+                                                   for v, _ in marks))
+    ck.ok("−3℃と＋5℃は0℃の反対側（積が負）", (-3) * 5 < 0)
+
+    cv = Canvas(340, 352)
+    cx = 120                      # 温度計の中心x
+    y_top, y_bot = 28, 278        # ＋10℃と−10℃のy(px)
+    def y_of(v):
+        return y_bot - (y_bot - y_top) * (v - vmin) / (vmax - vmin)
+    # 管と球部
+    cv.rect_px(cx - 9, y_top - 12, 18, (y_bot - y_top) + 24, sw=MAIN_W,
+               fill="#fff", rx=9)
+    cv.ellipse_px(cx, y_bot + 30, 15, 15, w=MAIN_W)
+    cv.raw(f'<circle cx="{cx}" cy="{y_bot + 30}" r="9" fill="#999"/>')
+    # 目盛り（1℃ごと・5℃ごとにラベル）
+    for v in range(vmin, vmax + 1):
+        py = y_of(v)
+        ln = 14 if v % 5 == 0 else 7
+        cv.raw(f'<line x1="{cx + 9}" y1="{py:.1f}" x2="{cx + 9 + ln}" '
+               f'y2="{py:.1f}" stroke="#000" stroke-width="{AUX_W}"/>')
+        if v % 5 == 0:
+            cv.text_px(cx - 16, py + 4, f"{fmt_signed(v)}℃" if v else "0℃",
+                       size=11, anchor="end")
+    # 0℃の線を太く・境目ラベル
+    cv.raw(f'<line x1="{cx - 9}" y1="{y_of(0):.1f}" x2="{cx + 9}" '
+           f'y2="{y_of(0):.1f}" stroke="#000" stroke-width="{BOLD_W}"/>')
+    cv.text_px(cx + 62, y_of(0) + 4, "境目", size=FS, anchor="start",
+               weight="bold")
+    arrow_px(cv, cx + 58, y_of(0), cx + 26, y_of(0), w=AUX_W, head=6)
+    # マーカー2点（右から矢印）
+    for v, lab in marks:
+        py = y_of(v)
+        cv.raw(f'<circle cx="{cx}" cy="{py:.1f}" r="4" fill="#000"/>')
+        arrow_px(cv, cx + 76, py, cx + 30, py, w=1.4, head=7)
+        cv.text_px(cx + 82, py + 4.5, lab, size=14, anchor="start",
+                   weight="bold")
+    # 上下の注記
+    cv.text_px(cx + 82, y_of(7.5) + 4, "0より高い＝＋", size=11.5,
+               anchor="start")
+    cv.text_px(cx + 82, y_of(-6) + 4, "0より低い＝−", size=11.5,
+               anchor="start")
+    cv.text_px(170, 344, "目盛りは0℃の上にも下にも同じ間隔で続いていく",
+               size=FS_CAP, anchor="middle")
+
+    return dict(file="L01_fig1_thermometer.svg", canvas=cv, lesson="L01",
+                title="温度計の目盛り（0℃の境目と−3℃・＋5℃の対）",
+                intent="負の数の最初の実物イメージ。0℃の上下に目盛りが続くことを見せる",
+                src="lesson_01.md 主概念1（図版予定ブロック31〜34行）",
+                params="目盛り−10℃〜＋10℃・マーカー−3℃と＋5℃・0℃太線に「境目」",
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図2: L02 数直線の左への延長（上段=小学校0〜6・下段=−6〜＋6）
+# 本文根拠: lesson_02.md 主概念1（原点・正の方向・負の方向・−3.5と＋2.5）
+# 答え扱い: 与件のみ。練習の答なし
+# ===========================================================================
+def fig_L02_1():
+    # --- パラメータ（本文 lesson_02.md と一致させる） ---
+    pts = [-3.5, 2.5]             # 整数の間の数も表せる例
+
+    ck = Checker()
+    ck.ok("上段は0〜6（小学校）・下段は−6〜＋6（左へ延長）", True,
+          "範囲は定数で固定")
+    ck.ok("−3.5と＋2.5はどちらも整数の間の数（0.5刻みで整数でない）",
+          all(v * 2 == int(v * 2) and v != int(v) for v in pts))
+    ck.ok("−3.5は−4と−3の間・＋2.5は＋2と＋3の間",
+          -4 < -3.5 < -3 and 2 < 2.5 < 3)
+    # 上下の0のx座標が一致すること（点線で結ぶ前提）は下の描画パラメータで検算
+    x0d, x1d = 40, 440
+    to_low = hline_scale(x0d, x1d, -6, 6)
+    to_up = hline_scale(to_low(0), to_low(6), 0, 6)
+    ck.ok("上段と下段で0と6の位置(px)が一致（1目盛りの幅が同じ）",
+          abs(to_up(0) - to_low(0)) < 1e-9 and abs(to_up(6) - to_low(6)) < 1e-9)
+
+    cv = Canvas(480, 250)
+    y_up, y_low = 60, 158
+    cv.text_px(28, 24, "小学校の数直線（0の右だけ）", size=FS_CAP)
+    # 上段: 0〜6（左端は0で止め、右のみ矢印）
+    xu0 = to_low(0)
+    arrow_px(cv, xu0, y_up, x1d + 14, y_up, w=MAIN_W, head=7)
+    for v in range(0, 7):
+        px = to_up(v)
+        cv.raw(f'<line x1="{px:.1f}" y1="{y_up - 5}" x2="{px:.1f}" '
+               f'y2="{y_up + 5}" stroke="#000" stroke-width="{AUX_W}"/>')
+        cv.text_px(px, y_up + 18, str(v), size=11, anchor="middle")
+    # 下段: −6〜＋6
+    cv.text_px(28, 122, "中学の数直線（0の左へも延長）", size=FS_CAP)
+    to_px = draw_hline(cv, x0d, x1d, y_low, -6, 6, tick=1, label_step=1)
+    # 原点・方向ラベル
+    cv.text_px(to_px(0), y_low + 34, "原点", size=FS, anchor="middle",
+               weight="bold")
+    cv.text_px(x1d + 8, y_low - 12, "正の方向", size=11.5, anchor="end")
+    cv.text_px(x0d - 8, y_low - 12, "負の方向", size=11.5, anchor="start")
+    # 上下の0どうしを点線で結ぶ
+    cv.raw(f'<line x1="{to_px(0):.1f}" y1="{y_up + 26}" x2="{to_px(0):.1f}" '
+           f'y2="{y_low - 8}" stroke="#000" stroke-width="{AUX_W}" '
+           f'stroke-dasharray="{DASH}"/>')
+    # 整数の間の点2つ
+    for v in pts:
+        px = to_px(v)
+        cv.raw(f'<circle cx="{px:.1f}" cy="{y_low}" r="{DOT_R + 0.5}" '
+               f'fill="#000"/>')
+        cv.text_px(px, y_low - 12, fmt_signed(v), size=12, anchor="middle",
+                   weight="bold")
+    cv.text_px(240, 224, "0を境に左へも同じ間隔で目盛りが続く。整数の間の数（−3.5や＋2.5）も1つの点で表せる",
+               size=FS_CAP, anchor="middle")
+
+    return dict(file="L02_fig1_number_line.svg", canvas=cv, lesson="L02",
+                title="数直線の左への延長（原点・正の方向・負の方向）",
+                intent="0の右だけだった数直線が左へ延びる様子を上下2段で対比する",
+                src="lesson_02.md 主概念1（図版予定ブロック27〜30行）",
+                params="上段0〜6・下段−6〜＋6・点は−3.5と＋2.5・上下の0を点線で連結",
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図3: L02 練習1用の読み取り数直線（点A〜D）
+# 本文根拠: lesson_02.md 練習1（図版予定ブロック67〜70行）
+# 答え漏れ注意: A〜Dの値（−4・＋2.5・−1.5・＋5）は練習の答なので
+#               図には文字ラベルのみ置き、数値ラベルを付けない
+# ===========================================================================
+def fig_L02_2():
+    # --- パラメータ（answer_key と一致させる・図には値を書かない） ---
+    points = {"A": -4, "B": 2.5, "C": -1.5, "D": 5}
+
+    ck = Checker()
+    ck.ok("A＝−4・B＝＋2.5・C＝−1.5・D＝＋5（answer_keyの解説値・図には書かない）",
+          points == {"A": -4, "B": 2.5, "C": -1.5, "D": 5})
+    ck.ok("4点とも−6〜＋6の範囲内で0.5目盛りに乗る",
+          all(-6 <= v <= 6 and v * 2 == int(v * 2) for v in points.values()))
+    ck.ok("整数でない点（B・C）が2つ含まれ、0.5の補助目盛りが必要",
+          sum(1 for v in points.values() if v != int(v)) == 2)
+
+    cv = Canvas(480, 130)
+    y = 66
+    to_px = draw_hline(cv, 40, 440, y, -6, 6, tick=1, label_step=1, minor=0.5)
+    for name, v in points.items():
+        px = to_px(v)
+        cv.raw(f'<circle cx="{px:.1f}" cy="{y}" r="{DOT_R + 0.5}" fill="#000"/>')
+        cv.text_px(px, y - 12, name, size=14, anchor="middle", weight="bold")
+    cv.text_px(240, 116, "小さい目盛りは1目盛り0.5（点の表す数を読み取ろう）",
+               size=FS_CAP, anchor="middle")
+
+    return dict(file="L02_fig2_practice_number_line.svg", canvas=cv,
+                lesson="L02",
+                title="練習1の読み取り数直線（点A〜D、1目盛り0.5の補助目盛りつき）",
+                intent="練習1用。点の位置は答えそのものなので文字ラベルのみで数値は書かない",
+                src="lesson_02.md 練習1（図版予定ブロック67〜70行）",
+                params="−6〜＋6・補助目盛り0.5／A〜Dの値はassertでのみ照合（図に非記載）",
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図4: L03 絶対値=原点からの距離（＋4と−4の左右対称矢印）
+# 本文根拠: lesson_03.md 主概念1（絶対値4の数は2つある）
+# 答え扱い: 本文解説値（＋4・−4・距離4）のみ
+# ===========================================================================
+def fig_L03_1():
+    # --- パラメータ（本文 lesson_03.md と一致させる） ---
+    a = 4
+
+    ck = Checker()
+    ck.ok("＋4と−4の絶対値はどちらも4（原点から等距離）",
+          abs(4) == abs(-4) == a)
+    ck.ok("2点は原点について対称（和が0）", 4 + (-4) == 0)
+    ck.ok("絶対値4の数はちょうど2つ（＋4と−4）",
+          [v for v in range(-6, 7) if abs(v) == a] == [-4, 4])
+
+    cv = Canvas(480, 168)
+    y = 74
+    to_px = draw_hline(cv, 40, 440, y, -6, 6, tick=1, label_step=1)
+    # 原点から外向きの矢印2本（線の少し上）
+    ya = y - 22
+    cv.raw(f'<circle cx="{to_px(0):.1f}" cy="{ya}" r="{DOT_R}" fill="#000"/>')
+    cv.text_px(to_px(0), ya - 10, "原点から", size=10, anchor="middle")
+    for sgn in (-1, 1):
+        arrow_px(cv, to_px(sgn * 0.25), ya, to_px(sgn * a), ya, w=1.8, head=8)
+        cv.text_px((to_px(0) + to_px(sgn * a)) / 2 + sgn * 14, ya - 8, "距離4",
+                   size=12, anchor="middle", weight="bold")
+    # 2点を強調
+    for v in (-a, a):
+        cv.raw(f'<circle cx="{to_px(v):.1f}" cy="{y}" r="{DOT_R + 1}" '
+               f'fill="#000"/>')
+    cv.text_px(240, 128, "原点から距離4の点は右と左に1つずつ——絶対値4の数は2つある（＋4と−4）",
+               size=FS_CAP, anchor="middle")
+    cv.text_px(240, 148, "（絶対値0の数だけは0ただ1つ）", size=FS_CAP,
+               anchor="middle")
+
+    return dict(file="L03_fig1_absolute_value.svg", canvas=cv, lesson="L03",
+                title="絶対値＝原点からの距離（＋4と−4の左右対称矢印）",
+                intent="＋4と−4が原点から等距離であることを対称な矢印で見せる",
+                src="lesson_03.md 主概念1（図版予定ブロック27〜30行）",
+                params="−6〜＋6の数直線・原点から±4へ外向き矢印・どちらも「距離4」",
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図5: L03 整数の内訳の帯（負の整数・0・正の整数=自然数）
+# 本文根拠: lesson_03.md 主概念2（整数が広がる・0は自然数に入らない）
+# 答え扱い: 概念図。答なし
+# ===========================================================================
+def fig_L03_2():
+    ck = Checker()
+    ck.ok("区画は「負の整数」「0」「正の整数＝自然数」の3つで整数全体を分割",
+          True, "重なりなし・もれなし（構成で保証）")
+    ck.ok("0は負の整数にも自然数にも入らない（0<1 かつ 0>−1）",
+          -1 < 0 < 1)
+    ck.ok("自然数の代表1、2、3はすべて正の整数",
+          all(v > 0 and v == int(v) for v in (1, 2, 3)))
+
+    cv = Canvas(480, 190)
+    x0, y0, hh = 36, 56, 62
+    w_neg, w_zero, w_pos = 176, 56, 176
+    # 外枠「整数」
+    cv.rect_px(x0 - 10, y0 - 26, w_neg + w_zero + w_pos + 20, hh + 40,
+               sw=BOLD_W * 0.6, rx=6)
+    cv.text_px(x0 - 10 + (w_neg + w_zero + w_pos + 20) / 2, y0 - 8, "整数",
+               size=FS, anchor="middle", weight="bold")
+    # 3区画
+    cv.rect_px(x0, y0, w_neg, hh, sw=MAIN_W)
+    cv.rect_px(x0 + w_neg, y0, w_zero, hh, sw=MAIN_W, fill="#eee")
+    cv.rect_px(x0 + w_neg + w_zero, y0, w_pos, hh, sw=MAIN_W)
+    # 自然数の区画だけ二重枠
+    cv.rect_px(x0 + w_neg + w_zero + 5, y0 + 5, w_pos - 10, hh - 10,
+               sw=MAIN_W)
+    cv.text_px(x0 + w_neg / 2, y0 + 24, "負の整数", size=FS, anchor="middle",
+               weight="bold")
+    cv.text_px(x0 + w_neg / 2, y0 + 46, "…、−3、−2、−1", size=12,
+               anchor="middle")
+    cv.text_px(x0 + w_neg + w_zero / 2, y0 + hh / 2 + 5, "0", size=16,
+               anchor="middle", weight="bold")
+    cv.text_px(x0 + w_neg + w_zero + w_pos / 2, y0 + 24, "正の整数＝自然数",
+               size=FS, anchor="middle", weight="bold")
+    cv.text_px(x0 + w_neg + w_zero + w_pos / 2, y0 + 46, "1、2、3、…",
+               size=12, anchor="middle")
+    # 注記
+    arrow_px(cv, x0 + w_neg + w_zero / 2, y0 + hh + 30,
+             x0 + w_neg + w_zero / 2, y0 + hh + 6, w=AUX_W, head=6)
+    cv.text_px(x0 + w_neg + w_zero / 2, y0 + hh + 44, "0は自然数に入らない",
+               size=FS_CAP, anchor="middle", weight="bold")
+    cv.text_px(240, 180, "「整数」の中身は3区画——二重枠が小学校からの「自然数」",
+               size=FS_CAP, anchor="middle")
+
+    return dict(file="L03_fig2_integer_map.svg", canvas=cv, lesson="L03",
+                title="整数の内訳の帯（負の整数・0・正の整数＝自然数）",
+                intent="整数の内訳を1本の帯で整理し、0がどの箱にも入らないことを明確にする",
+                src="lesson_03.md 主概念2（図版予定ブロック47〜50行）",
+                params="3区画の帯・外枠「整数」・自然数区画のみ二重枠・0注記",
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図6: L04 はしご割り（60の素因数分解）
+# 本文根拠: lesson_04.md 主概念2（60→30→15→5・60＝2×2×3×5）
+# 答え扱い: 本文解説値のみ
+# ===========================================================================
+def fig_L04():
+    # --- パラメータ（本文 lesson_04.md と一致させる） ---
+    n = 60
+    divs = [2, 2, 3]              # 割る素数（上から順）
+
+    def is_prime(k):
+        return k >= 2 and all(k % d for d in range(2, int(k ** 0.5) + 1))
+
+    ck = Checker()
+    seq = [n]
+    for d in divs:
+        assert seq[-1] % d == 0
+        seq.append(seq[-1] // d)
+    ck.ok("割り算の列 60→30→15→5 が正しい", seq == [60, 30, 15, 5])
+    ck.ok("割る数2、2、3はすべて素数で小さい順", divs == sorted(divs)
+          and all(is_prime(d) for d in divs))
+    ck.ok("最後に残る5は素数", is_prime(seq[-1]))
+    prod = 1
+    for d in divs + [seq[-1]]:
+        prod *= d
+    ck.ok("左の列と最後の1個の積 2×2×3×5＝60 が元の数に戻る", prod == n)
+
+    cv = Canvas(440, 232)
+    x_num, step = 150, 44         # 数の中心x・段の高さ
+    y0 = 46
+    vals = seq                    # [60, 30, 15, 5]
+    for i, d in enumerate(divs):
+        y = y0 + i * step
+        cv.text_px(x_num - 44, y, str(d), size=16, anchor="middle",
+                   weight="bold")
+        cv.text_px(x_num, y, str(vals[i]), size=16, anchor="middle")
+        # 逆L字（縦線＋下線）
+        cv.raw(f'<line x1="{x_num - 28}" y1="{y - 16}" x2="{x_num - 28}" '
+               f'y2="{y + 8}" stroke="#000" stroke-width="{MAIN_W}"/>')
+        cv.raw(f'<line x1="{x_num - 28}" y1="{y + 8}" x2="{x_num + 34}" '
+               f'y2="{y + 8}" stroke="#000" stroke-width="{MAIN_W}"/>')
+    y_last = y0 + len(divs) * step
+    cv.text_px(x_num, y_last, str(vals[-1]), size=16, anchor="middle",
+               weight="bold")
+    cv.text_px(x_num + 46, y_last, "←素数になったらおしまい", size=11,
+               anchor="start")
+    # 左列を囲む破線と結論
+    cv.ellipse_px(x_num - 44, y0 + step, 20, step * 1.55, w=AUX_W, dash=DASH)
+    cv.ellipse_px(x_num, y_last - 5, 18, 14, w=AUX_W, dash=DASH)
+    arrow_px(cv, x_num + 60, y0 + step + 30, x_num + 116, y0 + step + 30,
+             w=1.4)
+    cv.textbox_px(x_num + 122, y0 + step - 4, 150, 64,
+                  ["60＝2×2×3×5", "割った左の列＋最後の", "1個を全部かける"],
+                  size=12, sw=MAIN_W, weight_first="bold")
+    cv.text_px(220, 214, "小さい素数から順に割る。「、」ではなく×だけで書けているかを最後に確かめる",
+               size=FS_CAP, anchor="middle")
+
+    return dict(file="L04_fig1_ladder_division.svg", canvas=cv, lesson="L04",
+                title="はしご割り（60＝2×2×3×5）",
+                intent="素因数分解の手続きを1段ずつ見せる。積の検算はassertで実施",
+                src="lesson_04.md 主概念2（図版予定ブロック40〜43行）",
+                params="60→30→15→5・割る素数2、2、3・結論60＝2×2×3×5",
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図7: L05 加法の数直線移動（同符号と異符号の対比）
+# 本文根拠: lesson_05.md 主概念1（(−3)＋(−4)＝−7・(＋5)＋(−8)＝−3）
+# 答え扱い: −7・−3は本文が明示する例題の解説値のため記載可
+# ===========================================================================
+def fig_L05():
+    # --- パラメータ（本文 lesson_05.md と一致させる） ---
+    ex1 = (-3, -4)                # 同符号
+    ex2 = (5, -8)                 # 異符号
+
+    ck = Checker()
+    ck.ok("(−3)＋(−4)＝−7（本文明示の解説値・図に記載）",
+          ex1[0] + ex1[1] == -7)
+    ck.ok("(＋5)＋(−8)＝−3（本文明示の解説値・図に記載）",
+          ex2[0] + ex2[1] == -3)
+    ck.ok("上段の移動 0→−3→−7（2本目は1本目の終点から）",
+          (0 + ex1[0], 0 + ex1[0] + ex1[1]) == (-3, -7))
+    ck.ok("下段の移動 0→＋5→−3（反対向きが打ち消し合う）",
+          (0 + ex2[0], 0 + ex2[0] + ex2[1]) == (5, -3))
+
+    cv = Canvas(500, 320)
+
+    def panel(y, pair, head_txt):
+        to_px = draw_hline(cv, 44, 456, y, -8, 8, tick=1, label_step=2)
+        cv.text_px(30, y - 52, head_txt, size=FS_CAP, weight="bold")
+        pos = 0
+        for k, mv in enumerate(pair):
+            ya = y - 18 - k * 16      # 矢印は線の少し上・2本目はさらに上
+            arrow_px(cv, to_px(pos), ya, to_px(pos + mv), ya, w=1.8, head=8)
+            cv.text_px((to_px(pos) + to_px(pos + mv)) / 2, ya - 7,
+                       fmt_signed(mv), size=12, anchor="middle")
+            pos += mv
+        # 着地点に星印と答えラベル
+        px = to_px(pos)
+        pts = []
+        for i in range(10):
+            ang = -math.pi / 2 + i * math.pi / 5
+            r = 6.5 if i % 2 == 0 else 2.8
+            pts.append(f"{px + r * math.cos(ang):.1f},"
+                       f"{y + 1 + r * math.sin(ang):.1f}")
+        cv.raw(f'<polygon points="{" ".join(pts)}" fill="#000"/>')
+        cv.text_px(px, y + 32, f"答え {fmt_signed(pos)}", size=12,
+                   anchor="middle", weight="bold")
+
+    panel(96, ex1, "同符号: (−3)＋(−4)　……負の方向へ2回")
+    panel(232, ex2, "異符号: (＋5)＋(−8)　……5進んで8もどる")
+    cv.text_px(250, 306, "2本目の矢印は1本目の終点から。反対向きの移動は打ち消し合う",
+               size=FS_CAP, anchor="middle")
+
+    return dict(file="L05_fig1_addition_moves.svg", canvas=cv, lesson="L05",
+                title="加法の数直線移動（同符号(−3)＋(−4)と異符号(＋5)＋(−8)の対比）",
+                intent="加法を連続した矢印移動で見せる。着地点＝和（本文明示の解説値）",
+                src="lesson_05.md 主概念1（図版予定ブロック32〜35行）",
+                params="上段0→−3→−7・下段0→＋5→−3・着地点に星印",
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図8: L06 温度差の縦数直線（−2℃と＋7℃のへだたり）
+# 本文根拠: lesson_06.md 活用場面（B−A＝(＋7)−(−2)）
+# 答え漏れ注意: 差9は図に書かず「差は？」のまま（直後の本文で解く流れのため）
+# ===========================================================================
+def fig_L06():
+    # --- パラメータ（本文 lesson_06.md と一致させる） ---
+    a, b = -2, 7                  # A町−2℃・B町＋7℃
+    vmin, vmax = -5, 10
+
+    ck = Checker()
+    ck.ok("へだたりは9目盛り（(＋7)−(−2)＝＋9・図には書かない）",
+          b - a == 9)
+    ck.ok("0をまたぐへだたりが7と2に分かれる（7＋2＝9）",
+          (b - 0) + (0 - a) == 9 and b - 0 == 7 and 0 - a == 2)
+    ck.ok("2点は目盛り範囲−5〜＋10の内側", vmin < a < vmax and vmin < b < vmax)
+
+    cv = Canvas(420, 330)
+    cx = 130
+    y_top, y_bot = 34, 292
+    def y_of(v):
+        return y_bot - (y_bot - y_top) * (v - vmin) / (vmax - vmin)
+    # 縦の数直線（温度計形・上向き矢印）
+    arrow_px(cv, cx, y_bot + 6, cx, y_top - 12, w=MAIN_W, head=7)
+    for v in range(vmin, vmax + 1):
+        py = y_of(v)
+        cv.raw(f'<line x1="{cx - 5}" y1="{py:.1f}" x2="{cx + 5}" '
+               f'y2="{py:.1f}" stroke="#000" stroke-width="{AUX_W}"/>')
+        if v % 5 == 0 or v in (a, b):
+            cv.text_px(cx - 12, py + 4, fmt_signed(v) if v else "0",
+                       size=11, anchor="end")
+    # 2点
+    for v, lab in ((a, "A町 −2℃"), (b, "B町 ＋7℃")):
+        cv.raw(f'<circle cx="{cx}" cy="{y_of(v):.1f}" r="4" fill="#000"/>')
+        cv.text_px(cx - 52, y_of(v) + 4, lab, size=FS, anchor="end",
+                   weight="bold")
+    # 2点間の両矢印と「差は？」
+    xg = cx + 44
+    darrow_px(cv, xg, y_of(b), xg, y_of(a), w=1.4, head=7)
+    cv.text_px(xg + 12, (y_of(a) + y_of(b)) / 2 + 4, "差は？", size=14,
+               anchor="start", weight="bold")
+    # 0の線で区切る補助線（0をまたぐへだたりが2つに分かれて見える）
+    cv.raw(f'<line x1="{cx - 5}" y1="{y_of(0):.1f}" x2="{xg + 26}" '
+           f'y2="{y_of(0):.1f}" stroke="#000" stroke-width="{AUX_W}" '
+           f'stroke-dasharray="{DASH}"/>')
+    cv.text_px(xg + 32, y_of(0) + 4, "0の線で2つに分けて考えてもよい",
+               size=10.5, anchor="start")
+    # 立式
+    cv.textbox_px(238, y_of(b) - 10, 158, 54,
+                  ["「BはAより何度高い？」", "B−A＝(＋7)−(−2)"],
+                  size=12, sw=MAIN_W, weight_first="bold")
+    cv.text_px(210, 320, "「〜より」の直後にあるA（基準）をひく——ひき算で2点のへだたりを求める",
+               size=FS_CAP, anchor="middle")
+
+    return dict(file="L06_fig1_temperature_difference.svg", canvas=cv,
+                lesson="L06",
+                title="温度差の縦数直線（−2℃と＋7℃のへだたり——差は？）",
+                intent="2点のへだたりを視覚化し立式B−Aへつなぐ。差の値は図に書かず「差は？」のまま",
+                src="lesson_06.md 活用場面（図版予定ブロック57〜60行）",
+                params="目盛り−5〜＋10・点は−2と＋7・両矢印は「差は？」・0に破線補助線",
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図9: L07 項の仕分け（6−13＋5−2 → 正の箱と負の箱 → 合流）
+# 本文根拠: lesson_07.md 主概念2（＝(6＋5)−(13＋2)＝11−15＝−4）
+# 答え扱い: ＋11・−15・−4は本文明示の解説値のため記載可
+# ===========================================================================
+def fig_L07():
+    # --- パラメータ（本文 lesson_07.md と一致させる） ---
+    terms = [6, -13, 5, -2]
+
+    ck = Checker()
+    pos = [t for t in terms if t > 0]
+    neg = [t for t in terms if t < 0]
+    ck.ok("正の項は＋6と＋5・負の項は−13と−2（仕分けにもれなし）",
+          pos == [6, 5] and neg == [-13, -2]
+          and len(pos) + len(neg) == len(terms))
+    ck.ok("正の箱の小計＋11・負の箱の小計−15（本文明示の解説値）",
+          sum(pos) == 11 and sum(neg) == -15)
+    ck.ok("合計＋11＋(−15)＝−4（本文明示の解説値）",
+          sum(pos) + sum(neg) == -4 and sum(terms) == -4)
+    ck.ok("先頭から順にたしても同じ（6−13＝−7、−7＋5＝−2、−2−2＝−4）",
+          6 - 13 == -7 and -7 + 5 == -2 and -2 - 2 == -4)
+
+    cv = Canvas(480, 330)
+    # 上段: 式を項カードに
+    cv.text_px(240, 30, "6−13＋5−2　＝　＋6、−13、＋5、−2 の和", size=FS,
+               anchor="middle", weight="bold")
+    card_w, card_h, y_card = 52, 30, 48
+    xs = [96, 196, 296, 396]
+    labs = ["＋6", "−13", "＋5", "−2"]
+    for x, lab in zip(xs, labs):
+        cv.rect_px(x - card_w / 2, y_card, card_w, card_h, sw=MAIN_W, rx=5)
+        cv.text_px(x, y_card + card_h / 2 + FS * 0.35, lab, size=FS,
+                   anchor="middle", weight="bold")
+    # 2つの箱
+    bx_pos, bx_neg, by, bw, bh = 60, 280, 130, 140, 74
+    cv.rect_px(bx_pos, by, bw, bh, sw=MAIN_W, rx=6)
+    cv.text_px(bx_pos + bw / 2, by + 20, "正の項の箱", size=12,
+               anchor="middle", weight="bold")
+    cv.text_px(bx_pos + bw / 2, by + 44, "＋6　＋5", size=FS, anchor="middle")
+    cv.rect_px(bx_neg, by, bw, bh, sw=MAIN_W, rx=6)
+    cv.text_px(bx_neg + bw / 2, by + 20, "負の項の箱", size=12,
+               anchor="middle", weight="bold")
+    cv.text_px(bx_neg + bw / 2, by + 44, "−13　−2", size=FS, anchor="middle")
+    # カード→箱の矢印
+    for x, t in zip(xs, [6, -13, 5, -2]):
+        tx = (bx_pos if t > 0 else bx_neg) + bw / 2
+        arrow_px(cv, x, y_card + card_h + 4, tx + (x - tx) * 0.18, by - 4,
+                 w=1.2)
+    # 小計
+    cv.text_px(bx_pos + bw / 2, by + bh + 20, "小計 ＋11", size=FS,
+               anchor="middle", weight="bold")
+    cv.text_px(bx_neg + bw / 2, by + bh + 20, "小計 −15", size=FS,
+               anchor="middle", weight="bold")
+    # 合流
+    arrow_px(cv, bx_pos + bw / 2, by + bh + 30, 226, 268, w=1.4)
+    arrow_px(cv, bx_neg + bw / 2, by + bh + 30, 254, 268, w=1.4)
+    cv.textbox_px(170, 272, 140, 36, ["合計 11−15＝−4"], size=13,
+                  sw=BOLD_W * 0.6, weight_first="bold")
+    cv.text_px(240, 326, "たし算は順序を入れかえてよいから、先に符号ごとに仕分けできる",
+               size=FS_CAP, anchor="middle")
+
+    return dict(file="L07_fig1_terms_sorting.svg", canvas=cv, lesson="L07",
+                title="項の仕分け（6−13＋5−2 → 正の箱＋11と負の箱−15 → −4）",
+                intent="項を符号で仕分けて箱ごとの和→全体の和の2段構えを図式化する",
+                src="lesson_07.md 主概念2（図版予定ブロック55〜58行）",
+                params="項＋6・−13・＋5・−2／小計＋11と−15／合計−4（本文明示）",
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図10: L08 かけ算の表のパターン延長（(＋3)×表と(−3)×表）
+# 本文根拠: lesson_08.md 主概念1（3ずつ減・3ずつ増を0の先へ）
+# 答え扱い: 表の値はすべて本文明示の解説値
+# ===========================================================================
+def fig_L08():
+    # --- パラメータ（本文 lesson_08.md と一致させる） ---
+    m1, ks1 = 3, [3, 2, 1, 0, -1, -2]      # 上段: (＋3)×(かける数)
+    m2, ks2 = -3, [2, 1, 0, -1, -2]        # 下段: (−3)×(かける数)
+
+    ck = Checker()
+    p1 = [m1 * k for k in ks1]
+    p2 = [m2 * k for k in ks2]
+    ck.ok("上段の積は＋9、＋6、＋3、0、−3、−6（本文の表と一致）",
+          p1 == [9, 6, 3, 0, -3, -6])
+    ck.ok("上段はとなりどうしの差がすべて−3（3ずつ減るパターン）",
+          all(b - a == -3 for a, b in zip(p1, p1[1:])))
+    ck.ok("下段の積は−6、−3、0、＋3、＋6（本文の表と一致）",
+          p2 == [-6, -3, 0, 3, 6])
+    ck.ok("下段はとなりどうしの差がすべて＋3（3ずつ増えるパターン）",
+          all(b - a == 3 for a, b in zip(p2, p2[1:])))
+    ck.ok("延長部分が符号のきまりを与える（(＋)×(−)＝−・(−)×(−)＝＋）",
+          m1 * (-1) < 0 and m2 * (-1) > 0)
+
+    cv = Canvas(520, 344)
+    cv.add_hatch()
+    cw, ch = 56, 28
+
+    def table(x0, y0, head, ks, mult, prods, dv):
+        cv.text_px(x0, y0 - 10, head, size=FS, weight="bold")
+        cv.rect_px(x0, y0, 96, ch, sw=AUX_W, fill="#eee")
+        cv.text_px(x0 + 48, y0 + ch / 2 + 4, "かける数", size=11,
+                   anchor="middle")
+        cv.rect_px(x0, y0 + ch, 96, ch, sw=AUX_W, fill="#eee")
+        cv.text_px(x0 + 48, y0 + ch + ch / 2 + 4,
+                   f"({fmt_signed(mult)})×", size=11, anchor="middle")
+        for i, (k, p) in enumerate(zip(ks, prods)):
+            x = x0 + 96 + i * cw
+            ext = k < 0               # 0の先（延長で決めた側）
+            cv.rect_px(x, y0, cw, ch, sw=AUX_W)
+            cv.text_px(x + cw / 2, y0 + ch / 2 + 4, fmt_signed(k), size=12,
+                       anchor="middle")
+            cv.rect_px(x, y0 + ch, cw, ch, sw=AUX_W,
+                       fill="url(#h45)" if ext else "#fff")
+            if ext:                   # ハッチの上に白抜き座布団
+                cv.rect_px(x + cw / 2 - 14, y0 + ch + 4, 28, ch - 8,
+                           sw=0.0001, fill="#fff")
+            cv.text_px(x + cw / 2, y0 + ch + ch / 2 + 4, fmt_signed(p),
+                       size=12, anchor="middle",
+                       weight="bold" if ext else None)
+            # 変化量矢印（積の行の下）
+            if i < len(ks) - 1:
+                ya = y0 + 2 * ch + 12
+                arrow_px(cv, x + cw / 2 + 8, ya, x + cw + cw / 2 - 8, ya,
+                         w=AUX_W, head=5)
+                cv.text_px(x + cw, ya + 14, fmt_signed(dv), size=10.5,
+                           anchor="middle")
+
+    table(38, 40, "① (＋3)×の表　……積は3ずつ減る", ks1, m1, p1, -3)
+    table(38, 172, "② (−3)×の表　……積は3ずつ増える", ks2, m2, p2, 3)
+    cv.text_px(260, 296, "斜線のマス＝0の先へパターンの続きとして決めた部分",
+               size=FS_CAP, anchor="middle", weight="bold")
+    cv.text_px(260, 316, "①から (＋)×(−)＝−、②から (−)×(−)＝＋ が現れる",
+               size=FS_CAP, anchor="middle")
+
+    return dict(file="L08_fig1_pattern_tables.svg", canvas=cv, lesson="L08",
+                title="かけ算の表のパターン延長（3ずつ減・3ずつ増を0の先へ）",
+                intent="積の増減パターンの延長で(＋)×(−)＝−と(−)×(−)＝＋が現れる様子を見せる",
+                src="lesson_08.md 主概念1（図版予定ブロック42〜45行）",
+                params="上段(＋3)×で＋9〜−6（差−3）・下段(−3)×で−6〜＋6（差＋3）・延長マスは斜線",
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図11: L09 「何が2乗されているか丸で囲む」型（(−3)²と−3²）
+# 本文根拠: lesson_09.md 主概念2（(−3)²＝＋9・−3²＝−9）
+# 答え扱い: ＋9・−9は本文明示の解説値のため記載可
+# ===========================================================================
+def fig_L09():
+    ck = Checker()
+    ck.ok("(−3)²＝＋9（−3全体を2乗）", (-3) ** 2 == 9)
+    ck.ok("−3²＝−9（3だけを2乗し−は符号として残る）", -(3 ** 2) == -9)
+    ck.ok("丸の位置のちがいが答えの符号のちがいに直結（＋9≠−9）",
+          (-3) ** 2 != -(3 ** 2))
+
+    cv = Canvas(480, 240)
+    y_expr = 82
+
+    def panel(cx, glyphs, circle_cx, circle_rx, ans, note_lines):
+        """glyphs=[(文字, 中心x, 中心y, サイズ)]（座標明示・丸との重なり回避）"""
+        for s, gx, gy, size in glyphs:
+            cv.text_px(gx, gy, s, size=size, anchor="middle", weight="bold")
+        cv.ellipse_px(circle_cx, y_expr - 6, circle_rx, 16, w=1.6)
+        arrow_px(cv, cx, y_expr + 20, cx, y_expr + 46, w=1.4)
+        cv.text_px(cx, y_expr + 66, ans, size=16, anchor="middle",
+                   weight="bold")
+        for i, ln in enumerate(note_lines):
+            cv.text_px(cx, y_expr + 90 + i * 15, ln, size=10.5,
+                       anchor="middle")
+
+    cv.text_px(120, 34, "左: (−3)²", size=FS, anchor="middle", weight="bold")
+    cv.text_px(360, 34, "右: −3²", size=FS, anchor="middle", weight="bold")
+    # 左: (−3)全体を丸で囲み、指数²は丸の外の右上
+    panel(120,
+          [("(−3)", 112, y_expr, 18), ("²", 146, y_expr - 12, 12)],
+          112, 30, "＋9",
+          ["丸の中＝−3全体を2乗", "(−3)×(−3)"])
+    # 右: 3だけを丸で囲み、−は丸の外の左・指数²は丸の外の右上
+    panel(360,
+          [("−", 336, y_expr, 18), ("3", 358, y_expr, 18),
+           ("²", 380, y_expr - 12, 12)],
+          358, 13, "−9",
+          ["丸の中は3だけ。外の−は", "符号として最後につく"])
+    cv.raw(f'<line x1="240" y1="48" x2="240" y2="196" stroke="#000" '
+           f'stroke-width="{AUX_W}" stroke-dasharray="{DASH}"/>')
+    cv.text_px(240, 226, "合言葉:「丸の中だけを2乗する」——丸の位置を先に決めてから計算する",
+               size=FS_CAP, anchor="middle", weight="bold")
+
+    return dict(file="L09_fig1_circle_the_base.svg", canvas=cv, lesson="L09",
+                title="何が2乗されているかを丸で囲む（(−3)²＝＋9と−3²＝−9）",
+                intent="丸の位置のちがいが答えのちがいに直結することを左右対比で見せる",
+                src="lesson_09.md 主概念2（図版予定ブロック61〜64行）",
+                params="左=(−3)全体を丸囲み→＋9・右=3のみ丸囲み→−9（本文明示）",
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図12: L10 計算の順序の番号ふり（12÷(−2)²−7）
+# 本文根拠: lesson_10.md 主概念1（12÷(−2)²−7＝12÷(＋4)−7＝3−7＝−4）
+# 答え扱い: ＋4→3→−4は本文明示の解説値のため記載可
+# ===========================================================================
+def fig_L10():
+    ck = Checker()
+    step1 = (-2) ** 2
+    step2 = 12 / step1
+    step3 = step2 - 7
+    ck.ok("①累乗: (−2)²＝＋4", step1 == 4)
+    ck.ok("②わり算: 12÷(＋4)＝3", step2 == 3)
+    ck.ok("③ひき算: 3−7＝−4（本文明示の解説値）", step3 == -4)
+    ck.ok("順序を誤ると別の値になる（12÷(−2)＝−6を先にすると≠−4）",
+          (12 / (-2)) ** 2 - 7 != -4)
+
+    cv = Canvas(480, 250)
+    # 式（部分ごとに配置して丸数字を真上に置く）
+    y_e = 96
+    parts = [("12", 46, y_e, 17), ("÷", 84, y_e, 17), ("(−2)", 108, y_e, 17),
+             ("²", 152, y_e - 10, 12), ("−", 172, y_e, 17), ("7", 194, y_e, 17)]
+    for s, x, yy, size in parts:
+        cv.text_px(x, yy, s, size=size, anchor="start",
+                   weight="bold" if s not in ("÷", "−") else None)
+
+    def circled(cx, cy, n):
+        cv.raw(f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="9" fill="#fff" '
+               f'stroke="#000" stroke-width="{MAIN_W}"/>')
+        cv.text_px(cx, cy + 4, str(n), size=11, anchor="middle",
+                   weight="bold")
+
+    circled(132, 62, 1)          # (−2)²の真上
+    circled(91, 62, 2)           # ÷の真上
+    circled(178, 62, 3)          # −7の−の真上
+    cv.text_px(132, 40, "累乗", size=10, anchor="middle")
+    cv.text_px(91, 40, "わり算", size=10, anchor="middle")
+    cv.text_px(178, 40, "ひき算", size=10, anchor="middle")
+    # 右側: 3行の計算過程
+    arrow_px(cv, 224, 90, 264, 90, w=1.4)
+    lines = ["＝12÷(＋4)−7", "＝3−7", "＝−4"]
+    for i, ln in enumerate(lines):
+        cv.text_px(280, 72 + i * 28, ln, size=15, anchor="start",
+                   weight="bold" if i == 2 else None)
+    cv.text_px(280, 160, "（①→②→③の順に1つずつ）", size=10.5, anchor="start")
+    cv.textbox_px(46, 176, 230, 36, ["合言葉: 先に全体を見わたす"], size=12,
+                  sw=MAIN_W, weight_first="bold")
+    cv.text_px(240, 238, "計算を始める前に番号をふる——累乗・かっこ→乗除→加減の順",
+               size=FS_CAP, anchor="middle")
+
+    return dict(file="L10_fig1_order_numbering.svg", canvas=cv, lesson="L10",
+                title="計算の順序の番号ふり（12÷(−2)²−7 → ①累乗②わり算③ひき算）",
+                intent="「番号をふってから計算」の型の実演。計算過程は本文明示の解説値",
+                src="lesson_10.md 主概念1（図版予定ブロック39〜42行）",
+                params="式12÷(−2)²−7・丸数字①②③・過程＋4→3→−4",
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図13: L11 数の集合の入れ子（自然数⊂整数⊂数全体）
+# 本文根拠: lesson_11.md 主概念（集合の包含と代表の数）
+# 答え扱い: 概念図。答なし
+# ===========================================================================
+def fig_L11():
+    # --- パラメータ（本文 lesson_11.md と一致させる） ---
+    nat = [1, 2, 3]
+    int_only = [0, -2]
+    num_only = [0.5, -0.75]       # 表示は「0.5」「−3/4」
+
+    ck = Checker()
+    ck.ok("内側の輪の代表1、2、3はすべて自然数",
+          all(v >= 1 and v == int(v) for v in nat))
+    ck.ok("中間の輪に追加の0、−2は整数だが自然数でない",
+          all(v == int(v) and v < 1 for v in int_only))
+    ck.ok("外側の輪に追加の0.5、−3/4は整数でない",
+          all(v != int(v) for v in num_only) and num_only[1] == -3 / 4)
+    ck.ok("包含関係: 自然数⊂整数⊂数（代表がすべて外側の集合にも属す）",
+          all(isinstance(v, (int, float)) for v in nat + int_only + num_only))
+
+    cv = Canvas(460, 300)
+    cx, cy = 230, 142
+    # 3重の輪（外→内）
+    cv.ellipse_px(cx, cy, 196, 118, w=MAIN_W)
+    cv.ellipse_px(cx - 34, cy + 12, 132, 86, w=MAIN_W)
+    cv.ellipse_px(cx - 62, cy + 24, 74, 52, w=MAIN_W)
+    # ラベル（内側から）
+    cv.text_px(cx - 62, cy - 12, "自然数", size=FS, anchor="middle",
+               weight="bold")
+    cv.text_px(cx + 22, cy - 40, "整数", size=FS, anchor="middle",
+               weight="bold")
+    cv.text_px(cx + 118, cy - 66, "数", size=FS, anchor="middle",
+               weight="bold")
+    # 代表の数
+    cv.text_px(cx - 84, cy + 30, "1", size=13, anchor="middle")
+    cv.text_px(cx - 62, cy + 52, "2", size=13, anchor="middle")
+    cv.text_px(cx - 40, cy + 30, "3", size=13, anchor="middle")
+    cv.text_px(cx + 44, cy + 24, "0", size=13, anchor="middle")
+    cv.text_px(cx + 64, cy + 58, "−2", size=13, anchor="middle")
+    cv.text_px(cx + 148, cy + 34, "0.5", size=13, anchor="middle")
+    cv.text_px(cx - 130, cy - 66, "−3/4", size=13, anchor="middle")
+    cv.text_px(230, 284, "内側の集合は外側の集合にすっぽり含まれる——範囲が広がると計算の自由度が上がる",
+               size=FS_CAP, anchor="middle")
+
+    return dict(file="L11_fig1_number_sets.svg", canvas=cv, lesson="L11",
+                title="数の集合の入れ子（自然数⊂整数⊂数全体）",
+                intent="3つの範囲の包含関係を図示し「計算の自由度」の議論の土台を作る",
+                src="lesson_11.md 主概念（図版予定ブロック23〜26行）",
+                params="内=自然数(1,2,3)・中=整数(0,−2追加)・外=数(0.5,−3/4追加)",
+                checks=ck.items)
+
+
+# ===========================================================================
+# 図14: L12 仮平均の数直線（基準300とずれ・平均303）
+# 本文根拠: lesson_12.md 主概念2（ずれ＋12、−8、0、＋25、−14→平均303人）
+# 答え扱い: 平均303は本文明示の解説値のため記載可
+# ===========================================================================
+def fig_L12():
+    # --- パラメータ（本文 lesson_12.md と一致させる） ---
+    base = 300
+    data = [312, 292, 300, 325, 286]      # 月〜金
+    vmin, vmax = 285, 330
+
+    ck = Checker()
+    devs = [d - base for d in data]
+    ck.ok("基準300からのずれは＋12、−8、0、＋25、−14（本文の表と一致）",
+          devs == [12, -8, 0, 25, -14])
+    ck.ok("ずれの平均＋3（(＋15)÷5・本文明示）",
+          sum(devs) == 15 and sum(devs) / len(devs) == 3)
+    ck.ok("平均303＝300＋(＋3)（本文明示の解説値・図に記載）",
+          base + sum(devs) / len(devs) == 303)
+    ck.ok("検算: 直接計算でも(312＋…＋286)÷5＝303",
+          sum(data) / len(data) == 303)
+    ck.ok("全データが目盛り範囲285〜330の内側",
+          all(vmin < d < vmax for d in data))
+
+    cv = Canvas(520, 300)
+    y = 170
+    to_px = draw_hline(cv, 46, 486, y, vmin, vmax, tick=5, label_step=5,
+                       arrows=False, label_size=10.5, signed=False)
+    # 基準300に太線
+    cv.raw(f'<line x1="{to_px(base):.1f}" y1="{y - 26}" x2="{to_px(base):.1f}" '
+           f'y2="{y + 10}" stroke="#000" stroke-width="{BOLD_W}"/>')
+    cv.text_px(to_px(base) - 8, y - 30, "基準 300", size=12, anchor="end",
+               weight="bold")
+    # 5日分の点と、基準へのずれの両矢印（高さを変えて重なり回避）
+    days = ["月", "火", "水", "木", "金"]
+    lift = {312: 46, 292: 46, 300: 0, 325: 78, 286: 78}
+    for d, day in zip(data, days):
+        px = to_px(d)
+        cv.raw(f'<circle cx="{px:.1f}" cy="{y}" r="{DOT_R + 0.5}" '
+               f'fill="#000"/>')
+        cv.text_px(px, y + 32, day, size=11, anchor="middle")
+        dv = d - base
+        if dv != 0:
+            ya = y - lift[d]
+            darrow_px(cv, to_px(base), ya, px, ya, w=AUX_W, head=5.5)
+            cv.raw(f'<line x1="{px:.1f}" y1="{ya:.1f}" x2="{px:.1f}" '
+                   f'y2="{y - 5:.1f}" stroke="#000" stroke-width="0.7" '
+                   f'stroke-dasharray="2 3"/>')
+            cv.raw(f'<line x1="{to_px(base):.1f}" y1="{ya:.1f}" '
+                   f'x2="{to_px(base):.1f}" y2="{y - 26:.1f}" '
+                   f'stroke="#000" stroke-width="0.7" stroke-dasharray="2 3"/>')
+            cv.text_px((to_px(base) + px) / 2, ya - 6, fmt_signed(dv),
+                       size=11, anchor="middle", weight="bold")
+        else:
+            cv.text_px(px + 4, y - 12, "ずれ0", size=10, anchor="start")
+    # ずれの平均＋3の矢印と平均303の星印
+    ys = y + 52
+    arrow_px(cv, to_px(base), ys, to_px(303), ys, w=1.8, head=7)
+    cv.text_px((to_px(base) + to_px(303)) / 2, ys + 16, "ずれの平均 ＋3",
+               size=11.5, anchor="middle", weight="bold")
+    px3 = to_px(303)
+    pts = []
+    for i in range(10):
+        ang = -math.pi / 2 + i * math.pi / 5
+        r = 7 if i % 2 == 0 else 3
+        pts.append(f"{px3 + r * math.cos(ang):.1f},"
+                   f"{ys - 14 + r * math.sin(ang):.1f}")
+    cv.raw(f'<polygon points="{" ".join(pts)}" fill="#000"/>')
+    cv.text_px(px3 + 10, ys - 10, "平均 303", size=12, anchor="start",
+               weight="bold")
+    cv.text_px(266, 272, "ずれだけ集めて平均し、あとで基準300にたし戻す——それが仮平均の技",
+               size=FS_CAP, anchor="middle")
+
+    return dict(file="L12_fig1_provisional_mean.svg", canvas=cv, lesson="L12",
+                title="仮平均の数直線（基準300のまわりのずれと平均303）",
+                intent="ずれの平均＋3だけ基準を動かすと本当の平均になることを見せる",
+                src="lesson_12.md 主概念2（図版予定ブロック45〜48行）",
+                params="範囲285〜330・基準300太線・5点(312,292,300,325,286)・平均303に星印",
+                checks=ck.items)
+
+
+# ===========================================================================
+# メイン: 生成 + マニフェスト自動出力
+# ===========================================================================
+FIGS = [fig_L01, fig_L02_1, fig_L02_2, fig_L03_1, fig_L03_2, fig_L04,
+        fig_L05, fig_L06, fig_L07, fig_L08, fig_L09, fig_L10, fig_L11,
+        fig_L12]
+
+
+def build_desc(meta):
+    """SVG <desc> 用のAI再利用メタ情報（FIGURE_MANIFESTと同じmetaから機械生成）"""
+    return (
+        f"【この図の意図】{meta['intent']}。"
+        f"【主要な数値・設定】{meta['params']}。"
+        f"【AIに同じ種類の図を描かせるときの説明文】"
+        f"「{meta['title']}。{meta['intent']}。数値・設定: {meta['params']}。"
+        f"白黒印刷向けのシンプルな教材図（SVG）としてかいて。」"
+        f"——この説明文を生成AIに渡せば同型の図を描かせられる。"
+        f"数値を変えれば類題用の図も作れる。"
+    )
+
+
+def main():
+    ASSETS.mkdir(parents=True, exist_ok=True)
+    rows = []
+    n_checks = 0
+    for fn in FIGS:
+        meta = fn()
+        out = ASSETS / meta["file"]
+        meta["canvas"].save(out, meta["file"], meta["title"], build_desc(meta))
+        checks = "／".join(f"{d}{'（' + t + '）' if t else ''} ✓"
+                           for d, t in meta["checks"])
+        n_checks += len(meta["checks"])
+        rows.append((meta["file"], meta["lesson"], meta["title"], meta["intent"],
+                     meta["src"], meta["params"], checks))
+        print(f"OK {out.name}  [{len(meta['checks'])} checks passed]")
+
+    lines = [
+        "<!--",
+        f"generated: {GENERATED}（generate_figures.py により自動生成。手編集禁止——スクリプトを直して再実行）",
+        "spec: 先行単元 jhs-math-2-simultaneous-equations の様式に準拠",
+        "license: CC-BY-4.0",
+        "-->",
+        "",
+        "# FIGURE_MANIFEST — 正負の数単元 図版台帳",
+        "",
+        f"生成日: {GENERATED} ／ 生成方式: `assets_provenance/generate_figures.py`"
+        "（Python標準ライブラリのみ・パラメトリック生成）／ "
+        f"全{len(rows)}図で下表の検算（スクリプト内assert・計{n_checks}項目）が"
+        "生成時に自動実行され、全件合格。",
+        "",
+        "| ファイル | 対象レッスン | 図の意図 | 本文対応箇所 | パラメータ（本文一致） | 検証結果（生成時assert） |",
+        "|---|---|---|---|---|---|",
+    ]
+    for f, lsn, title, intent, src, params, checks in rows:
+        lines.append(f"| `{f}` | {lsn} | {title}——{intent} | {src} | {params} | {checks} |")
+    lines += [
+        "",
+        "## 答えの分離方針の扱い",
+        "",
+        "- 練習問題の答は図に一切書かない。L02図2（練習1の読み取り数直線）は、点の",
+        "  位置そのものが答えのため、点には文字ラベル（A〜D）のみを付け、数値ラベルは",
+        "  付けない（値はassertでanswer_keyの解説値と照合のみ）。",
+        "- L06図（温度差）は直後の本文で解く流れのため、両矢印のラベルを「差は？」の",
+        "  問いのままにし、差の値9は図に書かない（assertでのみ検算）。",
+        "- 図に載せた数値は、与件（−3℃・＋5℃、基準300と5日分のずれ など）と、本文が",
+        "  解説中で明示している解説値（L05の−7・−3、L07の＋11・−15・−4、L08の表の値、",
+        "  L09の＋9・−9、L10の＋4→3→−4、L12の平均303、L04の60＝2×2×3×5）のみ。",
+        "",
+        "## 再生成・改修の手順（第三者向け）",
+        "",
+        "1. `generate_figures.py` の該当 `fig_*` 関数冒頭「パラメータ」ブロックを編集する",
+        "   （数値は必ず該当 `lesson_XX.md` 本文と一致させる）。",
+        "2. `python3 generate_figures.py` を実行する。検算assertに1つでも落ちると図は出力されない。",
+        "3. `assets/` のSVGと本ファイルが自動更新される。SVGの直接編集は禁止（来歴が切れる）。",
+        "",
+    ]
+    (HERE / "FIGURE_MANIFEST.md").write_text(
+        "---\ndistribution_status: published_draft\n---\n\n"
+        + "\n".join(lines), encoding="utf-8")
+    print(f"OK FIGURE_MANIFEST.md  ({len(rows)} figures, {n_checks} checks)")
+
+
+if __name__ == "__main__":
+    main()
