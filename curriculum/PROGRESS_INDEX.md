@@ -40,8 +40,8 @@
 | 状態 | 件数 |
 |---|---|
 | 公開済 | · |
-| 人間レビュー済 | 28 |
-| 外部レビュー済 | 13 |
+| 人間レビュー済 | 37 |
+| 外部レビュー済 | 4 |
 | QA済 | · |
 | ドラフト | 3 |
 | 調査済 | 2 |
@@ -52,12 +52,12 @@
 
 | 科目 | 公開済 | 人間レビュー済 | 外部レビュー済 | QA済 | ドラフト | 調査済 | 未着手 | 計 |
 |---|---|---|---|---|---|---|---|---|
-| 数学 | · | 28 | 9 | · | 3 | · | 25 | 65 |
+| 数学 | · | 37 | · | · | 3 | · | 25 | 65 |
 | 英語 | · | · | 1 | · | · | · | 47 | 48 |
 | 国語 | · | · | 1 | · | · | 1 | 44 | 46 |
 | 理科 | · | · | 1 | · | · | · | 144 | 145 |
 | 社会 | · | · | 1 | · | · | 1 | 131 | 133 |
-| **計** | · | **28** | **13** | · | **3** | **2** | **391** | **437** |
+| **計** | · | **37** | **4** | · | **3** | **2** | **391** | **437** |
 
 ## 公開コア（public_core）
 
@@ -94,18 +94,18 @@
 | 中2 | 三角形の合同条件と基本性質 | `jhs-math-2-congruence-and-proof--triangle-congruence` | **人間レビュー済** |
 | 中2 | 単項式・多項式の計算 | `jhs-math-2-expression-calculation--polynomial-calculation` | **人間レビュー済** |
 | 中2 | 文字式による説明 | `jhs-math-2-expression-calculation--proof-by-expression` | **人間レビュー済** |
-| 中2 | 一次関数 | `jhs-math-2-linear-function` | **外部レビュー済** |
+| 中2 | 一次関数 | `jhs-math-2-linear-function` | **人間レビュー済** |
 | 中2 | 確率 | `jhs-math-2-probability` | **人間レビュー済** |
 | 中2 | 四分位範囲と箱ひげ図 | `jhs-math-2-quartiles-boxplot` | **人間レビュー済** |
 | 中2 | 連立方程式 | `jhs-math-2-simultaneous-equations` | **人間レビュー済** |
-| 中3 | 展開と因数分解 | `jhs-math-3-expansion-factorization` | **外部レビュー済** |
-| 中3 | 関数 y=ax² | `jhs-math-3-function-y-ax2` | **外部レビュー済** |
-| 中3 | 円周角の定理 | `jhs-math-3-inscribed-angle` | **外部レビュー済** |
-| 中3 | 三平方の定理 | `jhs-math-3-pythagorean-theorem` | **外部レビュー済** |
-| 中3 | 二次方程式 | `jhs-math-3-quadratic-equations` | **外部レビュー済** |
-| 中3 | 標本調査 | `jhs-math-3-sampling-survey` | **外部レビュー済** |
-| 中3 | 相似な図形 | `jhs-math-3-similar-figures` | **外部レビュー済** |
-| 中3 | 平方根 | `jhs-math-3-square-roots` | **外部レビュー済** |
+| 中3 | 展開と因数分解 | `jhs-math-3-expansion-factorization` | **人間レビュー済** |
+| 中3 | 関数 y=ax² | `jhs-math-3-function-y-ax2` | **人間レビュー済** |
+| 中3 | 円周角の定理 | `jhs-math-3-inscribed-angle` | **人間レビュー済** |
+| 中3 | 三平方の定理 | `jhs-math-3-pythagorean-theorem` | **人間レビュー済** |
+| 中3 | 二次方程式 | `jhs-math-3-quadratic-equations` | **人間レビュー済** |
+| 中3 | 標本調査 | `jhs-math-3-sampling-survey` | **人間レビュー済** |
+| 中3 | 相似な図形 | `jhs-math-3-similar-figures` | **人間レビュー済** |
+| 中3 | 平方根 | `jhs-math-3-square-roots` | **人間レビュー済** |
 
 #### 英語（29単元）
 
@@ -822,18 +822,18 @@
 | `jhs-math-2-congruence-and-proof--triangle-congruence` | 三角形の合同条件と基本性質 | 数学 | 中2 | 公開コア | **人間レビュー済** |
 | `jhs-math-2-expression-calculation--polynomial-calculation` | 単項式・多項式の計算 | 数学 | 中2 | 公開コア | **人間レビュー済** |
 | `jhs-math-2-expression-calculation--proof-by-expression` | 文字式による説明 | 数学 | 中2 | 公開コア | **人間レビュー済** |
-| `jhs-math-2-linear-function` | 一次関数 | 数学 | 中2 | 公開コア | **外部レビュー済** |
+| `jhs-math-2-linear-function` | 一次関数 | 数学 | 中2 | 公開コア | **人間レビュー済** |
 | `jhs-math-2-probability` | 確率 | 数学 | 中2 | 公開コア | **人間レビュー済** |
 | `jhs-math-2-quartiles-boxplot` | 四分位範囲と箱ひげ図 | 数学 | 中2 | 公開コア | **人間レビュー済** |
 | `jhs-math-2-simultaneous-equations` | 連立方程式 | 数学 | 中2 | 公開コア | **人間レビュー済** |
-| `jhs-math-3-expansion-factorization` | 展開と因数分解 | 数学 | 中3 | 公開コア | **外部レビュー済** |
-| `jhs-math-3-function-y-ax2` | 関数 y=ax² | 数学 | 中3 | 公開コア | **外部レビュー済** |
-| `jhs-math-3-inscribed-angle` | 円周角の定理 | 数学 | 中3 | 公開コア | **外部レビュー済** |
-| `jhs-math-3-pythagorean-theorem` | 三平方の定理 | 数学 | 中3 | 公開コア | **外部レビュー済** |
-| `jhs-math-3-quadratic-equations` | 二次方程式 | 数学 | 中3 | 公開コア | **外部レビュー済** |
-| `jhs-math-3-sampling-survey` | 標本調査 | 数学 | 中3 | 公開コア | **外部レビュー済** |
-| `jhs-math-3-similar-figures` | 相似な図形 | 数学 | 中3 | 公開コア | **外部レビュー済** |
-| `jhs-math-3-square-roots` | 平方根 | 数学 | 中3 | 公開コア | **外部レビュー済** |
+| `jhs-math-3-expansion-factorization` | 展開と因数分解 | 数学 | 中3 | 公開コア | **人間レビュー済** |
+| `jhs-math-3-function-y-ax2` | 関数 y=ax² | 数学 | 中3 | 公開コア | **人間レビュー済** |
+| `jhs-math-3-inscribed-angle` | 円周角の定理 | 数学 | 中3 | 公開コア | **人間レビュー済** |
+| `jhs-math-3-pythagorean-theorem` | 三平方の定理 | 数学 | 中3 | 公開コア | **人間レビュー済** |
+| `jhs-math-3-quadratic-equations` | 二次方程式 | 数学 | 中3 | 公開コア | **人間レビュー済** |
+| `jhs-math-3-sampling-survey` | 標本調査 | 数学 | 中3 | 公開コア | **人間レビュー済** |
+| `jhs-math-3-similar-figures` | 相似な図形 | 数学 | 中3 | 公開コア | **人間レビュー済** |
+| `jhs-math-3-square-roots` | 平方根 | 数学 | 中3 | 公開コア | **人間レビュー済** |
 | `jhs-sci-1-animal-classification` | 動物の分類 | 理科 | 中1 | 公開コア | **未着手** |
 | `jhs-sci-1-aqueous-solutions--concentration` | 水溶液の濃度 | 理科 | 中1 | 公開コア | **未着手** |
 | `jhs-sci-1-aqueous-solutions--solubility` | 溶解と溶解度 | 理科 | 中1 | 公開コア | **未着手** |

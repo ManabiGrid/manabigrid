@@ -46,20 +46,20 @@
 | `jhs-math-2-expression-calculation--polynomial-calculation` | 単項式・多項式の計算 | 中2 | 人間レビュー済 | 親成果物（10レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
 | `jhs-math-2-expression-calculation--proof-by-expression` | 文字式による説明 | 中2 | 人間レビュー済 | 親成果物（10レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
 | `jhs-math-2-simultaneous-equations` | 連立方程式 | 中2 | 人間レビュー済 | 人間レビュー（現役塾講師による通読）完了 2026-07-19 |
-| `jhs-math-2-linear-function` | 一次関数 | 中2 | 外部レビュー済 | 初期制作単元（Run A）・外部批判レビュー（GPT-5.6 Pro・指摘18件の全件裁定と限定修正）完了 2026-07-19 |
+| `jhs-math-2-linear-function` | 一次関数 | 中2 | 人間レビュー済 | 初期制作単元（Run A）・外部批判レビュー（GPT-5.6 Pro・指摘18件の全件裁定と限定修正）完了 2026-07-19・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
 | `jhs-math-2-congruence-and-proof--isosceles-parallelogram` | 二等辺三角形・平行四辺形の性質と証明 | 中2 | 人間レビュー済 | 親成果物（16レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
 | `jhs-math-2-congruence-and-proof--proof` | 証明のしくみと書き方 | 中2 | 人間レビュー済 | 親成果物（16レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
 | `jhs-math-2-congruence-and-proof--triangle-congruence` | 三角形の合同条件と基本性質 | 中2 | 人間レビュー済 | 親成果物（16レッスン）参照・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
 | `jhs-math-2-quartiles-boxplot` | 四分位範囲と箱ひげ図 | 中2 | 人間レビュー済 | 人間レビュー（現役塾講師による通読）完了 2026-07-19 |
 | `jhs-math-2-probability` | 確率 | 中2 | 人間レビュー済 | レッスン数が推奨粒度を超えるため将来の分割候補（例外として現行維持）・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
-| `jhs-math-3-expansion-factorization` | 展開と因数分解 | 中3 | 外部レビュー済 | 将来の分割候補（粒度の見直し予定） |
-| `jhs-math-3-square-roots` | 平方根 | 中3 | 外部レビュー済 | 将来の分割候補（粒度の見直し予定） |
-| `jhs-math-3-quadratic-equations` | 二次方程式 | 中3 | 外部レビュー済 | 将来の分割候補（粒度の見直し予定） |
-| `jhs-math-3-function-y-ax2` | 関数 y=ax² | 中3 | 外部レビュー済 | 将来の分割候補（粒度の見直し予定） |
-| `jhs-math-3-similar-figures` | 相似な図形 | 中3 | 外部レビュー済 | 将来の分割候補（粒度の見直し予定） |
-| `jhs-math-3-inscribed-angle` | 円周角の定理 | 中3 | 外部レビュー済 |  |
-| `jhs-math-3-pythagorean-theorem` | 三平方の定理 | 中3 | 外部レビュー済 | 将来の分割候補（粒度の見直し予定） |
-| `jhs-math-3-sampling-survey` | 標本調査 | 中3 | 外部レビュー済 |  |
+| `jhs-math-3-expansion-factorization` | 展開と因数分解 | 中3 | 人間レビュー済 | 将来の分割候補（粒度の見直し予定）・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
+| `jhs-math-3-square-roots` | 平方根 | 中3 | 人間レビュー済 | 将来の分割候補（粒度の見直し予定）・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
+| `jhs-math-3-quadratic-equations` | 二次方程式 | 中3 | 人間レビュー済 | 将来の分割候補（粒度の見直し予定）・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
+| `jhs-math-3-function-y-ax2` | 関数 y=ax² | 中3 | 人間レビュー済 | 将来の分割候補（粒度の見直し予定）・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
+| `jhs-math-3-similar-figures` | 相似な図形 | 中3 | 人間レビュー済 | 将来の分割候補（粒度の見直し予定）・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
+| `jhs-math-3-inscribed-angle` | 円周角の定理 | 中3 | 人間レビュー済 | 人間レビュー（現役塾講師による通読）完了 2026-07-19 |
+| `jhs-math-3-pythagorean-theorem` | 三平方の定理 | 中3 | 人間レビュー済 | 将来の分割候補（粒度の見直し予定）・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
+| `jhs-math-3-sampling-survey` | 標本調査 | 中3 | 人間レビュー済 | 人間レビュー（現役塾講師による通読）完了 2026-07-19 |
 | `hs-math-i-numbers-and-expressions--inequalities` | 一次不等式 | 高校 数学Ⅰ | 未着手 |  |
 | `hs-math-i-numbers-and-expressions--polynomial-expansion-factorization` | 多項式の展開と因数分解 | 高校 数学Ⅰ | 未着手 |  |
 | `hs-math-i-numbers-and-expressions--real-numbers` | 数の体系と実数・根号 | 高校 数学Ⅰ | 未着手 |  |
