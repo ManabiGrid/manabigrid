@@ -3,7 +3,7 @@
 > このファイルは `tools/progress_index/build_progress_index.py` により `curriculum/registry/` の単元レジストリから自動生成されている。直接編集せず、レジストリを更新してから再生成すること。
 
 - 生成元: `curriculum/registry/`（本ファイルはレジストリの内容だけから決定的に生成される——同一レジストリなら常にバイト一致）
-- 対象: 単元 437 件＋科目モジュール 40 件（診断・巻末資料）
+- 対象: 単元 437 件＋科目モジュール 41 件（診断・巻末資料）
 
 ## この表の見方
 
@@ -1009,6 +1009,7 @@
 | `hs-soc-history_comprehensive-turning-points` | 歴史総合・複数資料統合アセスメント | 社会 | 高校 歴史総合 | **未着手** |
 | `hs-soc-japanese_history_inquiry-essay-frame` | 歴史論述・因果説明スパイラルモジュール | 社会 | 高校 日本史探究 | **未着手** |
 | `jhs-eng-entry-diagnostic` | 中学英語・学び直し入口診断 | 英語 | 中学 | **未着手** |
+| `jhs-eng-entry-gate` | 英語のとびら（入口ユニット・初学者と学び直し共通） | 英語 | 中学〜 | **調査済** |
 | `jhs-eng-module-spoken-interaction` | 中学英語・やり取り方略モジュール | 英語 | 中学 | **未着手** |
 | `jhs-eng-module-writing-process` | 中学英語・ライティング過程モジュール | 英語 | 中学 | **未着手** |
 | `jhs-jpn-entry-diagnostic` | 中学国語・学び直し入口診断 | 国語 | 中学 | **未着手** |
