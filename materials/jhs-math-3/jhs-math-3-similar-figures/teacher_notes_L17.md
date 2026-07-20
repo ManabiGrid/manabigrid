@@ -62,10 +62,10 @@ license: CC-BY-4.0
 
 ### 転記数値の出典一覧（資料名・年度・指標名・URL・確認日・頁）
 
-| 資料名 | 年度 | 指標名・用途 | URL | 確認日 | 頁・箇所 |
-|---|---|---|---|---|---|
-| 全国学力・学習状況調査 報告書 中学校数学 令和4年度 | 令和4年度 | 正答率・無解答率・類型反応率（§3 代理指標=合同証明） | https://www.nier.go.jp/22chousakekkahoukoku/report/data/22mmath.pdf | 2026-07-08 | 〔頁未確認・原典照合工程で特定〕 |
-| 同 令和5年度（WARP退避版） | 令和5年度 | 同上 | https://warp.ndl.go.jp/20230814/20230801130215/https://www.nier.go.jp/23chousakekkahoukoku/report/data/23mmath.pdf | 2026-07-08 | 〔頁未確認・原典照合工程で特定〕 |
-| 同 令和6年度 | 令和6年度 | 同上 | https://www.nier.go.jp/24chousakekkahoukoku/report/data/24mmath.pdf | 2026-07-08 | 〔頁未確認・原典照合工程で特定〕 |
-| 同 令和7年度 | 令和7年度 | 同上 | https://www.nier.go.jp/25chousakekkahoukoku/report/data/25mmath.pdf | 2026-07-08 | 〔頁未確認・原典照合工程で特定〕 |
-| NIER 平成15年度教育課程実施状況調査 教科別分析と改善点（中学校・数学）／平成15年度小・中学校教育課程実施状況調査 ペーパーテスト調査集計結果 | 平成15年度 | 通過率（§3 活用文脈4問） | https://www.nier.go.jp/kaihatsu/katei_h15/H15/03001030130007004.pdf ／ https://www.nier.go.jp/kaihatsu/katei_h15/H15/03001100000007003.pdf | 2026-07-08（頁確認2026-07-16） | 集計結果=表6-17 中学校数学第3学年・掲載頁74〜76／教科別分析と改善点=中数3頁（2026-07-16原典照合） |
+| source_id | 資料名 | 年度 | 指標名・用途 | URL | 確認日 | 頁・箇所 |
+|---|---|---|---|---|---|---|
+| SRC-jhs-math-3-similar-figures-l17-01 | 全国学力・学習状況調査 報告書 中学校数学 令和4年度 | 令和4年度 | 正答率・無解答率・類型反応率（§3 代理指標=合同証明） | https://www.nier.go.jp/22chousakekkahoukoku/report/data/22mmath.pdf | 2026-07-08 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-similar-figures-l17-02 | 同 令和5年度（WARP退避版） | 令和5年度 | 同上 | https://warp.ndl.go.jp/20230814/20230801130215/https://www.nier.go.jp/23chousakekkahoukoku/report/data/23mmath.pdf | 2026-07-08 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-similar-figures-l17-03 | 同 令和6年度 | 令和6年度 | 同上 | https://www.nier.go.jp/24chousakekkahoukoku/report/data/24mmath.pdf | 2026-07-08 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-similar-figures-l17-04 | 同 令和7年度 | 令和7年度 | 同上 | https://www.nier.go.jp/25chousakekkahoukoku/report/data/25mmath.pdf | 2026-07-08 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-similar-figures-l17-05 | NIER 平成15年度教育課程実施状況調査 教科別分析と改善点（中学校・数学）／平成15年度小・中学校教育課程実施状況調査 ペーパーテスト調査集計結果 | 平成15年度 | 通過率（§3 活用文脈4問） | https://www.nier.go.jp/kaihatsu/katei_h15/H15/03001030130007004.pdf ／ https://www.nier.go.jp/kaihatsu/katei_h15/H15/03001100000007003.pdf | 2026-07-08（頁確認2026-07-16） | 集計結果=表6-17 中学校数学第3学年・掲載頁74〜76／教科別分析と改善点=中数3頁（2026-07-16原典照合） |

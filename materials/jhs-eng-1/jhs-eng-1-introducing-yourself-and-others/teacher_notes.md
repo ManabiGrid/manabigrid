@@ -79,7 +79,7 @@ license: CC-BY-4.0
 
 ### 転記数値の出典一覧（資料名・年度・指標名・URL・確認日・頁）
 
-| 資料名 | 年度 | 指標名・用途 | URL | 確認日 | 頁・箇所 |
-|---|---|---|---|---|---|
-| 全国学力・学習状況調査 報告書 中学校英語 平成31年度（令和元年度） | 平成31年度 | 正答率・類型反応率（§1 A/B/D分類） | https://warp.ndl.go.jp/20250911/20250901142927/https://www.nier.go.jp/19chousakekkahoukoku/report/data/19meng.pdf | 2026-07-08 | 〔頁未確認・原典照合工程で特定〕（NDL WARP経由・12.3MB版） |
-| 同 令和5年度（概要／全体版） | 令和5年度 | 正答率・類型反応率・採点例（§1 C分類・§2 準正答の線引き） | https://www.nier.go.jp/23chousakekkahoukoku/report/data/23meng_02_k.pdf ／ https://www.nier.go.jp/23chousakekkahoukoku/report/data/23meng_k.pdf | 2026-07-08 | 〔頁未確認・原典照合工程で特定〕 |
+| source_id | 資料名 | 年度 | 指標名・用途 | URL | 確認日 | 頁・箇所 |
+|---|---|---|---|---|---|---|
+| SRC-jhs-eng-1-introducing-yourself-and-others-main-01 | 全国学力・学習状況調査 報告書 中学校英語 平成31年度（令和元年度） | 平成31年度 | 正答率・類型反応率（§1 A/B/D分類） | https://warp.ndl.go.jp/20250911/20250901142927/https://www.nier.go.jp/19chousakekkahoukoku/report/data/19meng.pdf | 2026-07-08 | 〔頁未確認・原典照合工程で特定〕（NDL WARP経由・12.3MB版） |
+| SRC-jhs-eng-1-introducing-yourself-and-others-main-02 | 同 令和5年度（概要／全体版） | 令和5年度 | 正答率・類型反応率・採点例（§1 C分類・§2 準正答の線引き） | https://www.nier.go.jp/23chousakekkahoukoku/report/data/23meng_02_k.pdf ／ https://www.nier.go.jp/23chousakekkahoukoku/report/data/23meng_k.pdf | 2026-07-08 | 〔頁未確認・原典照合工程で特定〕 |

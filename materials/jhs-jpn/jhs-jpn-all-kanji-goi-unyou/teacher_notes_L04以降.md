@@ -79,7 +79,7 @@ L1〜L3が「手続きの習得（選択中心〜部分書字）」、L4〜L7は
 
 ### 転記数値の出典一覧（資料名・年度・指標名・URL・確認日・頁）
 
-| 資料名 | 年度 | 指標名・用途 | URL | 確認日 | 頁・箇所 |
-|---|---|---|---|---|---|
-| 全国学力・学習状況調査 報告書 中学校国語 令和5年度 | 令和5年度 | 正答率（§2 44.5%・91.3%——いずれも1問の値） | https://www.nier.go.jp/23chousakekkahoukoku/report/data/23mlang_k_1.pdf | 2026-07-08 | 〔頁未確認・原典照合工程で特定〕 |
-| 同 令和7年度 | 令和7年度 | 正答率・指導提言（§2 35.7%——1問の値） | https://www.nier.go.jp/25chousakekkahoukoku/report/data/25mlang.pdf | 2026-07-08 | 〔頁未確認・原典照合工程で特定〕 |
+| source_id | 資料名 | 年度 | 指標名・用途 | URL | 確認日 | 頁・箇所 |
+|---|---|---|---|---|---|---|
+| SRC-jhs-jpn-all-kanji-goi-unyou-l04-01 | 全国学力・学習状況調査 報告書 中学校国語 令和5年度 | 令和5年度 | 正答率（§2 44.5%・91.3%——いずれも1問の値） | https://www.nier.go.jp/23chousakekkahoukoku/report/data/23mlang_k_1.pdf | 2026-07-08 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-jpn-all-kanji-goi-unyou-l04-02 | 同 令和7年度 | 令和7年度 | 正答率・指導提言（§2 35.7%——1問の値） | https://www.nier.go.jp/25chousakekkahoukoku/report/data/25mlang.pdf | 2026-07-08 | 〔頁未確認・原典照合工程で特定〕 |

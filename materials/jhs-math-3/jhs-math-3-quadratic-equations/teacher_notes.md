@@ -197,15 +197,15 @@ license: CC-BY-4.0
 
 ### 転記数値の出典一覧（資料名・年度・指標名・URL・確認日・頁）
 
-| 資料名 | 年度 | 指標名・用途 | URL | 確認日 | 頁・箇所 |
-|---|---|---|---|---|---|
-| NIER 平成15年度小・中学校教育課程実施状況調査 ペーパーテスト調査集計結果（中3数学） | 平成15年度 | 通過率（設定通過率併記・A-2の9問） | https://www.nier.go.jp/kaihatsu/katei_h15/H15/03001100000007003.pdf | 2026-07-11（頁確認2026-07-16） | 表6-17 中学校数学第3学年・掲載頁74〜76（2026-07-16原典照合） |
-| NIER 同調査 教科別分析と改善点（中学校・数学） | 平成15年度 | 総括・指導改善文言（A-2） | https://www.nier.go.jp/kaihatsu/katei_h15/H15/03001030130007004.pdf | 2026-07-11（頁確認2026-07-16） | 中数1・3・7〜8頁（総括=中数1・3／意識ギャップ・有用感・指導改善=中数7〜8・2026-07-16原典照合） |
-| NIER 特定の課題に関する調査（算数・数学）調査結果 | 2005年1月実施・2006年7月公表 | 原文引用形の値（A-3） | https://www.nier.go.jp/kaihatsu/tokutei/04002030200004000.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| 全国学力・学習状況調査 報告書 中学校数学 令和4年度 | 令和4年度 | 二次方程式出題0件の確認（A-0） | https://www.nier.go.jp/22chousakekkahoukoku/report/data/22mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| 同 令和5年度 | 令和5年度 | 同上 | https://www.nier.go.jp/23chousakekkahoukoku/report/data/23mmath_k.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| 同 令和6年度 | 令和6年度 | 同上 | https://www.nier.go.jp/24chousakekkahoukoku/report/data/24mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| 同 令和7年度 | 令和7年度 | 同上 | https://www.nier.go.jp/25chousakekkahoukoku/report/data/25mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| NIER 学習評価参考資料 中学校数学（事例4） | 令和2年3月 | 評価規準・事例の文言（A-6・A-12） | https://www.nier.go.jp/kaihatsu/pdf/hyouka/r020326_mid_sansu.pdf | 2026-07-11（頁確認2026-07-16） | 評価規準（例）３Ａ(3)=p.86・事例4=p.68〜（開始頁実測・2026-07-16原典照合） |
-| 中学校学習指導要領（平成10年告示）第2章第3節数学 | 平成10年告示 | 解の公式不扱いの明文（A-10） | https://erid.nier.go.jp/files/COFS/h10j/chap2-3.htm | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| 中学校学習指導要領（平成20年告示）第2章第3節数学 | 平成20年告示 | 解の公式復帰の明文（A-10） | https://www.mext.go.jp/a_menu/shotou/new-cs/youryou/chu/su.htm | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| source_id | 資料名 | 年度 | 指標名・用途 | URL | 確認日 | 頁・箇所 |
+|---|---|---|---|---|---|---|
+| SRC-jhs-math-3-quadratic-equations-main-01 | NIER 平成15年度小・中学校教育課程実施状況調査 ペーパーテスト調査集計結果（中3数学） | 平成15年度 | 通過率（設定通過率併記・A-2の9問） | https://www.nier.go.jp/kaihatsu/katei_h15/H15/03001100000007003.pdf | 2026-07-11（頁確認2026-07-16） | 表6-17 中学校数学第3学年・掲載頁74〜76（2026-07-16原典照合） |
+| SRC-jhs-math-3-quadratic-equations-main-02 | NIER 同調査 教科別分析と改善点（中学校・数学） | 平成15年度 | 総括・指導改善文言（A-2） | https://www.nier.go.jp/kaihatsu/katei_h15/H15/03001030130007004.pdf | 2026-07-11（頁確認2026-07-16） | 中数1・3・7〜8頁（総括=中数1・3／意識ギャップ・有用感・指導改善=中数7〜8・2026-07-16原典照合） |
+| SRC-jhs-math-3-quadratic-equations-main-03 | NIER 特定の課題に関する調査（算数・数学）調査結果 | 2005年1月実施・2006年7月公表 | 原文引用形の値（A-3） | https://www.nier.go.jp/kaihatsu/tokutei/04002030200004000.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-quadratic-equations-main-04 | 全国学力・学習状況調査 報告書 中学校数学 令和4年度 | 令和4年度 | 二次方程式出題0件の確認（A-0） | https://www.nier.go.jp/22chousakekkahoukoku/report/data/22mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-quadratic-equations-main-05 | 同 令和5年度 | 令和5年度 | 同上 | https://www.nier.go.jp/23chousakekkahoukoku/report/data/23mmath_k.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-quadratic-equations-main-06 | 同 令和6年度 | 令和6年度 | 同上 | https://www.nier.go.jp/24chousakekkahoukoku/report/data/24mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-quadratic-equations-main-07 | 同 令和7年度 | 令和7年度 | 同上 | https://www.nier.go.jp/25chousakekkahoukoku/report/data/25mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-quadratic-equations-main-08 | NIER 学習評価参考資料 中学校数学（事例4） | 令和2年3月 | 評価規準・事例の文言（A-6・A-12） | https://www.nier.go.jp/kaihatsu/pdf/hyouka/r020326_mid_sansu.pdf | 2026-07-11（頁確認2026-07-16） | 評価規準（例）３Ａ(3)=p.86・事例4=p.68〜（開始頁実測・2026-07-16原典照合） |
+| SRC-jhs-math-3-quadratic-equations-main-09 | 中学校学習指導要領（平成10年告示）第2章第3節数学 | 平成10年告示 | 解の公式不扱いの明文（A-10） | https://erid.nier.go.jp/files/COFS/h10j/chap2-3.htm | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-quadratic-equations-main-10 | 中学校学習指導要領（平成20年告示）第2章第3節数学 | 平成20年告示 | 解の公式復帰の明文（A-10） | https://www.mext.go.jp/a_menu/shotou/new-cs/youryou/chu/su.htm | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |

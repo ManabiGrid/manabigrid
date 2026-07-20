@@ -150,17 +150,17 @@ license: CC-BY-4.0
 
 ### 転記数値の出典一覧（資料名・年度・指標名・URL・確認日・頁）
 
-| 資料名 | 年度 | 指標名・用途 | URL | 確認日 | 頁・箇所 |
-|---|---|---|---|---|---|
-| NIER 平成15年度小・中学校教育課程実施状況調査 ペーパーテスト調査集計結果（中3数学） | 平成15年度 | 通過率（A-1の11問） | https://www.nier.go.jp/kaihatsu/katei_h15/H15/03001100000007003.pdf | 2026-07-11（頁確認2026-07-16） | 表6-17 中学校数学第3学年・掲載頁74〜76（2026-07-16原典照合） |
-| NIER 同調査 教科別分析と改善点（中学校・数学） | 平成15年度 | 総括・指導改善・質問紙の文言（A-1・A-5） | https://www.nier.go.jp/kaihatsu/katei_h15/H15/03001030130007004.pdf | 2026-07-11（頁確認2026-07-16） | 中数3・7〜8・10頁（総括=中数3／質問紙=中数7〜8／関数総括=中数10・2026-07-16原典照合） |
-| NIER 特定の課題に関する調査（算数・数学）調査結果 | 2005年1月実施・2006年7月公表 | 水槽の問題の通過率・類型（A-3） | https://www.nier.go.jp/kaihatsu/tokutei/04002030200004000.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| 全国学力・学習状況調査 報告書 中学校数学 令和3年度（Internet Archive経由・72頁版） | 令和3年度 | 正答率・類型（A-2 関数の意味48.4%） | https://web.archive.org/web/20210831121724id_/https://www.nier.go.jp/21chousakekkahoukoku/report/data/21mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| 同 令和4年度 | 令和4年度 | 正答率・類型（A-2 変化の割合38.7%） | https://www.nier.go.jp/22chousakekkahoukoku/report/data/22mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| 同 平成29年度（WARP経由） | 平成29年度 | 正答率（A-2 A9=21.1%・A11(2)=56.4%） | https://warp.ndl.go.jp/20251213/20251203151903/https://www.nier.go.jp/17chousakekkahoukoku/report/data/17mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| 同 令和5年度 | 令和5年度 | y=ax²出題0件の確認 | https://www.nier.go.jp/23chousakekkahoukoku/report/data/23mmath_k.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| 同 令和6年度 | 令和6年度 | 同上 | https://www.nier.go.jp/24chousakekkahoukoku/report/data/24mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| 同 令和7年度 | 令和7年度 | 同上・一次関数変化の割合設問の存在確認 | https://www.nier.go.jp/25chousakekkahoukoku/report/data/25mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| NIER 学習評価参考資料 中学校数学 | 令和2年3月 | 評価規準例・単元事例なしの確認（B-3） | https://www.nier.go.jp/kaihatsu/pdf/hyouka/r020326_mid_sansu.pdf | 2026-07-11（頁確認2026-07-16） | 評価規準（例）３Ｃ(1)=p.88（単元事例なしの確認は資料全体・2026-07-16原典照合） |
-| 中学校学習指導要領（平成10年告示）第2章第3節数学 | 平成10年告示 | 課程史の明文（B-4） | https://erid.nier.go.jp/files/COFS/h10j/chap2-3.htm | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| 中学校学習指導要領（平成20年告示）第2章第3節数学 | 平成20年告示 | 同上 | https://www.mext.go.jp/a_menu/shotou/new-cs/youryou/chu/su.htm | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| source_id | 資料名 | 年度 | 指標名・用途 | URL | 確認日 | 頁・箇所 |
+|---|---|---|---|---|---|---|
+| SRC-jhs-math-3-function-y-ax2-main-01 | NIER 平成15年度小・中学校教育課程実施状況調査 ペーパーテスト調査集計結果（中3数学） | 平成15年度 | 通過率（A-1の11問） | https://www.nier.go.jp/kaihatsu/katei_h15/H15/03001100000007003.pdf | 2026-07-11（頁確認2026-07-16） | 表6-17 中学校数学第3学年・掲載頁74〜76（2026-07-16原典照合） |
+| SRC-jhs-math-3-function-y-ax2-main-02 | NIER 同調査 教科別分析と改善点（中学校・数学） | 平成15年度 | 総括・指導改善・質問紙の文言（A-1・A-5） | https://www.nier.go.jp/kaihatsu/katei_h15/H15/03001030130007004.pdf | 2026-07-11（頁確認2026-07-16） | 中数3・7〜8・10頁（総括=中数3／質問紙=中数7〜8／関数総括=中数10・2026-07-16原典照合） |
+| SRC-jhs-math-3-function-y-ax2-main-03 | NIER 特定の課題に関する調査（算数・数学）調査結果 | 2005年1月実施・2006年7月公表 | 水槽の問題の通過率・類型（A-3） | https://www.nier.go.jp/kaihatsu/tokutei/04002030200004000.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-function-y-ax2-main-04 | 全国学力・学習状況調査 報告書 中学校数学 令和3年度（Internet Archive経由・72頁版） | 令和3年度 | 正答率・類型（A-2 関数の意味48.4%） | https://web.archive.org/web/20210831121724id_/https://www.nier.go.jp/21chousakekkahoukoku/report/data/21mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-function-y-ax2-main-05 | 同 令和4年度 | 令和4年度 | 正答率・類型（A-2 変化の割合38.7%） | https://www.nier.go.jp/22chousakekkahoukoku/report/data/22mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-function-y-ax2-main-06 | 同 平成29年度（WARP経由） | 平成29年度 | 正答率（A-2 A9=21.1%・A11(2)=56.4%） | https://warp.ndl.go.jp/20251213/20251203151903/https://www.nier.go.jp/17chousakekkahoukoku/report/data/17mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-function-y-ax2-main-07 | 同 令和5年度 | 令和5年度 | y=ax²出題0件の確認 | https://www.nier.go.jp/23chousakekkahoukoku/report/data/23mmath_k.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-function-y-ax2-main-08 | 同 令和6年度 | 令和6年度 | 同上 | https://www.nier.go.jp/24chousakekkahoukoku/report/data/24mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-function-y-ax2-main-09 | 同 令和7年度 | 令和7年度 | 同上・一次関数変化の割合設問の存在確認 | https://www.nier.go.jp/25chousakekkahoukoku/report/data/25mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-function-y-ax2-main-10 | NIER 学習評価参考資料 中学校数学 | 令和2年3月 | 評価規準例・単元事例なしの確認（B-3） | https://www.nier.go.jp/kaihatsu/pdf/hyouka/r020326_mid_sansu.pdf | 2026-07-11（頁確認2026-07-16） | 評価規準（例）３Ｃ(1)=p.88（単元事例なしの確認は資料全体・2026-07-16原典照合） |
+| SRC-jhs-math-3-function-y-ax2-main-11 | 中学校学習指導要領（平成10年告示）第2章第3節数学 | 平成10年告示 | 課程史の明文（B-4） | https://erid.nier.go.jp/files/COFS/h10j/chap2-3.htm | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-function-y-ax2-main-12 | 中学校学習指導要領（平成20年告示）第2章第3節数学 | 平成20年告示 | 同上 | https://www.mext.go.jp/a_menu/shotou/new-cs/youryou/chu/su.htm | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |

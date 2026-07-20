@@ -26,6 +26,11 @@
          CJK約物の直後に置かれ閉じ側に来る `**`（例: `…重要。**次` のように
          約物のあとで閉じられず literal 化するパターン）を正規表現で検出する。
      どちらの経路でも、現状の materials は 0 件で pass する。
+  8. source_id 検査 — materials/ の出典表（先頭列 source_id）の全IDについて
+     ①書式妥当性（docs/SPEC_source_id.md §2 の正規表現）と②同一ファイル内一意性を
+     検査し、違反で fail。③本文（materials/ の .md・コード外）の `[[SRC-...]]`
+     参照が、どの出典表にも実在しないIDを指す場合のみ fail（実在IDへの参照・参照ゼロは
+     OK＝back-referenceは段階導入のため）。現状は本文参照0件で pass する。
 """
 from __future__ import annotations
 
@@ -410,16 +415,89 @@ def check_emphasis_exposure() -> list[str]:
     return problems
 
 
+# ---- 8. source_id 検査（出典表IDの書式・一意性・本文参照実在）--------------
+
+SOURCE_ID_RE = re.compile(r"^SRC-[a-z0-9]+(?:-[a-z0-9]+)*-[0-9]{2,}$")
+SOURCE_REF_RE = re.compile(r"\[\[\s*(SRC-[^\]\s|]+)\s*\]\]")
+
+
+def _iter_materials_md():
+    for path in iter_repo_files((".md",)):
+        if str(path.relative_to(REPO)).startswith("materials/"):
+            yield path
+
+
+def _row_cells(row: str) -> list[str]:
+    body = row.strip()
+    if body.startswith("|"):
+        body = body[1:]
+    if body.endswith("|"):
+        body = body[:-1]
+    return [c.strip() for c in body.split("|")]
+
+
+def _extract_source_ids(text: str) -> list[str]:
+    """出典表（先頭セルが source_id の表）のデータ行から先頭セル値を返す。"""
+    ids: list[str] = []
+    lines = text.split("\n")
+    i = 0
+    n = len(lines)
+    while i < n:
+        line = lines[i]
+        if line.lstrip().startswith("|") and _row_cells(line)[:1] == ["source_id"]:
+            # ヘッダ行を検出。次行は区切り行（--- のみ）なので飛ばし、以降のデータ行を収集。
+            j = i + 1
+            if j < n and lines[j].lstrip().startswith("|"):
+                j += 1  # 区切り行
+            while j < n and lines[j].lstrip().startswith("|"):
+                cells = _row_cells(lines[j])
+                if cells:
+                    ids.append(cells[0])
+                j += 1
+            i = j
+            continue
+        i += 1
+    return ids
+
+
+def check_source_ids() -> list[str]:
+    problems: list[str] = []
+    all_ids: set[str] = set()
+    for path in _iter_materials_md():
+        rel = path.relative_to(REPO)
+        text = path.read_text(encoding="utf-8", errors="replace")
+        ids = _extract_source_ids(text)
+        seen: set[str] = set()
+        for sid in ids:
+            if not SOURCE_ID_RE.match(sid):
+                problems.append(f"{rel}: source_id の書式が不正 → {sid!r}")
+            if sid in seen:
+                problems.append(f"{rel}: source_id がファイル内で重複 → {sid}")
+            seen.add(sid)
+        all_ids.update(ids)
+    # 本文の [[SRC-...]] 参照が実在IDを指すか（コード内は対象外・実在検査のみ）
+    for path in _iter_materials_md():
+        rel = path.relative_to(REPO)
+        text = path.read_text(encoding="utf-8", errors="replace")
+        stripped = INLINE_CODE_RE.sub("", FENCE_RE.sub("", text))
+        for m in SOURCE_REF_RE.finditer(stripped):
+            ref = m.group(1)
+            if ref not in all_ids:
+                problems.append(f"{rel}: 本文の [[{ref}]] 参照が実在しない source_id を指している")
+    return problems
+
+
 def main() -> int:
     failed = False
     for label, fn in (
-        ("1/7 リンク照合", check_links),
-        ("2/7 アンカー照合", check_anchors),
-        ("3/7 frontmatter検査", check_frontmatter),
-        ("4/7 ビュー生成器テスト", check_view_generator),
-        ("5/7 図版再生成検算", check_figures),
-        ("6/7 進捗一覧バイト一致", check_progress_index),
-        ("7/7 強調崩れ検査", check_emphasis_exposure),
+        ("1/8 リンク照合", check_links),
+        ("2/8 アンカー照合", check_anchors),
+        ("3/8 frontmatter検査", check_frontmatter),
+        ("4/8 ビュー生成器テスト", check_view_generator),
+        ("5/8 図版再生成検算", check_figures),
+        ("6/8 進捗一覧バイト一致", check_progress_index),
+        ("7/8 強調崩れ検査", check_emphasis_exposure),
+        ("8/8 source_id検査", check_source_ids),
     ):
         problems = fn()
         if problems:

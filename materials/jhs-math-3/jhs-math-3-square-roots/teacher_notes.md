@@ -174,14 +174,14 @@ license: CC-BY-4.0
 
 ### 転記数値の出典一覧（資料名・年度・指標名・URL・確認日・頁）
 
-| 資料名 | 年度 | 指標名・用途 | URL | 確認日 | 頁・箇所 |
-|---|---|---|---|---|---|
-| NIER 平成15年度小・中学校教育課程実施状況調査 ペーパーテスト調査集計結果（中3数学） | 平成15年度 | 通過率（設定通過率併記・A-2） | https://www.nier.go.jp/kaihatsu/katei_h15/H15/03001100000007003.pdf | 2026-07-11（頁確認2026-07-16） | 表6-17 中学校数学第3学年・掲載頁74〜76（2026-07-16原典照合） |
-| NIER 同調査 教科別分析と改善点（中学校・数学） | 平成15年度 | 総括・質問紙の文言（A-2・A-7） | https://www.nier.go.jp/kaihatsu/katei_h15/H15/03001030130007004.pdf | 2026-07-11（頁確認2026-07-16） | 中数3・7〜8頁（総括=中数3／質問紙=中数7〜8・2026-07-16原典照合） |
-| NIER 特定の課題に関する調査（算数・数学）調査結果 | 2005年実施・2006年公表 | 原文引用形の値（A-3） | https://www.nier.go.jp/kaihatsu/tokutei/04002030200004000.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| 全国学力・学習状況調査 報告書 中学校数学 令和4年度 | 令和4年度 | 平方根出題0件の確認・指導改善記述（A-0・A-8） | https://www.nier.go.jp/22chousakekkahoukoku/report/data/22mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| 同 令和5年度 | 令和5年度 | 同上 | https://www.nier.go.jp/23chousakekkahoukoku/report/data/23mmath_k.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| 同 令和6年度 | 令和6年度 | 出題0件の確認 | https://www.nier.go.jp/24chousakekkahoukoku/report/data/24mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| 同 令和7年度 | 令和7年度 | 同上 | https://www.nier.go.jp/25chousakekkahoukoku/report/data/25mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| 同 令和3年度（Internet Archive経由・72頁版） | 令和3年度 | 補助確認（完全版か未確証） | https://web.archive.org/web/20210831121724id_/https://www.nier.go.jp/21chousakekkahoukoku/report/data/21mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| NIER 学習評価参考資料 中学校数学 | 令和2年3月 | 評価規準例・単元事例不在の確認（A-9） | https://www.nier.go.jp/kaihatsu/pdf/hyouka/r020326_mid_sansu.pdf | 2026-07-11（頁確認2026-07-16） | 評価規準（例）３Ａ(1)=p.86（単元事例不在の確認は資料全体・2026-07-16原典照合） |
+| source_id | 資料名 | 年度 | 指標名・用途 | URL | 確認日 | 頁・箇所 |
+|---|---|---|---|---|---|---|
+| SRC-jhs-math-3-square-roots-main-01 | NIER 平成15年度小・中学校教育課程実施状況調査 ペーパーテスト調査集計結果（中3数学） | 平成15年度 | 通過率（設定通過率併記・A-2） | https://www.nier.go.jp/kaihatsu/katei_h15/H15/03001100000007003.pdf | 2026-07-11（頁確認2026-07-16） | 表6-17 中学校数学第3学年・掲載頁74〜76（2026-07-16原典照合） |
+| SRC-jhs-math-3-square-roots-main-02 | NIER 同調査 教科別分析と改善点（中学校・数学） | 平成15年度 | 総括・質問紙の文言（A-2・A-7） | https://www.nier.go.jp/kaihatsu/katei_h15/H15/03001030130007004.pdf | 2026-07-11（頁確認2026-07-16） | 中数3・7〜8頁（総括=中数3／質問紙=中数7〜8・2026-07-16原典照合） |
+| SRC-jhs-math-3-square-roots-main-03 | NIER 特定の課題に関する調査（算数・数学）調査結果 | 2005年実施・2006年公表 | 原文引用形の値（A-3） | https://www.nier.go.jp/kaihatsu/tokutei/04002030200004000.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-square-roots-main-04 | 全国学力・学習状況調査 報告書 中学校数学 令和4年度 | 令和4年度 | 平方根出題0件の確認・指導改善記述（A-0・A-8） | https://www.nier.go.jp/22chousakekkahoukoku/report/data/22mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-square-roots-main-05 | 同 令和5年度 | 令和5年度 | 同上 | https://www.nier.go.jp/23chousakekkahoukoku/report/data/23mmath_k.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-square-roots-main-06 | 同 令和6年度 | 令和6年度 | 出題0件の確認 | https://www.nier.go.jp/24chousakekkahoukoku/report/data/24mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-square-roots-main-07 | 同 令和7年度 | 令和7年度 | 同上 | https://www.nier.go.jp/25chousakekkahoukoku/report/data/25mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-square-roots-main-08 | 同 令和3年度（Internet Archive経由・72頁版） | 令和3年度 | 補助確認（完全版か未確証） | https://web.archive.org/web/20210831121724id_/https://www.nier.go.jp/21chousakekkahoukoku/report/data/21mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-square-roots-main-09 | NIER 学習評価参考資料 中学校数学 | 令和2年3月 | 評価規準例・単元事例不在の確認（A-9） | https://www.nier.go.jp/kaihatsu/pdf/hyouka/r020326_mid_sansu.pdf | 2026-07-11（頁確認2026-07-16） | 評価規準（例）３Ａ(1)=p.86（単元事例不在の確認は資料全体・2026-07-16原典照合） |

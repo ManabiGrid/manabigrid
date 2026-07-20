@@ -181,13 +181,13 @@ license: CC-BY-4.0
 
 ### 転記数値の出典一覧（資料名・年度・指標名・URL・確認日・頁）
 
-| 資料名 | 年度 | 指標名・用途 | URL | 確認日 | 頁・箇所 |
-|---|---|---|---|---|---|
-| 塩澤友樹「中等教育段階における生徒の標本データに基づく統計的推論の学年横断的な調査研究」日本数学教育学会誌104(11)・DOI: 10.32296/jjsme.104.11_2 | 2022年（調査は2021年実施・n=3451） | 通過率・解答類型の割合・反応率（A-2） | https://www.jstage.jst.go.jp/article/jjsme/104/11/104_2/_article/-char/ja/ | 2026-07-11 | 本文PDF精読（表の列整列確認済み） |
-| 全国学力・学習状況調査 報告書 中学校数学 令和7年度 | 令和7年度 | D領域正答率59.0%への言及（A-0・中1/中2内容）・標本調査出題0件の確認 | https://www.nier.go.jp/25chousakekkahoukoku/report/data/25mmath.pdf | 2026-07-11 | pp.11-14（-layout再抽出・表照合） |
-| 同 令和3年度 | 令和3年度 | 標本調査出題0件の確認（A-0） | https://www.nier.go.jp/21chousakekkahoukoku/report/data/21mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| 同 令和4年度 | 令和4年度 | 同上・出題範囲文言の転記 | https://www.nier.go.jp/22chousakekkahoukoku/report/data/22mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| 同 令和5年度（WARP退避版） | 令和5年度 | 同上 | https://warp.ndl.go.jp/20230814/20230801130215/https://www.nier.go.jp/23chousakekkahoukoku/report/data/23mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| 同 令和6年度 | 令和6年度 | 同上 | https://www.nier.go.jp/24chousakekkahoukoku/report/data/24mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| NIER 平成15年度教育課程実施状況調査 教科別分析と改善点（中学校・数学）／平成15年度小・中学校教育課程実施状況調査 ペーパーテスト調査集計結果 | 平成15年度 | 標本調査出題0件の確認（A-0） | https://www.nier.go.jp/kaihatsu/katei_h15/H15/03001030130007004.pdf ／ https://www.nier.go.jp/kaihatsu/katei_h15/H15/03001100000007003.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
-| NIER 学習評価参考資料 中学校数学 | 令和2年3月 | 評価規準の転記（C-2） | https://www.nier.go.jp/kaihatsu/pdf/hyouka/r020326_mid_sansu.pdf | 2026-07-11 | p.88 |
+| source_id | 資料名 | 年度 | 指標名・用途 | URL | 確認日 | 頁・箇所 |
+|---|---|---|---|---|---|---|
+| SRC-jhs-math-3-sampling-survey-main-01 | 塩澤友樹「中等教育段階における生徒の標本データに基づく統計的推論の学年横断的な調査研究」日本数学教育学会誌104(11)・DOI: 10.32296/jjsme.104.11_2 | 2022年（調査は2021年実施・n=3451） | 通過率・解答類型の割合・反応率（A-2） | https://www.jstage.jst.go.jp/article/jjsme/104/11/104_2/_article/-char/ja/ | 2026-07-11 | 本文PDF精読（表の列整列確認済み） |
+| SRC-jhs-math-3-sampling-survey-main-02 | 全国学力・学習状況調査 報告書 中学校数学 令和7年度 | 令和7年度 | D領域正答率59.0%への言及（A-0・中1/中2内容）・標本調査出題0件の確認 | https://www.nier.go.jp/25chousakekkahoukoku/report/data/25mmath.pdf | 2026-07-11 | pp.11-14（-layout再抽出・表照合） |
+| SRC-jhs-math-3-sampling-survey-main-03 | 同 令和3年度 | 令和3年度 | 標本調査出題0件の確認（A-0） | https://www.nier.go.jp/21chousakekkahoukoku/report/data/21mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-sampling-survey-main-04 | 同 令和4年度 | 令和4年度 | 同上・出題範囲文言の転記 | https://www.nier.go.jp/22chousakekkahoukoku/report/data/22mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-sampling-survey-main-05 | 同 令和5年度（WARP退避版） | 令和5年度 | 同上 | https://warp.ndl.go.jp/20230814/20230801130215/https://www.nier.go.jp/23chousakekkahoukoku/report/data/23mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-sampling-survey-main-06 | 同 令和6年度 | 令和6年度 | 同上 | https://www.nier.go.jp/24chousakekkahoukoku/report/data/24mmath.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-sampling-survey-main-07 | NIER 平成15年度教育課程実施状況調査 教科別分析と改善点（中学校・数学）／平成15年度小・中学校教育課程実施状況調査 ペーパーテスト調査集計結果 | 平成15年度 | 標本調査出題0件の確認（A-0） | https://www.nier.go.jp/kaihatsu/katei_h15/H15/03001030130007004.pdf ／ https://www.nier.go.jp/kaihatsu/katei_h15/H15/03001100000007003.pdf | 2026-07-11 | 〔頁未確認・原典照合工程で特定〕 |
+| SRC-jhs-math-3-sampling-survey-main-08 | NIER 学習評価参考資料 中学校数学 | 令和2年3月 | 評価規準の転記（C-2） | https://www.nier.go.jp/kaihatsu/pdf/hyouka/r020326_mid_sansu.pdf | 2026-07-11 | p.88 |
