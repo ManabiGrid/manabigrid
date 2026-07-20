@@ -15,6 +15,17 @@
      一時ディレクトリのコピーで実行し（出荷SVGは書き換えない）、
      ①スクリプト内の全assert（幾何検算・答え漏れ検査）の通過
      ②再生成SVGと出荷SVGの一致（生成日コメントのみ正規化して比較）を確認
+  6. 進捗一覧バイト一致 — curriculum/PROGRESS_INDEX.md がレジストリからの
+     再生成結果とバイト一致することを確認（レジストリ更新後の再生成漏れ検出）
+  7. 強調崩れ検査 — 全 .md をレンダリングし、コード（`<code>`）外に literal `**`
+     が露出するファイルを検出する。二段構成:
+       - markdown-it-py（CommonMark）が導入済みなら、それでレンダリングして
+         `<code>` 外の literal `**` を厳密検出する（未閉鎖・区切り内空白・
+         CJK約物隣接などあらゆる崩れを捕捉）。
+       - 未導入の環境（本番CI等）では標準ライブラリだけで動く近似検出に切り替える:
+         CJK約物の直後に置かれ閉じ側に来る `**`（例: `…重要。**次` のように
+         約物のあとで閉じられず literal 化するパターン）を正規表現で検出する。
+     どちらの経路でも、現状の materials は 0 件で pass する。
 """
 from __future__ import annotations
 
@@ -320,15 +331,95 @@ def check_progress_index() -> list[str]:
     return []
 
 
+# ---- 7. 強調崩れ検査（Markdown強調記号の露出）----------------------------
+
+_STRONG_HTML_CODE_RE = re.compile(r"<code[^>]*>.*?</code>", re.DOTALL)
+
+# CJK約物（句読点・かぎ括弧・中点など）。閉じ側 `**` がこの直後に来ると
+# CommonMark の flanking 規則で閉じられず literal 化しやすい。
+_CJK_PUNCT = set("、。，．・：；！？「」『』（）〔〕【】〈〉《》〜～…—―‐’”＂｡｢｣､")
+# かな・カナのブロックに同居する「文字ではない」記号（誤検出を避けるため除外する）。
+_KANA_NONLETTER = set("・゠〜ー…‥　･")
+
+
+def _is_cjk_letter(ch: str | None) -> bool:
+    """かな・漢字・全角カナなど『語を構成する文字』なら真（約物・記号は偽）。"""
+    if ch is None or ch in _KANA_NONLETTER or ch in _CJK_PUNCT:
+        return False
+    o = ord(ch)
+    return (
+        0x3041 <= o <= 0x30FA          # ひらがな＋カタカナ（記号域は上で除外済み）
+        or 0x3400 <= o <= 0x9FFF       # CJK統合漢字（拡張A含む）
+        or 0xFF66 <= o <= 0xFF9D       # 半角カナ
+        or ch in "々〆〤ヶ〇"
+    )
+
+
+def _approx_emphasis_problems(text: str) -> list[str]:
+    """標準ライブラリだけで動く近似検出（markdown-it-py 不在時のフォールバック）。
+
+    コード（フェンス・インライン）を除いたうえで、各行の `**` を出現順に数え、
+    『閉じ側（偶数番目）で、直前が CJK約物・直後が CJK文字』の `**` を崩れ候補とする。
+    これは `…重要。**次` のように約物のあとで閉じられず literal 化するパターンで、
+    現状の materials では 0 件（誤検出なし）。
+    """
+    stripped = INLINE_CODE_RE.sub(
+        lambda m: " " * len(m.group()), FENCE_RE.sub(lambda m: " " * len(m.group()), text)
+    )
+    problems: list[str] = []
+    for line in stripped.split("\n"):
+        for k, m in enumerate(re.finditer(r"\*\*", line), 1):
+            i, j = m.start(), m.end()
+            prev = line[i - 1] if i > 0 else None
+            nxt = line[j] if j < len(line) else None
+            if k % 2 == 0 and prev in _CJK_PUNCT and _is_cjk_letter(nxt):
+                problems.append(line[max(0, i - 10):j + 8].strip())
+    return problems
+
+
+def _selftest_approx_emphasis() -> None:
+    # 崩れ例を検出し、健全例を誤検出しないことを毎回確認する（回帰試験）。
+    assert _approx_emphasis_problems("文中の**重要。**次へ"), "約物直後の閉じ ** を検出できていない"
+    assert _approx_emphasis_problems("**「引用」**の形"), "かぎ括弧直後の閉じ ** を検出できていない"
+    assert not _approx_emphasis_problems("これは**大事**。次へ"), "正常な強調を誤検出している"
+    assert not _approx_emphasis_problems("正しい**強調**です"), "正常な強調を誤検出している"
+    assert not _approx_emphasis_problems("`**x。**y`"), "インラインコード内を誤検出している"
+
+
+def check_emphasis_exposure() -> list[str]:
+    _selftest_approx_emphasis()
+    problems: list[str] = []
+    try:
+        from markdown_it import MarkdownIt  # type: ignore
+        md = MarkdownIt("commonmark")
+    except ImportError:
+        md = None  # 近似検出へフォールバック（標準ライブラリのみ）
+
+    for path in iter_repo_files((".md",)):
+        rel = path.relative_to(REPO)
+        text = path.read_text(encoding="utf-8", errors="replace")
+        if md is not None:
+            # 厳密検査: レンダリング後、<code> 外に literal ** が残れば崩れ。
+            html = md.render(text)
+            outside_code = _STRONG_HTML_CODE_RE.sub("", html)
+            if "**" in outside_code:
+                problems.append(f"{rel}: 強調記号 ** がレンダリング後もコード外に露出（強調が閉じていない）")
+        else:
+            for ctx in _approx_emphasis_problems(text):
+                problems.append(f"{rel}: 約物直後の閉じ ** が崩れの疑い → …{ctx}…")
+    return problems
+
+
 def main() -> int:
     failed = False
     for label, fn in (
-        ("1/6 リンク照合", check_links),
-        ("2/6 アンカー照合", check_anchors),
-        ("3/6 frontmatter検査", check_frontmatter),
-        ("4/6 ビュー生成器テスト", check_view_generator),
-        ("5/6 図版再生成検算", check_figures),
-        ("6/6 進捗一覧バイト一致", check_progress_index),
+        ("1/7 リンク照合", check_links),
+        ("2/7 アンカー照合", check_anchors),
+        ("3/7 frontmatter検査", check_frontmatter),
+        ("4/7 ビュー生成器テスト", check_view_generator),
+        ("5/7 図版再生成検算", check_figures),
+        ("6/7 進捗一覧バイト一致", check_progress_index),
+        ("7/7 強調崩れ検査", check_emphasis_exposure),
     ):
         problems = fn()
         if problems:
