@@ -37,7 +37,7 @@
 | 中学社会（公民） | 市場価格 | [materials/jhs-soc/](materials/jhs-soc/) |
 | 高校数学I | 二次関数（状態: [単元レジストリ](curriculum/registry/math.md)参照） | [materials/hs-math-i/](materials/hs-math-i/) |
 
-設計図としては5教科437単元＋40モジュールを [curriculum/registry/](curriculum/registry/) に定義済みで、ここを埋めていきます。
+設計図としては5教科437単元＋41モジュールを [curriculum/registry/](curriculum/registry/) に定義済みで、ここを埋めていきます。最新の実測統計は [docs/STATS.md](docs/STATS.md)（自動生成）を参照してください。
 
 - **同梱パッケージ数・ファイル数の実測値（時点つき）は [materials/README.md](materials/README.md) に集約**しています（数字が古くならないよう、正本を1箇所に置く方針）。
 - 各単元の状態（未着手→調査済→ドラフト→QA済→外部レビュー済→人間レビュー済→公開済）は [curriculum/PROGRESS_INDEX.md](curriculum/PROGRESS_INDEX.md) がレジストリから自動生成され、常に一致します。

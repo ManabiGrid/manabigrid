@@ -21,8 +21,10 @@
   梱包されるため、照合キーは unit_id の `--` 以前（教材フォルダ名）で合わせる。
   1つの教材フォルダを複数の下位単元が共有していてよい。
 
-注意: 本レポートは**警告（レポート出力）に留め、CI を fail させない**。
-  現時点でズレがあれば大量に出うるため、fail 化は将来の判断とする。
+注意: 本スクリプト自体はレポート生成のみで、常に exit 0 を返す。
+  かつて「将来の判断」としていた fail 化は、tools/ci_checks.py の検査9
+  （本スクリプトの照合ロジックを再利用・fail-closed）で実装済み。
+  CI での強制はそちらが担い、本レポートは内訳の可読一覧を担う。
 
 使い方:
   python3 tools/progress_index/reconcile_registry_materials.py [リポジトリルート]
@@ -125,7 +127,8 @@ def build_report(root: Path, result: dict) -> str:
         "- 照合キー: unit_id の `--` 以前（下位トピックは上位の教材フォルダを共有する）"
     )
     out.append(
-        "- 判定: 本レポートは警告に留め、CI を fail させない（fail 化は将来の判断）"
+        "- 判定: 同じ照合は `tools/ci_checks.py` の検査9（fail-closed）が CI で強制する。"
+        "本レポートは内訳の可読一覧"
     )
     out.append("")
 
@@ -214,7 +217,7 @@ def main(argv: list[str] | None = None) -> int:
         f"B(未着手/調査済だが実体あり)={len(result['unexpected'])} "
         f"孤児フォルダ={len(result['orphans'])}"
     )
-    return 0  # 常に 0（レポートのみ・fail 化はしない）
+    return 0  # 常に 0（レポート生成のみ。fail 化は tools/ci_checks.py の検査9が担う）
 
 
 if __name__ == "__main__":
