@@ -31,6 +31,14 @@
      検査し、違反で fail。③本文（materials/ の .md・コード外）の `[[SRC-...]]`
      参照が、どの出典表にも実在しないIDを指す場合のみ fail（実在IDへの参照・参照ゼロは
      OK＝back-referenceは段階導入のため）。現状は本文参照0件で pass する。
+  9. レジストリ×materials 突合 — curriculum/registry/ の全行と materials/ の
+     実体（`.md` を含む教材フォルダ）を双方向で突合する。
+     「登記あり実体なし」（成果物があるべき状態なのに教材フォルダ欠落）と
+     「実体あり登記なし」（教材フォルダが実在するのに状態が未着手/調査済のまま、
+     またはどの id にも対応しない孤児フォルダ）のどちらの向きも fail。
+     照合対象が空集合（レジストリ0行／教材フォルダ0件）の場合は、走査自体が
+     壊れている可能性があるため「全件一致」でなく失敗として扱う（fail-closed）。
+     照合ロジックは tools/progress_index/reconcile_registry_materials.py を再利用。
 """
 from __future__ import annotations
 
@@ -487,17 +495,72 @@ def check_source_ids() -> list[str]:
     return problems
 
 
+# ---- 9. レジストリ×materials 突合（双方向・fail-closed）--------------------
+
+
+def check_registry_materials() -> list[str]:
+    """レジストリの状態と materials/ の実体を双方向で突合する（fail-closed）。
+
+    照合ロジックは tools/progress_index/reconcile_registry_materials.py が正
+    （同じ境界の照合を2つの実装で持たない）。同スクリプトはレポート生成のみで
+    exit 0 を返す設計であり、CI での fail 化は本検査が担う。
+    検査不能（レジストリが読めない・照合対象が空集合）は合格でなく失敗にする。
+    """
+    pi_dir = str(REPO / "tools" / "progress_index")
+    if pi_dir not in sys.path:
+        sys.path.insert(0, pi_dir)
+    try:
+        import reconcile_registry_materials as R
+    except Exception as exc:
+        return [f"照合モジュールの読み込みに失敗（検査不能＝失敗）: {exc}"]
+    try:
+        result = R.reconcile(REPO)
+    except Exception as exc:
+        return [f"照合の実行に失敗（検査不能＝失敗）: {exc}"]
+    rows = result["rows"]
+    mats = result["mats"]
+    problems: list[str] = []
+    if not rows:
+        problems.append(
+            "照合対象が空集合: レジストリから1行も読めない"
+            "（curriculum/registry/ の欠落・配置変更・走査不能の疑い）"
+        )
+    if not mats:
+        problems.append(
+            "照合対象が空集合: materials/ に .md を含む教材フォルダが1件もない"
+            "（配置変更・走査不能の疑い）"
+        )
+    if problems:
+        return problems  # 空集合との照合は「全件一致」ではなく「検査が成立していない」
+    for r in sorted(result["missing"], key=lambda r: r["id"]):
+        problems.append(
+            f"登記あり実体なし: {r['id']}（状態={r['status']}）の教材フォルダ "
+            f"materials/*/{R.materials_home(r['id'])} が見つからない"
+        )
+    for r in sorted(result["unexpected"], key=lambda r: r["id"]):
+        problems.append(
+            f"実体あり登記なし: 教材フォルダ {R.materials_home(r['id'])} が実在するのに "
+            f"レジストリの {r['id']} は状態={r['status']}（状態更新漏れの疑い）"
+        )
+    for name in result["orphans"]:
+        problems.append(
+            f"実体あり登記なし: 教材フォルダ {name} はレジストリのどの id にも対応しない（孤児）"
+        )
+    return problems
+
+
 def main() -> int:
     failed = False
     for label, fn in (
-        ("1/8 リンク照合", check_links),
-        ("2/8 アンカー照合", check_anchors),
-        ("3/8 frontmatter検査", check_frontmatter),
-        ("4/8 ビュー生成器テスト", check_view_generator),
-        ("5/8 図版再生成検算", check_figures),
-        ("6/8 進捗一覧バイト一致", check_progress_index),
-        ("7/8 強調崩れ検査", check_emphasis_exposure),
-        ("8/8 source_id検査", check_source_ids),
+        ("1/9 リンク照合", check_links),
+        ("2/9 アンカー照合", check_anchors),
+        ("3/9 frontmatter検査", check_frontmatter),
+        ("4/9 ビュー生成器テスト", check_view_generator),
+        ("5/9 図版再生成検算", check_figures),
+        ("6/9 進捗一覧バイト一致", check_progress_index),
+        ("7/9 強調崩れ検査", check_emphasis_exposure),
+        ("8/9 source_id検査", check_source_ids),
+        ("9/9 レジストリ×materials突合", check_registry_materials),
     ):
         problems = fn()
         if problems:
