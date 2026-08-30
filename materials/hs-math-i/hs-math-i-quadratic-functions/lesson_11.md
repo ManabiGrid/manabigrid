@@ -2,7 +2,7 @@
 distribution_status: published_draft
 ---
 
-# L11 二次不等式②——共有点が特殊な場合（strict／non-strictの4パターン）
+# L11 二次不等式②——共有点が特殊な場合（等号なし／等号つきの4パターン）
 
 - unit_id: hs-math-i-quadratic-functions
 - distribution_status: published_draft
@@ -10,7 +10,7 @@ distribution_status: published_draft
 - verify_required: 例題数値・記述は監修者検証必須。
 - distribution_status: published_draft
 - 位置づけ: 単元第11レッスン（2.5時間）。共有点が1個・0個の場合の二次不等式に特化する。
-- 主概念: ①不等号の種類（等号なし＝strict／等号つき＝non-strict）で解集合が変わる ②接点を「含む・除く」の判断を毎回グラフで言語化する
+- 主概念: ①不等号の種類（等号なし／等号つき——英語では strict／non-strict と呼ぶ）で解集合が変わる ②接点を「含む・除く」の判断を毎回グラフで言語化する
 
 ---
 
@@ -30,7 +30,7 @@ y=(x−1)² のグラフは、下に凸で、x軸と x=1 の1点だけで接す�
 **パターン4: (x−1)²≦0**
 「x軸より下、または x軸上」。下の部分はないが、x軸上の点が x=1 に1つだけある。解は **x=1**。
 
-![y=(x−1)²のstrict/non-strict 4パターン](assets/L11_fig1_four_patterns_tangent.svg)
+![y=(x−1)²の等号なし／等号つきの4パターン](assets/L11_fig1_four_patterns_tangent.svg)
 
 4つを並べると、違いを生んでいるのは**接点の1点 x=1 を含むか除くか**だけだとわかる。「すべての実数」「解なし」という答えの形に驚いて丸暗記に走らず、毎回グラフの接点を指差して「この1点は y=0。今の不等号は 0 を含む？含まない？」と**声に出して判断**すること。
 
