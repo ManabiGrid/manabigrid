@@ -24,7 +24,7 @@ distribution_status: published_draft
 1. [L08 二次方程式とグラフ——x軸との共有点](lesson_08.md)
 1. [L09 x軸との共有点の個数](lesson_09.md)
 1. [L10 二次不等式①——前提の確認とグラフで解く](lesson_10.md)
-1. [L11 二次不等式②——共有点が特殊な場合（strict／non-strictの4パターン）](lesson_11.md)
+1. [L11 二次不等式②——共有点が特殊な場合（等号なし／等号つきの4パターン）](lesson_11.md)
 1. [L12 文脈への活用と単元のまとめ](lesson_12.md)
 
 ## 解答
