@@ -64,9 +64,9 @@
 | `hs-math-i-numbers-and-expressions--polynomial-expansion-factorization` | 多項式の展開と因数分解 | 高校 数学Ⅰ | 未着手 |  |
 | `hs-math-i-numbers-and-expressions--real-numbers` | 数の体系と実数・根号 | 高校 数学Ⅰ | 未着手 |  |
 | `hs-math-i-sets-and-logic` | 集合と命題 | 高校 数学Ⅰ | 未着手 |  |
-| `hs-math-i-quadratic-functions--graph-transformations` | 二次関数のグラフと平行移動 | 高校 数学Ⅰ | ドラフト | 親成果物（外部レビュー済12レッスン）参照・要差分QA・外部レビュー再裁定 |
-| `hs-math-i-quadratic-functions--max-min` | 二次関数の最大・最小 | 高校 数学Ⅰ | ドラフト | 親成果物（外部レビュー済12レッスン）参照・要差分QA・外部レビュー再裁定 |
-| `hs-math-i-quadratic-functions--quadratic-equations-inequalities` | 二次方程式・二次不等式とグラフ | 高校 数学Ⅰ | ドラフト | 親成果物（外部レビュー済12レッスン）参照・要差分QA・外部レビュー再裁定 |
+| `hs-math-i-quadratic-functions--graph-transformations` | 二次関数のグラフと平行移動 | 高校 数学Ⅰ | 外部レビュー済 | 親成果物（外部レビュー済12レッスン）のL01〜L04を参照・差分QA＋再裁定完了 2026-08-29（レビュー時点から本文実質変更0） |
+| `hs-math-i-quadratic-functions--max-min` | 二次関数の最大・最小 | 高校 数学Ⅰ | 外部レビュー済 | 親成果物（外部レビュー済12レッスン）のL05〜L07を参照・差分QA＋再裁定完了 2026-08-29（前提=グラフと平行移動） |
+| `hs-math-i-quadratic-functions--quadratic-equations-inequalities` | 二次方程式・二次不等式とグラフ | 高校 数学Ⅰ | 外部レビュー済 | 親成果物（外部レビュー済12レッスン）のL08〜L12を参照・差分QA＋再裁定完了 2026-08-29（L12後半は親単元全体のまとめ） |
 | `hs-math-i-trigonometric-ratios--ratios` | 三角比の定義と相互関係 | 高校 数学Ⅰ | 未着手 |  |
 | `hs-math-i-trigonometric-ratios--triangle-measurement` | 正弦定理・余弦定理と三角形の計量 | 高校 数学Ⅰ | 未着手 |  |
 | `hs-math-i-data-analysis--description` | データの散らばりと相関 | 高校 数学Ⅰ | 未着手 |  |
