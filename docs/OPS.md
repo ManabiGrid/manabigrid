@@ -5,9 +5,9 @@ version: 1.0
 
 # ManabiGrid 制作プロトコル（公開版）
 
-このドキュメントは、ManabiGrid の単元教材を作るための工程契約です。外部の貢献者が**Claude Fable 5**でこの工程を再現できるように書いてあります。プロンプトの実物は [prompts/](prompts/) にあります。
+このドキュメントは、ManabiGrid の単元教材を作るための工程契約です。外部の貢献者が**Claude Fable 5.1**でこの工程を再現できるように書いてあります。プロンプトの実物は [prompts/](prompts/) にあります。
 
-> **使用モデルについて**: 新単元の制作に使うAIは **Claude Fable 5**（reasoning effort medium以上・サブエージェントも Fable 5）に限定しています。理由と申告方法は [CONTRIBUTING.md](../CONTRIBUTING.md) を参照。誤り報告・改善・デザインの貢献はモデル不問です。
+> **使用モデルについて**: 新単元の制作に使うAIは **Claude Fable 5.1**（reasoning effort medium以上・サブエージェントも Fable 5.1）に限定しています。理由と申告方法は [CONTRIBUTING.md](../CONTRIBUTING.md) を参照。誤り報告・改善・デザインの貢献はモデル不問です。
 
 ## 0. 全体像
 
