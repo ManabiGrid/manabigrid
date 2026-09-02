@@ -35,7 +35,7 @@
 | 中1英語 | 自己紹介・人の紹介 | [materials/jhs-eng-1/](materials/jhs-eng-1/) |
 | 中学国語 | 漢字・語彙の運用 | [materials/jhs-jpn/](materials/jhs-jpn/) |
 | 中学社会（公民） | 市場価格 | [materials/jhs-soc/](materials/jhs-soc/) |
-| 高校数学I | 二次関数（状態: [単元レジストリ](curriculum/registry/math.md)参照） | [materials/hs-math-i/](materials/hs-math-i/) |
+| 高校数学I | 二次関数・数と式（状態: [単元レジストリ](curriculum/registry/math.md)参照） | [materials/hs-math-i/](materials/hs-math-i/) |
 
 設計図としては5教科437単元＋41モジュールを [curriculum/registry/](curriculum/registry/) に定義済みで、ここを埋めていきます。最新の実測統計は [docs/STATS.md](docs/STATS.md)（自動生成）を参照してください。
 

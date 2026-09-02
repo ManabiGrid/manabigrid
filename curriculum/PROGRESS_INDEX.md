@@ -41,23 +41,23 @@
 |---|---|
 | 公開済 | · |
 | 人間レビュー済 | 37 |
-| 外部レビュー済 | 7 |
+| 外部レビュー済 | 10 |
 | QA済 | · |
 | ドラフト | · |
 | 調査済 | 2 |
-| 未着手 | 391 |
+| 未着手 | 388 |
 | **計** | **437** |
 
 ## 集計（科目 × 状態）
 
 | 科目 | 公開済 | 人間レビュー済 | 外部レビュー済 | QA済 | ドラフト | 調査済 | 未着手 | 計 |
 |---|---|---|---|---|---|---|---|---|
-| 数学 | · | 37 | 3 | · | · | · | 25 | 65 |
+| 数学 | · | 37 | 6 | · | · | · | 22 | 65 |
 | 英語 | · | · | 1 | · | · | · | 47 | 48 |
 | 国語 | · | · | 1 | · | · | 1 | 44 | 46 |
 | 理科 | · | · | 1 | · | · | · | 144 | 145 |
 | 社会 | · | · | 1 | · | · | 1 | 131 | 133 |
-| **計** | · | **37** | **7** | · | · | **2** | **391** | **437** |
+| **計** | · | **37** | **10** | · | · | **2** | **388** | **437** |
 
 ## 公開コア（public_core）
 
@@ -361,9 +361,9 @@
 | 高校 数学C | ベクトル | `hs-math-c-vectors` | **未着手** |
 | 高校 数学Ⅰ | データの散らばりと相関 | `hs-math-i-data-analysis--description` | **未着手** |
 | 高校 数学Ⅰ | 仮説検定の考え方 | `hs-math-i-data-analysis--inference-intro` | **未着手** |
-| 高校 数学Ⅰ | 一次不等式 | `hs-math-i-numbers-and-expressions--inequalities` | **未着手** |
-| 高校 数学Ⅰ | 多項式の展開と因数分解 | `hs-math-i-numbers-and-expressions--polynomial-expansion-factorization` | **未着手** |
-| 高校 数学Ⅰ | 数の体系と実数・根号 | `hs-math-i-numbers-and-expressions--real-numbers` | **未着手** |
+| 高校 数学Ⅰ | 一次不等式 | `hs-math-i-numbers-and-expressions--inequalities` | **外部レビュー済** |
+| 高校 数学Ⅰ | 多項式の展開と因数分解 | `hs-math-i-numbers-and-expressions--polynomial-expansion-factorization` | **外部レビュー済** |
+| 高校 数学Ⅰ | 数の体系と実数・根号 | `hs-math-i-numbers-and-expressions--real-numbers` | **外部レビュー済** |
 | 高校 数学Ⅰ | 二次関数のグラフと平行移動 | `hs-math-i-quadratic-functions--graph-transformations` | **外部レビュー済** |
 | 高校 数学Ⅰ | 二次関数の最大・最小 | `hs-math-i-quadratic-functions--max-min` | **外部レビュー済** |
 | 高校 数学Ⅰ | 二次方程式・二次不等式とグラフ | `hs-math-i-quadratic-functions--quadratic-equations-inequalities` | **外部レビュー済** |
@@ -607,9 +607,9 @@
 | `hs-math-c-vectors` | ベクトル | 数学 | 高校 数学C | 公開コア | **未着手** |
 | `hs-math-i-data-analysis--description` | データの散らばりと相関 | 数学 | 高校 数学Ⅰ | 公開コア | **未着手** |
 | `hs-math-i-data-analysis--inference-intro` | 仮説検定の考え方 | 数学 | 高校 数学Ⅰ | 公開コア | **未着手** |
-| `hs-math-i-numbers-and-expressions--inequalities` | 一次不等式 | 数学 | 高校 数学Ⅰ | 公開コア | **未着手** |
-| `hs-math-i-numbers-and-expressions--polynomial-expansion-factorization` | 多項式の展開と因数分解 | 数学 | 高校 数学Ⅰ | 公開コア | **未着手** |
-| `hs-math-i-numbers-and-expressions--real-numbers` | 数の体系と実数・根号 | 数学 | 高校 数学Ⅰ | 公開コア | **未着手** |
+| `hs-math-i-numbers-and-expressions--inequalities` | 一次不等式 | 数学 | 高校 数学Ⅰ | 公開コア | **外部レビュー済** |
+| `hs-math-i-numbers-and-expressions--polynomial-expansion-factorization` | 多項式の展開と因数分解 | 数学 | 高校 数学Ⅰ | 公開コア | **外部レビュー済** |
+| `hs-math-i-numbers-and-expressions--real-numbers` | 数の体系と実数・根号 | 数学 | 高校 数学Ⅰ | 公開コア | **外部レビュー済** |
 | `hs-math-i-quadratic-functions--graph-transformations` | 二次関数のグラフと平行移動 | 数学 | 高校 数学Ⅰ | 公開コア | **外部レビュー済** |
 | `hs-math-i-quadratic-functions--max-min` | 二次関数の最大・最小 | 数学 | 高校 数学Ⅰ | 公開コア | **外部レビュー済** |
 | `hs-math-i-quadratic-functions--quadratic-equations-inequalities` | 二次方程式・二次不等式とグラフ | 数学 | 高校 数学Ⅰ | 公開コア | **外部レビュー済** |
