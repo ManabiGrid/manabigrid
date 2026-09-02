@@ -4,7 +4,7 @@
 
 [docs/prompts/UNIT_PROMPT_TEMPLATE.md](../../docs/prompts/UNIT_PROMPT_TEMPLATE.md) の変数を、
 この単元用に差し替えた実例。下の工程1から順に、**毎回新しい会話（新規チャット）で**
-Claude Fable 5 に貼り付けて実行する。前の工程の成果物ファイルだけを次の工程に渡すこと。
+Claude Fable 5.1 に貼り付けて実行する。前の工程の成果物ファイルだけを次の工程に渡すこと。
 
 ```text
 変数（差し替え済み）:

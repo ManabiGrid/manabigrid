@@ -1,7 +1,7 @@
 # 単元プロンプト（unit_prompts）
 
-「未着手」の単元を、**Claude Fable 5** を使って制作するためのプロンプト置き場
-（新単元の制作は Fable 5 限定——理由と条件は [CONTRIBUTING.md](../../CONTRIBUTING.md)）。
+「未着手」の単元を、**Claude Fable 5.1** を使って制作するためのプロンプト置き場
+（新単元の制作は Fable 5.1 限定——理由と条件は [CONTRIBUTING.md](../../CONTRIBUTING.md)）。
 このディレクトリには、テンプレートの変数を実際の単元で差し替えた**実例**を置く。
 型そのものは [docs/prompts/UNIT_PROMPT_TEMPLATE.md](../../docs/prompts/UNIT_PROMPT_TEMPLATE.md) が正本。
 
@@ -11,7 +11,7 @@
    [curriculum/registry/](../registry/) で状態が「未着手」の単元から選ぶ。
 2. **着手宣言のIssueを立てる** — 選んだ unit_id を書いて着手を宣言する
    （同じ単元への二重着手を防ぐため。詳細は CONTRIBUTING.md）。
-3. **テンプレートの変数を差し替えて、Claude Fable 5 で実行する** —
+3. **テンプレートの変数を差し替えて、Claude Fable 5.1 で実行する** —
    `docs/prompts/UNIT_PROMPT_TEMPLATE.md` をコピーし、`{{UNIT_ID}}` などの変数を
    自分の単元に差し替える。工程1（調査）→工程2（正規化）→工程3（執筆）→
    工程4（セルフQA）を、**毎回新しい会話で**順に実行する

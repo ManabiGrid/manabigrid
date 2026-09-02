@@ -14,10 +14,10 @@
 > 入試演習・領域横断テーマの単元化は今後の改訂で扱う（他教科の私立・入試レーンと同方針: 過去問は転載しない）。
 > 高校は基礎4科目を先行収録。発展5科目（物理・化学・生物・地学）と「科学と人間生活」は対象範囲として確定済みで、単元表の照合が済み次第追加する。
 
-> **注記（Fable 5 の執筆可否と備考欄）**: 制作の正本モデル Claude Fable 5 には生命科学分野の安全機構があり、
+> **注記（Fable 5系の執筆可否と備考欄）**: 制作の正本モデル Claude Fable 5系（現行 Fable 5.1）には生命科学分野の安全機構があり、
 > 理科には執筆できない単元がある（扱いの正式な定めは [docs/MODEL_POLICY.md](../../docs/MODEL_POLICY.md) §5）。
 > 単元ごとの執筆可否は §5-1 の手順で機械的に判定し、判定済みの単元から備考欄に
-> `fable_ok`（Fable 5 で制作可能・通常ルール適用）／`fable_blocked`（拒否判定・§5-2 の複数モデル工程のみ受付）を記録する。
+> `fable_ok`（Fable 5系で制作可能・通常ルール適用。判定モデル・判定日は備考欄に併記）／`fable_blocked`（拒否判定・§5-2 の複数モデル工程のみ受付）を記録する。
 > 備考欄が空欄の単元は**判定前**。判定前の単元に着手したい場合は、着手宣言Issueで判定をメンテナへ依頼できる。
 
 ## 公開コア（public_core）
@@ -69,7 +69,7 @@
 | `jhs-sci-2-electric-circuits--power-energy` | 電力と電力量・発熱 | 中2 | 未着手 | fable_ok（2026-07-16判定） |
 | `jhs-sci-2-electric-circuits--resistance-ohm` | 電気抵抗とオームの法則 | 中2 | 未着手 | fable_ok（2026-07-16判定） |
 | `jhs-sci-2-mass-conservation-ratio` | 化学変化と物質の質量 | 中2 | 未着手 | fable_ok（2026-07-16判定） |
-| `jhs-sci-2-plant-body-functions--photosynthesis` | 光合成と葉のつくり | 中2 | 未着手 | fable_blocked（2026-07-16判定・MODEL_POLICY §5の例外対象） |
+| `jhs-sci-2-plant-body-functions--photosynthesis` | 光合成と葉のつくり | 中2 | 未着手 | fable_ok（2026-09-02再判定・Claude Fable 5.1・同一プロンプトの再プローブで停止なし。経緯: 2026-07-16は Fable 5・当時の分類器で fable_blocked、2026-08-29に Fable 5 で fable_ok へ転換を確認。通常ルール適用） |
 | `jhs-sci-2-plant-body-functions--respiration` | 植物の呼吸 | 中2 | 未着手 | fable_blocked（2026-07-16判定・MODEL_POLICY §5の例外対象） |
 | `jhs-sci-2-plant-body-functions--transport-transpiration` | 水・養分の移動と蒸散 | 中2 | 未着手 | fable_blocked（2026-07-16判定・MODEL_POLICY §5の例外対象） |
 | `jhs-sci-2-static-electricity-current` | 静電気と電流の正体 | 中2 | 未着手 | fable_ok（2026-07-16判定） |
