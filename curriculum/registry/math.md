@@ -60,9 +60,9 @@
 | `jhs-math-3-inscribed-angle` | 円周角の定理 | 中3 | 人間レビュー済 | 人間レビュー（現役塾講師による通読）完了 2026-07-19 |
 | `jhs-math-3-pythagorean-theorem` | 三平方の定理 | 中3 | 人間レビュー済 | 将来の分割候補（粒度の見直し予定）・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
 | `jhs-math-3-sampling-survey` | 標本調査 | 中3 | 人間レビュー済 | 人間レビュー（現役塾講師による通読）完了 2026-07-19 |
-| `hs-math-i-numbers-and-expressions--inequalities` | 一次不等式 | 高校 数学Ⅰ | 未着手 |  |
-| `hs-math-i-numbers-and-expressions--polynomial-expansion-factorization` | 多項式の展開と因数分解 | 高校 数学Ⅰ | 未着手 |  |
-| `hs-math-i-numbers-and-expressions--real-numbers` | 数の体系と実数・根号 | 高校 数学Ⅰ | 未着手 |  |
+| `hs-math-i-numbers-and-expressions--inequalities` | 一次不等式 | 高校 数学Ⅰ | 外部レビュー済 | 親成果物（外部レビュー済11レッスン）のL08〜L10を参照・外部批判レビュー＋初見読者検査＋修正適用 2026-09-02（前提=中1の不等式の表現。多項式・実数の技能は直接前提にしない） |
+| `hs-math-i-numbers-and-expressions--polynomial-expansion-factorization` | 多項式の展開と因数分解 | 高校 数学Ⅰ | 外部レビュー済 | 親成果物（外部レビュー済11レッスン）のL01〜L04を参照・外部批判レビュー＋初見読者検査＋修正適用 2026-09-02 |
+| `hs-math-i-numbers-and-expressions--real-numbers` | 数の体系と実数・根号 | 高校 数学Ⅰ | 外部レビュー済 | 親成果物（外部レビュー済11レッスン）のL05〜L07を参照・外部批判レビュー＋初見読者検査＋修正適用 2026-09-02（前提=L01〜L02の乗法公式） |
 | `hs-math-i-sets-and-logic` | 集合と命題 | 高校 数学Ⅰ | 未着手 |  |
 | `hs-math-i-quadratic-functions--graph-transformations` | 二次関数のグラフと平行移動 | 高校 数学Ⅰ | 外部レビュー済 | 親成果物（外部レビュー済12レッスン）のL01〜L04を参照・差分QA＋再裁定完了 2026-08-29（レビュー時点から本文実質変更0） |
 | `hs-math-i-quadratic-functions--max-min` | 二次関数の最大・最小 | 高校 数学Ⅰ | 外部レビュー済 | 親成果物（外部レビュー済12レッスン）のL05〜L07を参照・差分QA＋再裁定完了 2026-08-29（前提=グラフと平行移動） |
@@ -87,7 +87,7 @@
 | `jhs-math-1-data-distribution` | データの活用（度数分布・ヒストグラム） | 中1 | 人間レビュー済 | 原本教材（8レッスン）を親単位で保全・セルフQA＋外部批判レビュー（GPT-5.6 Pro・全件裁定）完了 2026-07-18・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
 | `jhs-math-2-expression-calculation` | 式の計算 | 中2 | 人間レビュー済 | 原本教材（10レッスン）を親単位で保全・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
 | `jhs-math-2-congruence-and-proof` | 図形の合同と証明 | 中2 | 人間レビュー済 | 原本教材（16レッスン）を親単位で保全・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
-| `hs-math-i-numbers-and-expressions` | 数と式 | 高校 数学Ⅰ | 未着手 |  |
+| `hs-math-i-numbers-and-expressions` | 数と式 | 高校 数学Ⅰ | 外部レビュー済 | 原本教材（11レッスン。L11は親直属の章末まとめ）を親単位で保全・子単元ごとに外部批判レビュー3便＋初見読者検査＋修正適用 2026-09-02 |
 | `hs-math-i-quadratic-functions` | 二次関数 | 高校 数学Ⅰ | 外部レビュー済 | 原本教材（12レッスン）を親単位で保全 |
 | `hs-math-i-trigonometric-ratios` | 図形と計量（三角比） | 高校 数学Ⅰ | 未着手 |  |
 | `hs-math-i-data-analysis` | データの分析 | 高校 数学Ⅰ | 未着手 |  |
