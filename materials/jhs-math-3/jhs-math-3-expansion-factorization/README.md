@@ -37,3 +37,10 @@ distribution_status: published_draft
 
 - [lesson_map.md](lesson_map.md)
 - [teacher_notes.md](teacher_notes.md)
+
+## 発展モジュール（指導要領外の拡張・パイロット）
+
+標準の本文（上のレッスン一覧）には含まれない、標準を終えた読者向けの追加教材。各ファイル冒頭の案内に従って読む。
+
+- [adv_01 発展（中高一貫水準）——係数・3項・4乗へ広がる展開と因数分解](advanced/adv_01.md)
+- [answer_key_adv.md（解答）](advanced/answer_key_adv.md)

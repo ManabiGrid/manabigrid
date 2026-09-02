@@ -15,7 +15,7 @@
 レジストリの約束事:
 - 見出し（##）に「私立」または「入試」を含むセクションの表は
   私立・入試レーン、それ以外は公開コア（public_core）として扱う。
-- 先頭列が module_id の表は「科目モジュール」（診断・巻末資料）として
+- 先頭列が module_id の表は「科目モジュール」（診断・巻末資料・発展モジュール）として
   単元と別枠で集計する。
 - 状態は7語のみ: 未着手 / 調査済 / ドラフト / QA済 / 外部レビュー済 /
   人間レビュー済 / 公開済。それ以外はエラーで停止する。
@@ -220,7 +220,7 @@ def build(root: Path) -> str:
                 sj["anchor"] = alloc.allocate(sj["heading"])
     anchor_all = alloc.allocate("全単元一覧（unit_id 順）")
     anchor_modules = (
-        alloc.allocate("科目モジュール（単元と別枠: 診断・巻末資料）") if modules else None
+        alloc.allocate("科目モジュール（単元と別枠: 診断・巻末資料・発展モジュール）") if modules else None
     )
     alloc.allocate("既知の限界（正直に残す）")
 
@@ -234,7 +234,7 @@ def build(root: Path) -> str:
     )
     out.append("")
     out.append("- 生成元: `curriculum/registry/`（本ファイルはレジストリの内容だけから決定的に生成される——同一レジストリなら常にバイト一致）")
-    out.append(f"- 対象: 単元 {len(units)} 件＋科目モジュール {len(modules)} 件（診断・巻末資料）")
+    out.append(f"- 対象: 単元 {len(units)} 件＋科目モジュール {len(modules)} 件（診断・巻末資料・発展モジュール）")
     out.append("")
 
     # この表の見方
@@ -345,7 +345,7 @@ def build(root: Path) -> str:
 
     # 科目モジュール
     if modules:
-        out.append("## 科目モジュール（単元と別枠: 診断・巻末資料）")
+        out.append("## 科目モジュール（単元と別枠: 診断・巻末資料・発展モジュール）")
         out.append("")
         out.append("| module_id | 名称 | 科目 | 学校段階・学年 | 状態 |")
         out.append("|---|---|---|---|---|")

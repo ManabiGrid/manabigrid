@@ -6,7 +6,7 @@
 
 生成物:
   1. materials/<教科>/<単元>/README.md — 単元の目次
-     （単元名・このパッケージの読み方・レッスン一覧・解答一覧・その他の資料）。
+     （単元名・このパッケージの読み方・レッスン一覧・解答一覧・その他の資料・発展モジュール〔advanced/ がある場合〕）。
      マーカーコメント付きの自動生成ファイルとして全文を書き直す。
   2. 各 lesson_NN.md の末尾 — 区切り線＋ナビ行
      「← 前のレッスン｜単元の目次｜解答｜次のレッスン →」
@@ -128,7 +128,9 @@ def replace_block(text: str, block: str) -> str:
     return text + "\n" + block + "\n"
 
 
-def build_readme(pkg: Path, lessons: list[str], answer_keys: list[str], others: list[str]) -> str:
+def build_readme(
+    pkg: Path, lessons: list[str], answer_keys: list[str], others: list[str], advanced: list[str] | None = None
+) -> str:
     unit = pkg.name
     title = UNIT_NAMES.get(unit, unit)
     lines = [
@@ -171,6 +173,20 @@ def build_readme(pkg: Path, lessons: list[str], answer_keys: list[str], others: 
         for name in others:
             lines.append(f"- [{name}]({name})")
         lines.append("")
+    if advanced:
+        # advanced/ は指導要領外の拡張（docs/SPEC_tagged_core.md §6）。標準のレッスン一覧と混ぜず別節に出す
+        lines += [
+            "## 発展モジュール（指導要領外の拡張・パイロット）",
+            "",
+            "標準の本文（上のレッスン一覧）には含まれない、標準を終えた読者向けの追加教材。各ファイル冒頭の案内に従って読む。",
+            "",
+        ]
+        for name in advanced:
+            if name.startswith("answer_key"):
+                lines.append(f"- [{name}（解答）](advanced/{name})")
+            else:
+                lines.append(f"- [{h1_of(pkg / 'advanced' / name)}](advanced/{name})")
+        lines.append("")
     return "\n".join(lines)
 
 
@@ -181,10 +197,13 @@ def process_package(pkg: Path) -> list[str]:
     lessons = sorted(n for n in mds if LESSON_RE.match(n))
     answer_keys = sorted(n for n in mds if n.startswith("answer_key"))
     others = [n for n in mds if n not in lessons and n not in answer_keys] + htmls
+    adv_dir = pkg / "advanced"
+    adv_mds = sorted(p.name for p in adv_dir.glob("*.md") if p.name != "README.md") if adv_dir.is_dir() else []
+    advanced = [n for n in adv_mds if not n.startswith("answer_key")] + [n for n in adv_mds if n.startswith("answer_key")]
 
     # 1. README.md（全文自動生成）
     readme = pkg / "README.md"
-    new = build_readme(pkg, lessons, answer_keys, others)
+    new = build_readme(pkg, lessons, answer_keys, others, advanced)
     if not readme.exists() or readme.read_text(encoding="utf-8") != new:
         readme.write_text(new, encoding="utf-8")
         changed.append(str(readme.relative_to(REPO)))
