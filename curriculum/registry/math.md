@@ -67,10 +67,10 @@
 | `hs-math-i-quadratic-functions--graph-transformations` | 二次関数のグラフと平行移動 | 高校 数学Ⅰ | 外部レビュー済 | 親成果物（外部レビュー済12レッスン）のL01〜L04を参照・差分QA＋再裁定完了 2026-08-29（レビュー時点から本文実質変更0） |
 | `hs-math-i-quadratic-functions--max-min` | 二次関数の最大・最小 | 高校 数学Ⅰ | 外部レビュー済 | 親成果物（外部レビュー済12レッスン）のL05〜L07を参照・差分QA＋再裁定完了 2026-08-29（前提=グラフと平行移動） |
 | `hs-math-i-quadratic-functions--quadratic-equations-inequalities` | 二次方程式・二次不等式とグラフ | 高校 数学Ⅰ | 外部レビュー済 | 親成果物（外部レビュー済12レッスン）のL08〜L12を参照・差分QA＋再裁定完了 2026-08-29（L12後半は親単元全体のまとめ） |
-| `hs-math-i-trigonometric-ratios--ratios` | 三角比の定義と相互関係 | 高校 数学Ⅰ | 未着手 |  |
-| `hs-math-i-trigonometric-ratios--triangle-measurement` | 正弦定理・余弦定理と三角形の計量 | 高校 数学Ⅰ | 未着手 |  |
-| `hs-math-i-data-analysis--description` | データの散らばりと相関 | 高校 数学Ⅰ | 未着手 |  |
-| `hs-math-i-data-analysis--inference-intro` | 仮説検定の考え方 | 高校 数学Ⅰ | 未着手 |  |
+| `hs-math-i-trigonometric-ratios--ratios` | 三角比の定義と相互関係 | 高校 数学Ⅰ | 外部レビュー済 | 親成果物（外部レビュー済12レッスン）のL01〜L05を参照・外部批判レビュー＋初見読者検査＋修正適用 2026-10-02 |
+| `hs-math-i-trigonometric-ratios--triangle-measurement` | 正弦定理・余弦定理と三角形の計量 | 高校 数学Ⅰ | 外部レビュー済 | 親成果物（外部レビュー済12レッスン）のL06〜L11を参照・外部批判レビュー＋初見読者検査＋修正適用 2026-10-02（前提=L03〜L05の鈍角の三角比・相互関係・三角比の表） |
+| `hs-math-i-data-analysis--description` | データの散らばりと相関 | 高校 数学Ⅰ | 外部レビュー済 | 親成果物（外部レビュー済9レッスン）のL01〜L06を参照・外部批判レビュー＋初見読者検査＋修正適用 2026-10-03 |
+| `hs-math-i-data-analysis--inference-intro` | 仮説検定の考え方 | 高校 数学Ⅰ | 外部レビュー済 | 親成果物（外部レビュー済9レッスン）のL07〜L08を参照・外部批判レビュー＋初見読者検査＋修正適用 2026-10-03（前提=L02の平均値・標準偏差と「2s の帯」） |
 
 ### 親ノード（進捗集計対象外・進捗は子単元で計上）
 
@@ -89,15 +89,15 @@
 | `jhs-math-2-congruence-and-proof` | 図形の合同と証明 | 中2 | 人間レビュー済 | 原本教材（16レッスン）を親単位で保全・人間レビュー（現役塾講師による通読）完了 2026-07-19 |
 | `hs-math-i-numbers-and-expressions` | 数と式 | 高校 数学Ⅰ | 外部レビュー済 | 原本教材（11レッスン。L11は親直属の章末まとめ）を親単位で保全・子単元ごとに外部批判レビュー3便＋初見読者検査＋修正適用 2026-09-02 |
 | `hs-math-i-quadratic-functions` | 二次関数 | 高校 数学Ⅰ | 外部レビュー済 | 原本教材（12レッスン）を親単位で保全 |
-| `hs-math-i-trigonometric-ratios` | 図形と計量（三角比） | 高校 数学Ⅰ | 未着手 |  |
-| `hs-math-i-data-analysis` | データの分析 | 高校 数学Ⅰ | 未着手 |  |
+| `hs-math-i-trigonometric-ratios` | 図形と計量（三角比） | 高校 数学Ⅰ | 外部レビュー済 | 原本教材（12レッスン。L12は親直属の章末まとめ）を親単位で保全・外部批判レビュー（GPT-6 Astra Pro・2便）＋初見読者検査＋修正適用 2026-10-02 |
+| `hs-math-i-data-analysis` | データの分析 | 高校 数学Ⅰ | 外部レビュー済 | 原本教材（9レッスン。L09は親直属の章末まとめ）を親単位で保全・外部批判レビュー（GPT-6 Astra Pro・2便）＋初見読者検査＋修正適用 2026-10-03 |
 
 ## 公開コア（public_core）— 数学A・Ⅱ・B・Ⅲ・C（第1版のまま・現行無変更）
 
 | unit_id | 単元名 | 学校段階・学年 | 状態 | 備考 |
 |---|---|---|---|---|
-| `hs-math-a-counting-and-probability` | 場合の数と確率 | 高校 数学A | 未着手 |  |
-| `hs-math-a-geometry-properties` | 図形の性質 | 高校 数学A | 未着手 |  |
+| `hs-math-a-counting-and-probability` | 場合の数と確率 | 高校 数学A | 外部レビュー済 | 原本教材（16レッスン）を親単位で保全・外部批判レビュー（GPT-6 Astra Pro・3便）＋初見読者検査＋修正適用 2026-10-04 |
+| `hs-math-a-geometry-properties` | 図形の性質 | 高校 数学A | 外部レビュー済 | 原本教材（14レッスン。L14は親直属の章末まとめ）を親単位で保全・外部批判レビュー（GPT-6 Astra Pro・3便）＋初見読者検査＋修正適用 2026-10-04 |
 | `hs-math-a-math-and-human-activity` | 数学と人間の活動（整数など） | 高校 数学A | 未着手 |  |
 | `hs-math-ii-various-expressions` | いろいろな式 | 高校 数学Ⅱ | 未着手 |  |
 | `hs-math-ii-figures-and-equations` | 図形と方程式 | 高校 数学Ⅱ | 未着手 |  |

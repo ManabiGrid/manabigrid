@@ -41,23 +41,23 @@
 |---|---|
 | 公開済 | · |
 | 人間レビュー済 | 37 |
-| 外部レビュー済 | 11 |
+| 外部レビュー済 | 17 |
 | QA済 | · |
 | ドラフト | · |
 | 調査済 | 2 |
-| 未着手 | 387 |
+| 未着手 | 381 |
 | **計** | **437** |
 
 ## 集計（科目 × 状態）
 
 | 科目 | 公開済 | 人間レビュー済 | 外部レビュー済 | QA済 | ドラフト | 調査済 | 未着手 | 計 |
 |---|---|---|---|---|---|---|---|---|
-| 数学 | · | 37 | 7 | · | · | · | 21 | 65 |
+| 数学 | · | 37 | 13 | · | · | · | 15 | 65 |
 | 英語 | · | · | 1 | · | · | · | 47 | 48 |
 | 国語 | · | · | 1 | · | · | 1 | 44 | 46 |
 | 理科 | · | · | 1 | · | · | · | 144 | 145 |
 | 社会 | · | · | 1 | · | · | 1 | 131 | 133 |
-| **計** | · | **37** | **11** | · | · | **2** | **387** | **437** |
+| **計** | · | **37** | **17** | · | · | **2** | **381** | **437** |
 
 ## 公開コア（public_core）
 
@@ -350,8 +350,8 @@
 
 | 学校段階・学年 | 単元名 | unit_id | 状態 |
 |---|---|---|---|
-| 高校 数学A | 場合の数と確率 | `hs-math-a-counting-and-probability` | **未着手** |
-| 高校 数学A | 図形の性質 | `hs-math-a-geometry-properties` | **未着手** |
+| 高校 数学A | 場合の数と確率 | `hs-math-a-counting-and-probability` | **外部レビュー済** |
+| 高校 数学A | 図形の性質 | `hs-math-a-geometry-properties` | **外部レビュー済** |
 | 高校 数学A | 数学と人間の活動（整数など） | `hs-math-a-math-and-human-activity` | **未着手** |
 | 高校 数学B | 数学と社会生活 | `hs-math-b-math-and-social-life` | **未着手** |
 | 高校 数学B | 数列 | `hs-math-b-sequences` | **未着手** |
@@ -359,8 +359,8 @@
 | 高校 数学C | 数学的な表現の工夫 | `hs-math-c-mathematical-expression-devices` | **未着手** |
 | 高校 数学C | 平面上の曲線と複素数平面 | `hs-math-c-plane-curves-complex-plane` | **未着手** |
 | 高校 数学C | ベクトル | `hs-math-c-vectors` | **未着手** |
-| 高校 数学Ⅰ | データの散らばりと相関 | `hs-math-i-data-analysis--description` | **未着手** |
-| 高校 数学Ⅰ | 仮説検定の考え方 | `hs-math-i-data-analysis--inference-intro` | **未着手** |
+| 高校 数学Ⅰ | データの散らばりと相関 | `hs-math-i-data-analysis--description` | **外部レビュー済** |
+| 高校 数学Ⅰ | 仮説検定の考え方 | `hs-math-i-data-analysis--inference-intro` | **外部レビュー済** |
 | 高校 数学Ⅰ | 一次不等式 | `hs-math-i-numbers-and-expressions--inequalities` | **外部レビュー済** |
 | 高校 数学Ⅰ | 多項式の展開と因数分解 | `hs-math-i-numbers-and-expressions--polynomial-expansion-factorization` | **外部レビュー済** |
 | 高校 数学Ⅰ | 数の体系と実数・根号 | `hs-math-i-numbers-and-expressions--real-numbers` | **外部レビュー済** |
@@ -368,8 +368,8 @@
 | 高校 数学Ⅰ | 二次関数の最大・最小 | `hs-math-i-quadratic-functions--max-min` | **外部レビュー済** |
 | 高校 数学Ⅰ | 二次方程式・二次不等式とグラフ | `hs-math-i-quadratic-functions--quadratic-equations-inequalities` | **外部レビュー済** |
 | 高校 数学Ⅰ | 集合と命題 | `hs-math-i-sets-and-logic` | **外部レビュー済** |
-| 高校 数学Ⅰ | 三角比の定義と相互関係 | `hs-math-i-trigonometric-ratios--ratios` | **未着手** |
-| 高校 数学Ⅰ | 正弦定理・余弦定理と三角形の計量 | `hs-math-i-trigonometric-ratios--triangle-measurement` | **未着手** |
+| 高校 数学Ⅰ | 三角比の定義と相互関係 | `hs-math-i-trigonometric-ratios--ratios` | **外部レビュー済** |
+| 高校 数学Ⅰ | 正弦定理・余弦定理と三角形の計量 | `hs-math-i-trigonometric-ratios--triangle-measurement` | **外部レビュー済** |
 | 高校 数学Ⅱ | 微分・積分の考え | `hs-math-ii-calculus-basics` | **未着手** |
 | 高校 数学Ⅱ | 指数関数・対数関数 | `hs-math-ii-exponential-logarithm` | **未着手** |
 | 高校 数学Ⅱ | 図形と方程式 | `hs-math-ii-figures-and-equations` | **未着手** |
@@ -596,8 +596,8 @@
 | `hs-jpn-modern-jitsuyoubun` | 現代の国語・実用文書読解：規約/案内/グラフつき文書 | 国語 | 高校 現代の国語 | 公開コア | **未着手** |
 | `hs-jpn-modern-ronri-dokkai` | 現代の国語・論理的文章の読解基礎：主張と根拠の把握 | 国語 | 高校 現代の国語 | 公開コア | **未着手** |
 | `hs-jpn-modern-speech-presentation` | 現代の国語・スピーチと発表：資料に基づいて話す・聞く | 国語 | 高校 現代の国語 | 公開コア | **未着手** |
-| `hs-math-a-counting-and-probability` | 場合の数と確率 | 数学 | 高校 数学A | 公開コア | **未着手** |
-| `hs-math-a-geometry-properties` | 図形の性質 | 数学 | 高校 数学A | 公開コア | **未着手** |
+| `hs-math-a-counting-and-probability` | 場合の数と確率 | 数学 | 高校 数学A | 公開コア | **外部レビュー済** |
+| `hs-math-a-geometry-properties` | 図形の性質 | 数学 | 高校 数学A | 公開コア | **外部レビュー済** |
 | `hs-math-a-math-and-human-activity` | 数学と人間の活動（整数など） | 数学 | 高校 数学A | 公開コア | **未着手** |
 | `hs-math-b-math-and-social-life` | 数学と社会生活 | 数学 | 高校 数学B | 公開コア | **未着手** |
 | `hs-math-b-sequences` | 数列 | 数学 | 高校 数学B | 公開コア | **未着手** |
@@ -605,8 +605,8 @@
 | `hs-math-c-mathematical-expression-devices` | 数学的な表現の工夫 | 数学 | 高校 数学C | 公開コア | **未着手** |
 | `hs-math-c-plane-curves-complex-plane` | 平面上の曲線と複素数平面 | 数学 | 高校 数学C | 公開コア | **未着手** |
 | `hs-math-c-vectors` | ベクトル | 数学 | 高校 数学C | 公開コア | **未着手** |
-| `hs-math-i-data-analysis--description` | データの散らばりと相関 | 数学 | 高校 数学Ⅰ | 公開コア | **未着手** |
-| `hs-math-i-data-analysis--inference-intro` | 仮説検定の考え方 | 数学 | 高校 数学Ⅰ | 公開コア | **未着手** |
+| `hs-math-i-data-analysis--description` | データの散らばりと相関 | 数学 | 高校 数学Ⅰ | 公開コア | **外部レビュー済** |
+| `hs-math-i-data-analysis--inference-intro` | 仮説検定の考え方 | 数学 | 高校 数学Ⅰ | 公開コア | **外部レビュー済** |
 | `hs-math-i-numbers-and-expressions--inequalities` | 一次不等式 | 数学 | 高校 数学Ⅰ | 公開コア | **外部レビュー済** |
 | `hs-math-i-numbers-and-expressions--polynomial-expansion-factorization` | 多項式の展開と因数分解 | 数学 | 高校 数学Ⅰ | 公開コア | **外部レビュー済** |
 | `hs-math-i-numbers-and-expressions--real-numbers` | 数の体系と実数・根号 | 数学 | 高校 数学Ⅰ | 公開コア | **外部レビュー済** |
@@ -614,8 +614,8 @@
 | `hs-math-i-quadratic-functions--max-min` | 二次関数の最大・最小 | 数学 | 高校 数学Ⅰ | 公開コア | **外部レビュー済** |
 | `hs-math-i-quadratic-functions--quadratic-equations-inequalities` | 二次方程式・二次不等式とグラフ | 数学 | 高校 数学Ⅰ | 公開コア | **外部レビュー済** |
 | `hs-math-i-sets-and-logic` | 集合と命題 | 数学 | 高校 数学Ⅰ | 公開コア | **外部レビュー済** |
-| `hs-math-i-trigonometric-ratios--ratios` | 三角比の定義と相互関係 | 数学 | 高校 数学Ⅰ | 公開コア | **未着手** |
-| `hs-math-i-trigonometric-ratios--triangle-measurement` | 正弦定理・余弦定理と三角形の計量 | 数学 | 高校 数学Ⅰ | 公開コア | **未着手** |
+| `hs-math-i-trigonometric-ratios--ratios` | 三角比の定義と相互関係 | 数学 | 高校 数学Ⅰ | 公開コア | **外部レビュー済** |
+| `hs-math-i-trigonometric-ratios--triangle-measurement` | 正弦定理・余弦定理と三角形の計量 | 数学 | 高校 数学Ⅰ | 公開コア | **外部レビュー済** |
 | `hs-math-ii-calculus-basics` | 微分・積分の考え | 数学 | 高校 数学Ⅱ | 公開コア | **未着手** |
 | `hs-math-ii-exponential-logarithm` | 指数関数・対数関数 | 数学 | 高校 数学Ⅱ | 公開コア | **未着手** |
 | `hs-math-ii-figures-and-equations` | 図形と方程式 | 数学 | 高校 数学Ⅱ | 公開コア | **未着手** |
