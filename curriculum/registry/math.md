@@ -63,7 +63,7 @@
 | `hs-math-i-numbers-and-expressions--inequalities` | 一次不等式 | 高校 数学Ⅰ | 外部レビュー済 | 親成果物（外部レビュー済11レッスン）のL08〜L10を参照・外部批判レビュー＋初見読者検査＋修正適用 2026-09-02（前提=中1の不等式の表現。多項式・実数の技能は直接前提にしない） |
 | `hs-math-i-numbers-and-expressions--polynomial-expansion-factorization` | 多項式の展開と因数分解 | 高校 数学Ⅰ | 外部レビュー済 | 親成果物（外部レビュー済11レッスン）のL01〜L04を参照・外部批判レビュー＋初見読者検査＋修正適用 2026-09-02 |
 | `hs-math-i-numbers-and-expressions--real-numbers` | 数の体系と実数・根号 | 高校 数学Ⅰ | 外部レビュー済 | 親成果物（外部レビュー済11レッスン）のL05〜L07を参照・外部批判レビュー＋初見読者検査＋修正適用 2026-09-02（前提=L01〜L02の乗法公式） |
-| `hs-math-i-sets-and-logic` | 集合と命題 | 高校 数学Ⅰ | 未着手 |  |
+| `hs-math-i-sets-and-logic` | 集合と命題 | 高校 数学Ⅰ | 外部レビュー済 | 原本教材（7レッスン）を親単位で保全・外部批判レビュー（GPT-6 Astra Pro・1便）＋初見読者検査＋修正適用 2026-09-24 |
 | `hs-math-i-quadratic-functions--graph-transformations` | 二次関数のグラフと平行移動 | 高校 数学Ⅰ | 外部レビュー済 | 親成果物（外部レビュー済12レッスン）のL01〜L04を参照・差分QA＋再裁定完了 2026-08-29（レビュー時点から本文実質変更0） |
 | `hs-math-i-quadratic-functions--max-min` | 二次関数の最大・最小 | 高校 数学Ⅰ | 外部レビュー済 | 親成果物（外部レビュー済12レッスン）のL05〜L07を参照・差分QA＋再裁定完了 2026-08-29（前提=グラフと平行移動） |
 | `hs-math-i-quadratic-functions--quadratic-equations-inequalities` | 二次方程式・二次不等式とグラフ | 高校 数学Ⅰ | 外部レビュー済 | 親成果物（外部レビュー済12レッスン）のL08〜L12を参照・差分QA＋再裁定完了 2026-08-29（L12後半は親単元全体のまとめ） |
