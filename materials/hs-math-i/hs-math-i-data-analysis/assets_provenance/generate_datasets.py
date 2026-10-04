@@ -153,7 +153,7 @@ def l03_practice():
     return dict(
         q1_X=[5, 7, 7, 8, 10, 11],                             # 問1: m=8, s=2
         q1_Y=[3, 3, 8, 9, 11, 14],                             # 問1: m=8, s=4
-        q2_table=dict(values=[15, 25, 35, 45, 55], freqs=[1, 1, 6, 1, 1]),  # 問2: m=35, s=10
+        q2_table=dict(values=[15, 25, 35, 45, 55], freqs=[2, 3, 3, 1, 1]),  # 問2: m=31, s=12（2026-10-04 改訂: 度数を掛け忘れると答えが変わる組）
         q3=[3, 5, 5, 6, 8, 9],                                 # 問3: m=6, s=2 → +4／×3
         q4=[153, 155, 155, 156, 158, 159],                     # 問4: 仮平均155 → m=156, s=2
         s1=[17, 19, 20, 21, 23],                               # S1: 気温（℃）m=20, s=2 → 華氏
@@ -522,7 +522,7 @@ def verify_l07_l09():
     assert {k: v for k, v in enumerate(f30) if v} == {6: 1, 7: 1, 8: 2, 9: 1, 10: 11, 11: 7, 12: 18, 13: 27,
                                                         14: 22, 15: 34, 16: 25, 17: 18, 18: 16, 19: 9, 20: 5,
                                                         21: 1, 22: 1, 23: 1}, f30
-    for k, expect in ((24, 0), (23, 1), (22, 2), (21, 3), (20, 8), (19, 17), (18, 33), (16, 76)):
+    for k, expect in ((25, 0), (24, 0), (23, 1), (22, 2), (21, 3), (20, 8), (19, 17), (18, 33), (16, 76)):
         assert _count_ge(c30, k) == expect, (k, _count_ge(c30, k), expect)
     assert c30.count(15) == 34 and _count_le(c30, 9) == 5 and _count_le(c30, 7) == 2
     assert _count_le(c30, 9) + _count_ge(c30, 21) == 8
@@ -534,7 +534,7 @@ def verify_l07_l09():
     s30 = float(v30) ** 0.5
     assert abs(s30 - 2.8281) < 0.001 and abs(float(m30) + 2 * s30 - 20.361) < 0.001 and abs(float(m30) - 2 * s30 - 9.049) < 0.001
     assert statistics.mean(c30) == 14.705 and abs(statistics.pvariance(c30) - 7.997975) < 1e-9
-    ok.append("30回投げ: 24以上0・23以上1・22以上2・21以上3・20以上8・19以上17・18以上33・16以上76・ちょうど15は34・"
+    ok.append("30回投げ: 25以上0・24以上0・23以上1・22以上2・21以上3・20以上8・19以上17・18以上33・16以上76・ちょうど15は34・"
               "9以下5・7以下2・2sの外8・合計2941・m=14.705・2乗の合計44847・s²=7.997975・s≒2.828・m＋2s≒20.36・m−2s≒9.05")
     # ---- 10回投げ×200回（L08 §4・問3） ----
     c10 = L08_coin10()
@@ -546,8 +546,8 @@ def verify_l07_l09():
     assert float(m10) == 5.12 and float(v10) == 2.8256
     s10 = float(v10) ** 0.5
     assert abs(s10 - 1.6810) < 0.001 and abs(float(m10) + 2 * s10 - 8.482) < 0.001
-    assert 8 < float(m10) + 2 * s10 < 9   # 8枚は帯の中・9枚は帯の外（L08 §4・問3）
-    ok.append("10回投げ: 度数 [0,4,11,16,35,52,45,20,13,4,0]・8以上17・9以上4・m=5.12・s²=2.8256・s≒1.681・m＋2s≒8.48")
+    assert 7 < 8 < float(m10) + 2 * s10 < 9   # 7枚・8枚は帯の中・9枚は帯の外（L08 §4・問3）
+    ok.append("10回投げ: 度数 [0,4,11,16,35,52,45,20,13,4,0]・7以上37・8以上17・9以上4・m=5.12・s²=2.8256・s≒1.681・m＋2s≒8.48")
     # ---- 100回投げ×200回（L08 §4・問4） ----
     c100 = L08_coin100()
     f100 = coin_freq(c100, 100)
@@ -557,14 +557,14 @@ def verify_l07_l09():
                                                           54: 14, 55: 8, 56: 6, 57: 5, 58: 2, 59: 3, 60: 2, 61: 1, 63: 1}
     cls = coin_class_table(c100)
     assert [n for _, n in cls] == [5, 26, 71, 70, 24, 4, 0] and sum(n for _, n in cls) == 200, cls
-    assert _count_ge(c100, 80) == 0 and _count_ge(c100, 60) == 4
+    assert _count_ge(c100, 70) == 0 and _count_ge(c100, 80) == 0 and _count_ge(c100, 60) == 4
     assert min(c100) == 36 and max(c100) == 63 and sum(c100) == 9880
     m100, v100 = mean(c100), pvariance(c100)
     assert float(m100) == 49.4 and float(v100) == 24.24
     s100 = float(v100) ** 0.5
     assert abs(s100 - 4.9234) < 0.001 and abs(float(m100) + 2 * s100 - 59.246) < 0.001
     assert 59 < float(m100) + 2 * s100 < 60   # 60枚は帯の外（L08 問4）
-    ok.append("100回投げ: 階級 [5,26,71,70,24,4,0]・80以上0・60以上4・最小36・最大63・m=49.4・s²=24.24・s≒4.923・m＋2s≒59.25")
+    ok.append("100回投げ: 階級 [5,26,71,70,24,4,0]・70以上0・80以上0・60以上4・最小36・最大63・m=49.4・s²=24.24・s≒4.923・m＋2s≒59.25")
     # ---- L09 例題1 ----
     d = L09_ex1_study_hours()
     fv = quartiles(d)
@@ -775,7 +775,7 @@ def main():
     p = l03_practice()
     md_row_table("問1 X", p["q1_X"]); md_stats("問1 X", p["q1_X"], dict(m=8, var=4))
     md_row_table("問1 Y", p["q1_Y"]); md_stats("問1 Y", p["q1_Y"], dict(m=8, var=16))
-    freq_table_stats("問2", p["q2_table"]["values"], p["q2_table"]["freqs"], 35, 100)
+    freq_table_stats("問2", p["q2_table"]["values"], p["q2_table"]["freqs"], 31, 144)
     md_row_table("問3", p["q3"]); md_stats("問3", p["q3"], dict(m=6, var=4))
     md_stats("問3 ＋4", [x + 4 for x in p["q3"]], dict(m=10, var=4))
     md_stats("問3 ×3", [3 * x for x in p["q3"]], dict(m=18, var=36))
@@ -798,7 +798,7 @@ def main():
     print("| 回数 | " + " | ".join(str(v) for v in dist.values()) + f" | {len(c)} |")
     m_c, v_c = mean(c), pvariance(c)
     print(f"- 平均値 m={float(m_c):.3f}・分散≒{float(v_c):.3f}・標準偏差 s≒{float(v_c) ** 0.5:.3f}・最小={min(c)}・最大={max(c)}")
-    print(f"- 24枚以上の回数={sum(1 for x in c if x >= 24)}（相対度数 {sum(1 for x in c if x >= 24) / len(c):.3f}）")
+    print(f"- 25枚以上の回数={sum(1 for x in c if x >= 25)}（相対度数 {sum(1 for x in c if x >= 25) / len(c):.3f}）")
     print(f"- 18枚以上の回数={sum(1 for x in c if x >= 18)}（相対度数 {sum(1 for x in c if x >= 18) / len(c):.3f}）")
     print(f"- 理論値（参考・本文には書かない）: 1回の表の枚数の平均 15・標準偏差 √7.5≒2.739")
     assert len(c) == 200 and sum(dist.values()) == 200

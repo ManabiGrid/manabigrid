@@ -971,7 +971,7 @@ def fig_L06_1():
 
 
 # ===========================================================================
-# 図8: L07 コイン30回投げ×200回の表の枚数のヒストグラム——18以上を濃く塗り、24以上を斜線で示す
+# 図8: L07 コイン30回投げ×200回の表の枚数のヒストグラム——18以上を濃く塗り、25以上を斜線で示す
 # 仕様の正: lesson_07.md §3（度数分布表の直後。lesson_08.md §3 でも同じ alt で再掲）。
 # データ=generate_datasets.coin_counts(seed=20260902)（L07〜L08 の正。本文の結果表もこれを写す）。COIN_COUNTS_OVERRIDE は本文の度数分布表の写し（照合用）——coin_counts() の
 # 度数列と一致しなければ停止する（本文とデータの食い違い検出）。回数・相対度数・m・s の値は図に描かない。
@@ -981,7 +981,7 @@ assert COIN_SEED == gd.COIN_SEED, "図版とデータスクリプトのシード
 # lesson_07.md §3・lesson_08.md §1・lesson_09.md §4 の度数分布表（表の枚数: 回数。合計200）の写し——照合用
 COIN_COUNTS_OVERRIDE = {6: 1, 7: 1, 8: 2, 9: 1, 10: 11, 11: 7, 12: 18, 13: 27, 14: 22, 15: 34, 16: 25,
                         17: 18, 18: 16, 19: 9, 20: 5, 21: 1, 22: 1, 23: 1}
-COIN_GE24_EXPECT, COIN_GE21_EXPECT, COIN_GE20_EXPECT, COIN_GE18_EXPECT = 0, 3, 8, 33   # lesson_07.md §4（24以上・18以上）・answer_key_L07-08.md（21以上・20以上）
+COIN_GE25_EXPECT, COIN_GE21_EXPECT, COIN_GE20_EXPECT, COIN_GE18_EXPECT = 0, 3, 8, 33   # lesson_07.md §4（25以上・18以上）・answer_key_L07-08.md（21以上・20以上）
 COIN_M_EXPECT = F(2941, 200)                      # m=14.705（分数で厳密）
 COIN_S_EXPECT, COIN_M2S_EXPECT = 2.8281, 20.361   # s・m＋2s（誤差 0.001 未満）
 
@@ -1001,11 +1001,11 @@ def simulate_coin(seed, n_trials=200, n_toss=30):
 
 def fig_L07_1():
     # --- パラメータ（lesson_07.md §3 の度数分布表と一致。データは共通スクリプトから import） ---
-    N_TRIALS, N_TOSS, THRESHOLD = 200, 30, 24    # 24以上: 斜線＋境界の破線（この領域に棒は1本もない）
+    N_TRIALS, N_TOSS, THRESHOLD = 200, 30, 25    # 25以上: 斜線＋境界の破線（この領域に棒は1本もない。2026-10-04 に 24 から変更）
     THRESHOLD2 = 18                              # 18以上: 棒を濃く塗る（SHADE2）
     SHOW_M_2S = False        # m と 2s の帯は描かない（L08 は本文で m＋2s≒20.36 を言葉で示す）
     ALT = ("コインを30回投げて表の枚数を数える試行を200回くり返した結果のヒストグラム——横軸は表の枚数（0〜30）・"
-           "縦軸はその枚数が出た回数。棒は15枚前後に高く集まり、18枚以上の棒を濃く塗り、24枚以上の領域は斜線で示すが、"
+           "縦軸はその枚数が出た回数。棒は15枚前後に高く集まり、18枚以上の棒を濃く塗り、25枚以上の領域は斜線で示すが、"
            "そこに棒は1本もない")
 
     ck = Checker()
@@ -1024,9 +1024,9 @@ def fig_L07_1():
     n_ge21 = sum(counts[k] for k in range(21, N_TOSS + 1))
     n_ge20 = sum(counts[k] for k in range(20, N_TOSS + 1))
     n_ge18 = sum(counts[k] for k in range(THRESHOLD2, N_TOSS + 1))
-    ck.ok(f"度数列から数え直し: {THRESHOLD}以上={COIN_GE24_EXPECT}回・21以上={COIN_GE21_EXPECT}回・20以上={COIN_GE20_EXPECT}回・"
+    ck.ok(f"度数列から数え直し: {THRESHOLD}以上={COIN_GE25_EXPECT}回・21以上={COIN_GE21_EXPECT}回・20以上={COIN_GE20_EXPECT}回・"
           f"{THRESHOLD2}以上={COIN_GE18_EXPECT}回（lesson_07.md §4・answer_key_L07-08.md の値。回数・相対度数は図に描かない）",
-          n_over == sum(1 for v in results if v >= THRESHOLD) == COIN_GE24_EXPECT and
+          n_over == sum(1 for v in results if v >= THRESHOLD) == COIN_GE25_EXPECT and
           n_ge21 == COIN_GE21_EXPECT and n_ge20 == COIN_GE20_EXPECT and
           n_ge18 == sum(1 for v in results if v >= THRESHOLD2) == COIN_GE18_EXPECT)
     m = mean_of(results)
@@ -1059,7 +1059,7 @@ def fig_L07_1():
     yscale = 4.0
     ck.ok("最大度数の棒が縦軸の枠（0〜40）に収まる", maxc <= 40, f"最大度数={maxc}")
     hatch = cv.hatch()
-    # 24以上の領域（斜線）と境界の破線
+    # 25以上の領域（斜線）と境界の破線
     top = base - 178
     cv.rect(X(THRESHOLD - F(1, 2)), top, X(VMAX) - X(THRESHOLD - F(1, 2)), base - top, sw=0, fill=hatch)
     cv.line(X(THRESHOLD - F(1, 2)), top - 4, X(THRESHOLD - F(1, 2)), base, w=1.3, dash=DASH)
@@ -1081,7 +1081,7 @@ def fig_L07_1():
             cv.rect(xl, base - c * yscale, xr - xl, c * yscale, sw=1.0, fill=fills[k])
             assert abs((xr - xl) - (X(1) - X(0))) < 1e-9, "棒の幅≠1枚分"
     ck.ok(f"{THRESHOLD2}〜23の棒の fill が SHADE2（濃い）・17以下の棒が SHADE・{THRESHOLD}以上の領域に棒なし",
-          all(fills.get(k) == SHADE2 for k in range(THRESHOLD2, THRESHOLD)) and
+          all(fills.get(k) == SHADE2 for k in range(THRESHOLD2, THRESHOLD) if counts[k]) and
           all(v == SHADE for k, v in fills.items() if k < THRESHOLD2) and
           not any(k >= THRESHOLD for k in fills))
     ck.ok("各棒の高さ=度数×4px・幅=1枚分（描画時に照合）", True)
@@ -1104,7 +1104,7 @@ def fig_L07_1():
     T(280, 302, "横軸: 表の枚数（枚）／縦軸: その枚数が出た回数（回）", size=FS_CAP)
     T(280, 320, f"コンピュータの乱数で生成した架空の実験結果（{N_TRIALS}回）", size=10)
     numeric = {t for t in labels if re.search(r"[0-9]", t)}
-    ck.ok("図中の数字ラベルは目盛と「18以上」「24以上」・見出し・キャプションのみ（回数・相対度数・m・s は描かない）",
+    ck.ok("図中の数字ラベルは目盛と「18以上」「25以上」・見出し・キャプションのみ（回数・相対度数・m・s は描かない）",
           numeric == {f"{k}" for k in range(0, N_TOSS + 1, 5)} | {"10", "20", "30", "40"} |
           {f"{THRESHOLD2}以上", f"{THRESHOLD}以上",
            f"コインを{N_TOSS}回投げて表の枚数を数える——{N_TRIALS}回くり返した結果",
@@ -1112,8 +1112,8 @@ def fig_L07_1():
           f"実測={sorted(numeric)}")
 
     return {"file": "L07_fig1_coin_experiment_histogram.svg", "lesson": "L07", "canvas": cv,
-            "title": "コイン30回投げ×200回の表の枚数のヒストグラム——18以上を濃く塗り、24以上を斜線で示す",
-            "intent": "偶然だけ（表が出る確率2分の1）でコインを30回投げたとき、表の枚数がどう散らばるかを200回の実験結果で見せる。主張B（30人中18人）にあたる18枚以上の棒を濃く塗り、主張A（30人中24人）にあたる24枚以上の領域を斜線で示す——斜線の中に棒は1本もない。それぞれの回数を数えて相対度数 p を求めるのは本文の活動（回数・p・m・s の値は図に描かない）。L08 §3 でも同じ alt で再掲",
+            "title": "コイン30回投げ×200回の表の枚数のヒストグラム——18以上を濃く塗り、25以上を斜線で示す",
+            "intent": "偶然だけ（表が出る確率2分の1）でコインを30回投げたとき、表の枚数がどう散らばるかを200回の実験結果で見せる。主張B（30人中18人）にあたる18枚以上の棒を濃く塗り、主張A（30人中25人）にあたる25枚以上の領域を斜線で示す——斜線の中に棒は1本もない。それぞれの回数を数えて相対度数 p を求めるのは本文の活動（回数・p・m・s の値は図に描かない）。L08 §3 でも同じ alt で再掲",
             "src": "lesson_07.md §3（度数分布表の直後）／lesson_08.md §3（同じ alt で再掲）",
             "params": f"{N_TOSS}回投げ×{N_TRIALS}回・データ=generate_datasets.coin_counts(seed={COIN_SEED})（度数列は本文の度数分布表の写し COIN_COUNTS_OVERRIDE と完全一致）・棒は1枚ごと・{THRESHOLD2}以上の棒を濃く塗る・{THRESHOLD}以上を斜線・m と 2s の帯は非表示（SHOW_M_2S）",
             "spec": "データ=generate_datasets.coin_counts(seed=20260902)・度数列=lesson_07.md §3 の度数分布表と照合・18以上を塗り分け・alt=本文と同一（lesson_08.md §3 の再掲も同じ alt で照合）",
@@ -1430,7 +1430,7 @@ def main():
         "`l03_test20_class2`・`L04_fig1_three_types`・`L04_ex1_temperature_drinks`・`L05_ex2_basketball`・"
         "`coin_counts`）から取り、ラベルは本文明示値のみ、alt は本文の画像参照と文字単位で同一（生成時 assert）。",
         "- **L07_fig1**: データ=`coin_counts(seed=20260902)`。度数列は本文の度数分布表の写し（`COIN_COUNTS_OVERRIDE`）と"
-        "生成時に照合し、一致しなければ停止する。18以上の棒を濃く塗り（SHADE2）、24以上は斜線（棒なし）。alt は "
+        "生成時に照合し、一致しなければ停止する。18以上の棒を濃く塗り（SHADE2）、25以上は斜線（棒なし）。alt は "
         "lesson_07.md §3 と lesson_08.md §3（再掲）の両方と照合。**L09_fig1**: 枠名6個・矢印ラベル5個を lesson_09.md の"
         "文言と照合し、図中の「情報Ⅰ」を本文の字形（ローマ数字）にそろえた。",
         "- 差し替え箇所は各 `fig_*` 関数冒頭の「パラメータ」ブロック（L04 の散布図3組 `SCATTER_*` と L07 の "
@@ -1443,7 +1443,7 @@ def main():
         "",
         "- 図中に書いた数値は、軸の目盛り・データの個数・定義の数（1.5×四分位範囲）と、"
         "本文の表に載る想定の偏差の値（L02・切替可）のみ。五数要約・分散・標準偏差・相関係数 r・"
-        "24以上の回数と相対度数 p は**図に描かない**（本文の活動・練習の答えになるため）。",
+        "25以上の回数と相対度数 p は**図に描かない**（本文の活動・練習の答えになるため）。",
         "- L09 の単元マップは「帰無仮説」「有意水準」の語をSVG全文への禁止語検査で排除"
         "（本文 L09 で1回だけ出す設計のため）。",
         "",
