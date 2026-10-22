@@ -23,8 +23,9 @@
 ## Fable 5.1 申告（新単元の制作のみ必須）
 
 - 使用モデル: Claude Fable 5.1（model id: claude-fable-5-1）である —— はい / いいえ（2026-09-02 より前に Claude Fable 5（claude-fable-5）で制作した成果物は、その旨を書けば有効）
+- 執筆とセルフQAに Claude Opus 5.5（model id: claude-opus-5-5・reasoning effort max）を使った —— はい / いいえ（はいの場合も、調査と正規化は Fable 5.1 で行ったこと）
 - reasoning effort: （medium / high / それ以上）
-- サブエージェント: 使っていない ／ 使った（すべて Fable 5.1 である —— はい / いいえ）
+- サブエージェント: 使っていない ／ 使った（すべて Fable 5.1、または執筆とセルフQAの工程では Opus 5.5 である —— はい / いいえ）
 - 実行した工程: 調査 ／ 正規化 ／ 執筆 ／ セルフQA（すべて必須・飛ばした工程があれば正直に書く）
 - 工程成果物一式（調査ノート・執筆用要約・QA記録）を同梱した —— はい / いいえ
 

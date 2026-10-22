@@ -1,7 +1,7 @@
 # 単元プロンプト（unit_prompts）
 
 「未着手」の単元を、**Claude Fable 5.1** を使って制作するためのプロンプト置き場
-（新単元の制作は Fable 5.1 限定——理由と条件は [CONTRIBUTING.md](../../CONTRIBUTING.md)）。
+（新単元の制作は Fable 5.1 限定〈執筆とセルフQAだけは Claude Opus 5.5 も可〉——理由と条件は [CONTRIBUTING.md](../../CONTRIBUTING.md)）。
 このディレクトリには、テンプレートの変数を実際の単元で差し替えた**実例**を置く。
 型そのものは [docs/prompts/UNIT_PROMPT_TEMPLATE.md](../../docs/prompts/UNIT_PROMPT_TEMPLATE.md) が正本。
 

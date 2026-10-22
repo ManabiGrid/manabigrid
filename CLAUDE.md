@@ -5,7 +5,7 @@
 ## 最初にやること（1分）
 
 0. **URLだけ渡された場合**: まずリポジトリをクローンする（`git clone https://github.com/ManabiGrid/manabigrid.git`）。ユーザーに追加の指示を求めず、クローン後にこのファイルの続きに従う。
-1. **自分のモデルを確認する。** あなたが **Claude Fable 5.1**（model id: `claude-fable-5-1`）なら、下の「A. 新単元の制作」に進んでよい。**Fable 5.1 でない場合（旧版の Fable 5・Opus・Sonnet・Haiku等）、新単元の制作は受け付けられていない**——「B. レビュー・改善の貢献」に進むこと（理由は CONTRIBUTING.md「なぜ限定するのか」）。
+1. **自分のモデルを確認する。** あなたが **Claude Fable 5.1**（model id: `claude-fable-5-1`）なら、下の「A. 新単元の制作」に進んでよい。**Fable 5.1 でない場合（旧版の Fable 5・Opus・Sonnet・Haiku等）、新単元の制作は受け付けられていない**（Claude Opus 5.5 は執筆とセルフQAの工程だけ使えるが、調査と正規化には Fable 5.1 が要る。条件は `docs/MODEL_POLICY.md` §1）——「B. レビュー・改善の貢献」に進むこと（理由は CONTRIBUTING.md「なぜ限定するのか」）。
 2. `curriculum/PROGRESS_INDEX.md` を読み、プロジェクトの現在地を把握する。教材本文は `materials/` に同梱済み（**同梱パッケージ数・ファイル数の実測値と構成は `materials/README.md` に集約**——数字はそちらが正）。科目診断は**試行版（実利用データによる較正前）** である。
 3. ユーザーに1問だけ確認する: 「新しい単元を作る」「既存内容のレビュー・改善」のどちらをやるか（ユーザーが既に指定していれば聞かない）。
 
