@@ -41,23 +41,23 @@
 |---|---|
 | 公開済 | · |
 | 人間レビュー済 | 37 |
-| 外部レビュー済 | 18 |
+| 外部レビュー済 | 19 |
 | QA済 | · |
 | ドラフト | · |
 | 調査済 | 2 |
-| 未着手 | 380 |
+| 未着手 | 379 |
 | **計** | **437** |
 
 ## 集計（科目 × 状態）
 
 | 科目 | 公開済 | 人間レビュー済 | 外部レビュー済 | QA済 | ドラフト | 調査済 | 未着手 | 計 |
 |---|---|---|---|---|---|---|---|---|
-| 数学 | · | 37 | 14 | · | · | · | 14 | 65 |
+| 数学 | · | 37 | 15 | · | · | · | 13 | 65 |
 | 英語 | · | · | 1 | · | · | · | 47 | 48 |
 | 国語 | · | · | 1 | · | · | 1 | 44 | 46 |
 | 理科 | · | · | 1 | · | · | · | 144 | 145 |
 | 社会 | · | · | 1 | · | · | 1 | 131 | 133 |
-| **計** | · | **37** | **18** | · | · | **2** | **380** | **437** |
+| **計** | · | **37** | **19** | · | · | **2** | **379** | **437** |
 
 ## 公開コア（public_core）
 
@@ -372,7 +372,7 @@
 | 高校 数学Ⅰ | 正弦定理・余弦定理と三角形の計量 | `hs-math-i-trigonometric-ratios--triangle-measurement` | **外部レビュー済** |
 | 高校 数学Ⅱ | 微分・積分の考え | `hs-math-ii-calculus-basics` | **未着手** |
 | 高校 数学Ⅱ | 指数関数・対数関数 | `hs-math-ii-exponential-logarithm` | **未着手** |
-| 高校 数学Ⅱ | 図形と方程式 | `hs-math-ii-figures-and-equations` | **未着手** |
+| 高校 数学Ⅱ | 図形と方程式 | `hs-math-ii-figures-and-equations` | **外部レビュー済** |
 | 高校 数学Ⅱ | 三角関数 | `hs-math-ii-trigonometric-functions` | **未着手** |
 | 高校 数学Ⅱ | いろいろな式 | `hs-math-ii-various-expressions` | **未着手** |
 | 高校 数学Ⅲ | 微分法 | `hs-math-iii-differentiation` | **未着手** |
@@ -618,7 +618,7 @@
 | `hs-math-i-trigonometric-ratios--triangle-measurement` | 正弦定理・余弦定理と三角形の計量 | 数学 | 高校 数学Ⅰ | 公開コア | **外部レビュー済** |
 | `hs-math-ii-calculus-basics` | 微分・積分の考え | 数学 | 高校 数学Ⅱ | 公開コア | **未着手** |
 | `hs-math-ii-exponential-logarithm` | 指数関数・対数関数 | 数学 | 高校 数学Ⅱ | 公開コア | **未着手** |
-| `hs-math-ii-figures-and-equations` | 図形と方程式 | 数学 | 高校 数学Ⅱ | 公開コア | **未着手** |
+| `hs-math-ii-figures-and-equations` | 図形と方程式 | 数学 | 高校 数学Ⅱ | 公開コア | **外部レビュー済** |
 | `hs-math-ii-trigonometric-functions` | 三角関数 | 数学 | 高校 数学Ⅱ | 公開コア | **未着手** |
 | `hs-math-ii-various-expressions` | いろいろな式 | 数学 | 高校 数学Ⅱ | 公開コア | **未着手** |
 | `hs-math-iii-differentiation` | 微分法 | 数学 | 高校 数学Ⅲ | 公開コア | **未着手** |
