@@ -99,7 +99,7 @@
 | `hs-math-a-counting-and-probability` | 場合の数と確率 | 高校 数学A | 外部レビュー済 | 原本教材（16レッスン）を親単位で保全・外部批判レビュー（GPT-6 Astra Pro・3便）＋初見読者検査＋修正適用 2026-10-04 |
 | `hs-math-a-geometry-properties` | 図形の性質 | 高校 数学A | 外部レビュー済 | 原本教材（14レッスン。L14は親直属の章末まとめ）を親単位で保全・外部批判レビュー（GPT-6 Astra Pro・3便）＋初見読者検査＋修正適用 2026-10-04 |
 | `hs-math-a-math-and-human-activity` | 数学と人間の活動 | 高校 数学A | 外部レビュー済 | 原本教材（11レッスン。L11は親直属の章末まとめ）を親単位で保全・外部批判レビュー（GPT-6 Astra Pro・2便）＋初見読者検査＋修正適用 2026-10-04 |
-| `hs-math-ii-various-expressions` | いろいろな式 | 高校 数学Ⅱ | 未着手 |  |
+| `hs-math-ii-various-expressions` | いろいろな式 | 高校 数学Ⅱ | 外部レビュー済 | 原本教材（16レッスン。L16は親直属の章末まとめ）を親単位で保全・別ベンダ（GPT-6系のCodex）による全設問の再計算と条件の点検＋外部批判レビュー（GPT-6 Astra Pro・2便）＋初見読者検査＋修正適用 2026-10-26 |
 | `hs-math-ii-figures-and-equations` | 図形と方程式 | 高校 数学Ⅱ | 外部レビュー済 | 原本教材（13レッスン。L13は親直属の章末まとめ）を親単位で保全・別ベンダ（GPT-6系のCodex）による全設問の再計算と条件の点検＋外部批判レビュー（GPT-6 Astra Pro・2便）＋初見読者検査＋修正適用 2026-10-23 |
 | `hs-math-ii-trigonometric-functions` | 三角関数 | 高校 数学Ⅱ | 未着手 |  |
 | `hs-math-ii-exponential-logarithm` | 指数関数・対数関数 | 高校 数学Ⅱ | 未着手 |  |
