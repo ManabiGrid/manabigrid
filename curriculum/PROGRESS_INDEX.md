@@ -41,11 +41,11 @@
 |---|---|
 | 公開済 | · |
 | 人間レビュー済 | 37 |
-| 外部レビュー済 | 22 |
+| 外部レビュー済 | 25 |
 | QA済 | · |
 | ドラフト | · |
 | 調査済 | 2 |
-| 未着手 | 376 |
+| 未着手 | 373 |
 | **計** | **437** |
 
 ## 集計（科目 × 状態）
@@ -53,11 +53,11 @@
 | 科目 | 公開済 | 人間レビュー済 | 外部レビュー済 | QA済 | ドラフト | 調査済 | 未着手 | 計 |
 |---|---|---|---|---|---|---|---|---|
 | 数学 | · | 37 | 15 | · | · | · | 13 | 65 |
-| 英語 | · | · | 1 | · | · | · | 47 | 48 |
+| 英語 | · | · | 4 | · | · | · | 44 | 48 |
 | 国語 | · | · | 1 | · | · | 1 | 44 | 46 |
 | 理科 | · | · | 4 | · | · | · | 141 | 145 |
 | 社会 | · | · | 1 | · | · | 1 | 131 | 133 |
-| **計** | · | **37** | **22** | · | · | **2** | **376** | **437** |
+| **計** | · | **37** | **25** | · | · | **2** | **373** | **437** |
 
 ## 公開コア（public_core）
 
@@ -114,9 +114,9 @@
 | 中1 | できることを伝える（can） | `jhs-eng-1-abilities-and-requests--can` | **未着手** |
 | 中1 | 指示・依頼を伝える（命令文・Please） | `jhs-eng-1-abilities-and-requests--imperatives` | **未着手** |
 | 中1 | 今していることを伝える（現在進行形） | `jhs-eng-1-actions-in-progress` | **未着手** |
-| 中1 | be動詞で人・ものの状態を伝える | `jhs-eng-1-be-and-do-verbs--be` | **未着手** |
-| 中1 | be動詞と一般動詞を使い分ける | `jhs-eng-1-be-and-do-verbs--contrast` | **未着手** |
-| 中1 | 一般動詞で習慣・好みを伝える | `jhs-eng-1-be-and-do-verbs--general-verbs` | **未着手** |
+| 中1 | be動詞で人・ものの状態を伝える | `jhs-eng-1-be-and-do-verbs--be` | **外部レビュー済** |
+| 中1 | be動詞と一般動詞を使い分ける | `jhs-eng-1-be-and-do-verbs--contrast` | **外部レビュー済** |
+| 中1 | 一般動詞で習慣・好みを伝える | `jhs-eng-1-be-and-do-verbs--general-verbs` | **外部レビュー済** |
 | 中1 | 場所とあり方を伝える（There is/are・前置詞） | `jhs-eng-1-describing-places` | **未着手** |
 | 中1 | 自分と身近な人を紹介する（三単現含む） | `jhs-eng-1-introducing-yourself-and-others` | **外部レビュー済** |
 | 中1 | 疑問文と応答のやり取り | `jhs-eng-1-questions-and-responses` | **未着手** |
@@ -744,9 +744,9 @@
 | `jhs-eng-1-abilities-and-requests--can` | できることを伝える（can） | 英語 | 中1 | 公開コア | **未着手** |
 | `jhs-eng-1-abilities-and-requests--imperatives` | 指示・依頼を伝える（命令文・Please） | 英語 | 中1 | 公開コア | **未着手** |
 | `jhs-eng-1-actions-in-progress` | 今していることを伝える（現在進行形） | 英語 | 中1 | 公開コア | **未着手** |
-| `jhs-eng-1-be-and-do-verbs--be` | be動詞で人・ものの状態を伝える | 英語 | 中1 | 公開コア | **未着手** |
-| `jhs-eng-1-be-and-do-verbs--contrast` | be動詞と一般動詞を使い分ける | 英語 | 中1 | 公開コア | **未着手** |
-| `jhs-eng-1-be-and-do-verbs--general-verbs` | 一般動詞で習慣・好みを伝える | 英語 | 中1 | 公開コア | **未着手** |
+| `jhs-eng-1-be-and-do-verbs--be` | be動詞で人・ものの状態を伝える | 英語 | 中1 | 公開コア | **外部レビュー済** |
+| `jhs-eng-1-be-and-do-verbs--contrast` | be動詞と一般動詞を使い分ける | 英語 | 中1 | 公開コア | **外部レビュー済** |
+| `jhs-eng-1-be-and-do-verbs--general-verbs` | 一般動詞で習慣・好みを伝える | 英語 | 中1 | 公開コア | **外部レビュー済** |
 | `jhs-eng-1-describing-places` | 場所とあり方を伝える（There is/are・前置詞） | 英語 | 中1 | 公開コア | **未着手** |
 | `jhs-eng-1-introducing-yourself-and-others` | 自分と身近な人を紹介する（三単現含む） | 英語 | 中1 | 公開コア | **外部レビュー済** |
 | `jhs-eng-1-questions-and-responses` | 疑問文と応答のやり取り | 英語 | 中1 | 公開コア | **未着手** |
