@@ -52,9 +52,9 @@
 | `jhs-sci-2-animal-body-functions--excretion-regulation` | 排出とからだの調節 | 中2 | 未着手 | fable_blocked（2026-07-16判定・MODEL_POLICY §5の例外対象） |
 | `jhs-sci-2-animal-body-functions--respiration-circulation` | 呼吸と血液循環 | 中2 | 未着手 | fable_blocked（2026-07-16判定・MODEL_POLICY §5の例外対象） |
 | `jhs-sci-2-animal-body-functions--stimulus-response` | 刺激と反応・神経系 | 中2 | 未着手 | fable_blocked（2026-07-16判定・MODEL_POLICY §5の例外対象） |
-| `jhs-sci-2-atmospheric-movement-japan-weather--air-masses-fronts` | 気団・前線と天気の変化 | 中2 | 未着手 | fable_ok（2026-07-16判定） |
-| `jhs-sci-2-atmospheric-movement-japan-weather--japan-seasons` | 日本の季節の天気 | 中2 | 未着手 | fable_ok（2026-07-16判定） |
-| `jhs-sci-2-atmospheric-movement-japan-weather--pressure-wind` | 気圧配置と風 | 中2 | 未着手 | fable_ok（2026-07-16判定） |
+| `jhs-sci-2-atmospheric-movement-japan-weather--air-masses-fronts` | 気団・前線と天気の変化 | 中2 | 外部レビュー済 | fable_ok（2026-07-16判定）；原本教材（10レッスン。子単元3件は親パッケージ1つの中のレッスン範囲として同梱）を親単位で保全・別ベンダ（GPT-6系のCodex）による全設問の再計算と条件の点検＋外部批判レビュー（GPT-6 Astra Pro・2便）＋初見読者検査＋修正適用 2026-10-26 |
+| `jhs-sci-2-atmospheric-movement-japan-weather--japan-seasons` | 日本の季節の天気 | 中2 | 外部レビュー済 | fable_ok（2026-07-16判定）；原本教材（10レッスン。子単元3件は親パッケージ1つの中のレッスン範囲として同梱）を親単位で保全・別ベンダ（GPT-6系のCodex）による全設問の再計算と条件の点検＋外部批判レビュー（GPT-6 Astra Pro・2便）＋初見読者検査＋修正適用 2026-10-26 |
+| `jhs-sci-2-atmospheric-movement-japan-weather--pressure-wind` | 気圧配置と風 | 中2 | 外部レビュー済 | fable_ok（2026-07-16判定）；原本教材（10レッスン。子単元3件は親パッケージ1つの中のレッスン範囲として同梱）を親単位で保全・別ベンダ（GPT-6系のCodex）による全設問の再計算と条件の点検＋外部批判レビュー（GPT-6 Astra Pro・2便）＋初見読者検査＋修正適用 2026-10-26 |
 | `jhs-sci-2-atoms-molecules-decomposition--atoms-molecules` | 原子・分子と化学式 | 中2 | 未着手 | fable_ok（2026-07-16判定） |
 | `jhs-sci-2-atoms-molecules-decomposition--decomposition` | 物質の分解 | 中2 | 未着手 | fable_ok（2026-07-16判定） |
 | `jhs-sci-2-cells` | 生物と細胞 | 中2 | 未着手 | fable_blocked（2026-07-16判定・MODEL_POLICY §5の例外対象） |

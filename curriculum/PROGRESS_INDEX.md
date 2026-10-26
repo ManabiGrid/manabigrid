@@ -41,11 +41,11 @@
 |---|---|
 | 公開済 | · |
 | 人間レビュー済 | 37 |
-| 外部レビュー済 | 19 |
+| 外部レビュー済 | 22 |
 | QA済 | · |
 | ドラフト | · |
 | 調査済 | 2 |
-| 未着手 | 379 |
+| 未着手 | 376 |
 | **計** | **437** |
 
 ## 集計（科目 × 状態）
@@ -55,9 +55,9 @@
 | 数学 | · | 37 | 15 | · | · | · | 13 | 65 |
 | 英語 | · | · | 1 | · | · | · | 47 | 48 |
 | 国語 | · | · | 1 | · | · | 1 | 44 | 46 |
-| 理科 | · | · | 1 | · | · | · | 144 | 145 |
+| 理科 | · | · | 4 | · | · | · | 141 | 145 |
 | 社会 | · | · | 1 | · | · | 1 | 131 | 133 |
-| **計** | · | **37** | **19** | · | · | **2** | **379** | **437** |
+| **計** | · | **37** | **22** | · | · | **2** | **376** | **437** |
 
 ## 公開コア（public_core）
 
@@ -203,9 +203,9 @@
 | 中2 | 排出とからだの調節 | `jhs-sci-2-animal-body-functions--excretion-regulation` | **未着手** |
 | 中2 | 呼吸と血液循環 | `jhs-sci-2-animal-body-functions--respiration-circulation` | **未着手** |
 | 中2 | 刺激と反応・神経系 | `jhs-sci-2-animal-body-functions--stimulus-response` | **未着手** |
-| 中2 | 気団・前線と天気の変化 | `jhs-sci-2-atmospheric-movement-japan-weather--air-masses-fronts` | **未着手** |
-| 中2 | 日本の季節の天気 | `jhs-sci-2-atmospheric-movement-japan-weather--japan-seasons` | **未着手** |
-| 中2 | 気圧配置と風 | `jhs-sci-2-atmospheric-movement-japan-weather--pressure-wind` | **未着手** |
+| 中2 | 気団・前線と天気の変化 | `jhs-sci-2-atmospheric-movement-japan-weather--air-masses-fronts` | **外部レビュー済** |
+| 中2 | 日本の季節の天気 | `jhs-sci-2-atmospheric-movement-japan-weather--japan-seasons` | **外部レビュー済** |
+| 中2 | 気圧配置と風 | `jhs-sci-2-atmospheric-movement-japan-weather--pressure-wind` | **外部レビュー済** |
 | 中2 | 原子・分子と化学式 | `jhs-sci-2-atoms-molecules-decomposition--atoms-molecules` | **未着手** |
 | 中2 | 物質の分解 | `jhs-sci-2-atoms-molecules-decomposition--decomposition` | **未着手** |
 | 中2 | 生物と細胞 | `jhs-sci-2-cells` | **未着手** |
@@ -860,9 +860,9 @@
 | `jhs-sci-2-animal-body-functions--excretion-regulation` | 排出とからだの調節 | 理科 | 中2 | 公開コア | **未着手** |
 | `jhs-sci-2-animal-body-functions--respiration-circulation` | 呼吸と血液循環 | 理科 | 中2 | 公開コア | **未着手** |
 | `jhs-sci-2-animal-body-functions--stimulus-response` | 刺激と反応・神経系 | 理科 | 中2 | 公開コア | **未着手** |
-| `jhs-sci-2-atmospheric-movement-japan-weather--air-masses-fronts` | 気団・前線と天気の変化 | 理科 | 中2 | 公開コア | **未着手** |
-| `jhs-sci-2-atmospheric-movement-japan-weather--japan-seasons` | 日本の季節の天気 | 理科 | 中2 | 公開コア | **未着手** |
-| `jhs-sci-2-atmospheric-movement-japan-weather--pressure-wind` | 気圧配置と風 | 理科 | 中2 | 公開コア | **未着手** |
+| `jhs-sci-2-atmospheric-movement-japan-weather--air-masses-fronts` | 気団・前線と天気の変化 | 理科 | 中2 | 公開コア | **外部レビュー済** |
+| `jhs-sci-2-atmospheric-movement-japan-weather--japan-seasons` | 日本の季節の天気 | 理科 | 中2 | 公開コア | **外部レビュー済** |
+| `jhs-sci-2-atmospheric-movement-japan-weather--pressure-wind` | 気圧配置と風 | 理科 | 中2 | 公開コア | **外部レビュー済** |
 | `jhs-sci-2-atoms-molecules-decomposition--atoms-molecules` | 原子・分子と化学式 | 理科 | 中2 | 公開コア | **未着手** |
 | `jhs-sci-2-atoms-molecules-decomposition--decomposition` | 物質の分解 | 理科 | 中2 | 公開コア | **未着手** |
 | `jhs-sci-2-cells` | 生物と細胞 | 理科 | 中2 | 公開コア | **未着手** |

@@ -31,7 +31,7 @@
 | 中3数学（フル構成） | 8単元＋診断テスト（試行版）＋巻末資料＋発展モジュール1（指導要領外・パイロット） | [materials/jhs-math-3/](materials/jhs-math-3/) |
 | 中2数学（フル構成） | 6単元（式の計算・連立方程式・一次関数・図形の合同と証明・四分位範囲と箱ひげ図・確率） | [materials/jhs-math-2/](materials/jhs-math-2/) |
 | 中1数学（フル構成） | 8単元（正負の数・文字と式・一次方程式・比例と反比例・平面図形・空間図形・データの活用・頻度確率） | [materials/jhs-math-1/](materials/jhs-math-1/) |
-| 中2理科 | 湿度の計算 | [materials/jhs-sci-2/](materials/jhs-sci-2/) |
+| 中2理科 | 2単元（湿度と飽和水蒸気量の計算・大気の動きと日本の天気。状態: [単元レジストリ](curriculum/registry/science.md)参照） | [materials/jhs-sci-2/](materials/jhs-sci-2/) |
 | 中1英語 | 自己紹介・人の紹介 | [materials/jhs-eng-1/](materials/jhs-eng-1/) |
 | 中学国語 | 漢字・語彙の運用 | [materials/jhs-jpn/](materials/jhs-jpn/) |
 | 中学社会（公民） | 市場価格 | [materials/jhs-soc/](materials/jhs-soc/) |
