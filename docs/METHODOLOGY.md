@@ -45,10 +45,10 @@
 
 ## 4. 使用したAI（事実表示）
 
-- **調査・執筆・QA・図版・タグ整備（教材本文の全主工程）**: **Claude Fable 5.1**（Anthropic・model id: claude-fable-5-1）。2026-09-02 より前に同梱した単元は Claude Fable 5（claude-fable-5）で制作した（各単元の lesson_map／teacher_notes の author 欄に記録）。工程ごとにコンテキストを分離し、サブエージェントを使う場合も Fable 5.1 で統一。
+- **調査・執筆・QA・図版・タグ整備（教材本文の全主工程）**: **Claude Fable 5.1**（Anthropic・model id: claude-fable-5-1）。2026-09-02 より前に同梱した単元は Claude Fable 5（claude-fable-5）で制作した（各単元の lesson_map／teacher_notes の author 欄に記録）。工程ごとにコンテキストを分離し、サブエージェントを使う場合も Fable 5.1 で統一。例外として、高校数学Ⅱ「いろいろな式」は、調査と正規化を Fable 5.1、執筆とセルフQAを Claude Opus 5.5（model id: claude-opus-5-5・effort max）が担った（2026-10-23 の MODEL_POLICY の改訂で第2系統に加えた・較正の要旨は MODEL_POLICY.md §3-3）。また 2026-09 以降の単元では、図版の生成スクリプトの作成・初見読者検査・指摘の反映を Claude Opus 5.5 も担っている（制作4工程の外の工程・各単元の図版台帳の冒頭に実行モデルを記録）。
 - **外部批判レビュー**: **GPT-5.6 Pro**（OpenAI）。人間が手動で投入し、指摘の採否は全件裁定記録に残す。
 - **工程設計の外部レビュー・権利面の反証レビュー**: 同じく GPT-5.6 Pro。
-- **例外（正直な開示）**: ツールのうちビュー生成器（tools/view_generator）の初版実装は **OpenAI Codex（GPT-5.6系）** が行い、Fable 5 が独立検証しました。**教材本文そのものは、同梱済みの全単元が Fable 5系のみ**で執筆されています。なお、理科には Fable 5系の生命科学分野の安全機構により執筆できない単元があり、その単元に限って複数モデル分担の例外工程を定めています（[MODEL_POLICY.md](MODEL_POLICY.md) §5。該当単元を同梱する際は来歴に使用モデルを明記します）。
+- **例外（正直な開示）**: ツールのうちビュー生成器（tools/view_generator）の初版実装は **OpenAI Codex（GPT-5.6系）** が行い、Fable 5 が独立検証しました。**教材本文そのものは、高校数学Ⅱ「いろいろな式」（執筆は Claude Opus 5.5）を除き、同梱済みの全単元が Fable 5系のみ**で執筆されています。なお、理科には Fable 5系の生命科学分野の安全機構により執筆できない単元があり、その単元に限って複数モデル分担の例外工程を定めています（[MODEL_POLICY.md](MODEL_POLICY.md) §5。該当単元を同梱する際は来歴に使用モデルを明記します）。
 
 本プロジェクトは Anthropic・OpenAI と提携・公認関係にありません。名称は使用ツールの事実を示す目的のみで記載しています。
 
