@@ -31,9 +31,9 @@
 | `jhs-eng-1-abilities-and-requests--can` | できることを伝える（can） | 中1 | 未着手 | 分割子（親ID--子・意味継承） |
 | `jhs-eng-1-abilities-and-requests--imperatives` | 指示・依頼を伝える（命令文・Please） | 中1 | 未着手 | 分割子（親ID--子・意味継承） |
 | `jhs-eng-1-actions-in-progress` | 今していることを伝える（現在進行形） | 中1 | 未着手 |  |
-| `jhs-eng-1-be-and-do-verbs--be` | be動詞で人・ものの状態を伝える | 中1 | 未着手 | 分割子（親ID--子・意味継承） |
-| `jhs-eng-1-be-and-do-verbs--contrast` | be動詞と一般動詞を使い分ける | 中1 | 未着手 | 分割子（親ID--子・意味継承） |
-| `jhs-eng-1-be-and-do-verbs--general-verbs` | 一般動詞で習慣・好みを伝える | 中1 | 未着手 | 分割子（親ID--子・意味継承） |
+| `jhs-eng-1-be-and-do-verbs--be` | be動詞で人・ものの状態を伝える | 中1 | 外部レビュー済 | 分割子（親ID--子・意味継承）；子単元3件（各4レッスン・計12レッスン）を親の教材フォルダ1つの下に子ごとのフォルダで同梱・初見読者検査＋別ベンダ（GPT-6系のCodex）による全設問の再計算と条件の点検＋外部批判レビュー（GPT-6 Astra Pro・1便）＋修正適用 2026-10-26 |
+| `jhs-eng-1-be-and-do-verbs--contrast` | be動詞と一般動詞を使い分ける | 中1 | 外部レビュー済 | 分割子（親ID--子・意味継承）；子単元3件（各4レッスン・計12レッスン）を親の教材フォルダ1つの下に子ごとのフォルダで同梱・初見読者検査＋別ベンダ（GPT-6系のCodex）による全設問の再計算と条件の点検＋外部批判レビュー（GPT-6 Astra Pro・1便）＋修正適用 2026-10-26 |
+| `jhs-eng-1-be-and-do-verbs--general-verbs` | 一般動詞で習慣・好みを伝える | 中1 | 外部レビュー済 | 分割子（親ID--子・意味継承）；子単元3件（各4レッスン・計12レッスン）を親の教材フォルダ1つの下に子ごとのフォルダで同梱・初見読者検査＋別ベンダ（GPT-6系のCodex）による全設問の再計算と条件の点検＋外部批判レビュー（GPT-6 Astra Pro・1便）＋修正適用 2026-10-26 |
 | `jhs-eng-1-describing-places` | 場所とあり方を伝える（There is/are・前置詞） | 中1 | 未着手 |  |
 | `jhs-eng-1-introducing-yourself-and-others` | 自分と身近な人を紹介する（三単現含む） | 中1 | 外部レビュー済 | 制作済み・完全保全（ID・名称・状態・成果物を無変更） |
 | `jhs-eng-1-questions-and-responses` | 疑問文と応答のやり取り | 中1 | 未着手 |  |
@@ -84,7 +84,7 @@
 | parent_id | 名称 | 学校段階・学年 | 状態 | 備考 |
 |---|---|---|---|---|
 | `jhs-eng-1-abilities-and-requests` | できること・お願いを伝える（can・命令文） | 中1 | 未着手 |  |
-| `jhs-eng-1-be-and-do-verbs` | be動詞と一般動詞の世界の立ち上げ | 中1 | 未着手 |  |
+| `jhs-eng-1-be-and-do-verbs` | be動詞と一般動詞の世界の立ち上げ | 中1 | 外部レビュー済 | 子単元3件（--be・--general-verbs・--contrast）の教材を親の教材フォルダ1つの下に子ごとのフォルダで保全 |
 | `jhs-eng-2-conditions-and-connections` | 条件・時・考えをつなぐ（接続詞 if / when / that） | 中2 | 未着手 |  |
 | `jhs-eng-2-purposes-and-preferences` | 目的と好みを伝える（不定詞・動名詞） | 中2 | 未着手 |  |
 | `jhs-eng-3-experience-and-duration` | 経験と継続を語る（現在完了） | 中3 | 未着手 |  |

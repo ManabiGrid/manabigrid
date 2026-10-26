@@ -32,7 +32,7 @@
 | 中2数学（フル構成） | 6単元（式の計算・連立方程式・一次関数・図形の合同と証明・四分位範囲と箱ひげ図・確率） | [materials/jhs-math-2/](materials/jhs-math-2/) |
 | 中1数学（フル構成） | 8単元（正負の数・文字と式・一次方程式・比例と反比例・平面図形・空間図形・データの活用・頻度確率） | [materials/jhs-math-1/](materials/jhs-math-1/) |
 | 中2理科 | 2単元（湿度と飽和水蒸気量の計算・大気の動きと日本の天気。状態: [単元レジストリ](curriculum/registry/science.md)参照） | [materials/jhs-sci-2/](materials/jhs-sci-2/) |
-| 中1英語 | 自己紹介・人の紹介 | [materials/jhs-eng-1/](materials/jhs-eng-1/) |
+| 中1英語 | 2単元（自己紹介・他者紹介／be動詞と一般動詞〔子単元3つ・計12レッスン〕。状態: [単元レジストリ](curriculum/registry/english.md)参照） | [materials/jhs-eng-1/](materials/jhs-eng-1/) |
 | 中学国語 | 漢字・語彙の運用 | [materials/jhs-jpn/](materials/jhs-jpn/) |
 | 中学社会（公民） | 市場価格 | [materials/jhs-soc/](materials/jhs-soc/) |
 | 高校数学I | 5単元（数と式・集合と命題・二次関数・図形と計量〔三角比〕・データの分析。状態: [単元レジストリ](curriculum/registry/math.md)参照） | [materials/hs-math-i/](materials/hs-math-i/) |
