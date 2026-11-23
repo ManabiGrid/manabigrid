@@ -2114,7 +2114,10 @@ def main():
         "|---|---|---|---|---|---|",
     ]
     for f, lsn, title, intent, params, checks, guard in rows:
-        lines.append(f"| `{f}` | {lsn} | {title}——{intent} | {params} | {checks} | {guard} |")
+        cells = (f"`{f}`", lsn, f"{title}——{intent}",
+                 params, checks, guard)
+        # 台帳のセルだけをエスケープし、SVG・本文照合用の文字列は変えない。
+        lines.append("| " + " | ".join(cell.replace("|", r"\|") for cell in cells) + " |")
     lines += [
         "",
         "## 再生成・改修の手順（第三者向け）",

@@ -1118,8 +1118,10 @@ def main():
     ]
     for m in rows:
         checks = "／".join(f"{d}{'（' + t + '）' if t else ''} ✓" for d, t in m["checks"])
-        lines.append(f"| `{m['file']}` | {m['lesson']} | {m['title']}——{m['intent']} | "
-                     f"{m['src']} | {m['params']} | {checks} |")
+        cells = (f"`{m['file']}`", m["lesson"], f"{m['title']}——{m['intent']}",
+                 m["src"], m["params"], checks)
+        # 台帳のセルだけをエスケープし、SVG・本文照合用の文字列は変えない。
+        lines.append("| " + " | ".join(cell.replace("|", r"\|") for cell in cells) + " |")
     lines += [
         "",
         "## 答えの分離方針の扱い——近隣設問の確認結果",

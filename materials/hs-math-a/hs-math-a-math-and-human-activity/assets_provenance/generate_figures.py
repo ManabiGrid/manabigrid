@@ -1484,8 +1484,10 @@ def write_manifest(rows, n_checks, total_bytes, accept):
     ]
     for m in rows:
         checks = "／".join(f"{d}{'（' + t + '）' if t else ''} 合格" for d, t in m["checks"])
-        lines.append(f"| `{m['file']}` | {m['lesson']} | {m['title']}——{m['intent']} | "
-                     f"{m['src']} | {m['alt']} | {m['params']} | {checks} |")
+        cells = (f"`{m['file']}`", m["lesson"], f"{m['title']}——{m['intent']}",
+                 m["src"], m["alt"], m["params"], checks)
+        # 台帳のセルだけをエスケープし、SVG・本文照合用の文字列は変えない。
+        lines.append("| " + " | ".join(cell.replace("|", r"\|") for cell in cells) + " |")
     lines += ["", "## 受け入れ検査の結果", ""]
     for line in accept:
         lines.append(f"- {line}")
