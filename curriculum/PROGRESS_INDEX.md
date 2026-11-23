@@ -41,23 +41,23 @@
 |---|---|
 | 公開済 | · |
 | 人間レビュー済 | 37 |
-| 外部レビュー済 | 26 |
+| 外部レビュー済 | 27 |
 | QA済 | · |
 | ドラフト | · |
 | 調査済 | 2 |
-| 未着手 | 372 |
+| 未着手 | 371 |
 | **計** | **437** |
 
 ## 集計（科目 × 状態）
 
 | 科目 | 公開済 | 人間レビュー済 | 外部レビュー済 | QA済 | ドラフト | 調査済 | 未着手 | 計 |
 |---|---|---|---|---|---|---|---|---|
-| 数学 | · | 37 | 16 | · | · | · | 12 | 65 |
+| 数学 | · | 37 | 17 | · | · | · | 11 | 65 |
 | 英語 | · | · | 4 | · | · | · | 44 | 48 |
 | 国語 | · | · | 1 | · | · | 1 | 44 | 46 |
 | 理科 | · | · | 4 | · | · | · | 141 | 145 |
 | 社会 | · | · | 1 | · | · | 1 | 131 | 133 |
-| **計** | · | **37** | **26** | · | · | **2** | **372** | **437** |
+| **計** | · | **37** | **27** | · | · | **2** | **371** | **437** |
 
 ## 公開コア（public_core）
 
@@ -371,7 +371,7 @@
 | 高校 数学Ⅰ | 三角比の定義と相互関係 | `hs-math-i-trigonometric-ratios--ratios` | **外部レビュー済** |
 | 高校 数学Ⅰ | 正弦定理・余弦定理と三角形の計量 | `hs-math-i-trigonometric-ratios--triangle-measurement` | **外部レビュー済** |
 | 高校 数学Ⅱ | 微分・積分の考え | `hs-math-ii-calculus-basics` | **未着手** |
-| 高校 数学Ⅱ | 指数関数・対数関数 | `hs-math-ii-exponential-logarithm` | **未着手** |
+| 高校 数学Ⅱ | 指数関数・対数関数 | `hs-math-ii-exponential-logarithm` | **外部レビュー済** |
 | 高校 数学Ⅱ | 図形と方程式 | `hs-math-ii-figures-and-equations` | **外部レビュー済** |
 | 高校 数学Ⅱ | 三角関数 | `hs-math-ii-trigonometric-functions` | **未着手** |
 | 高校 数学Ⅱ | いろいろな式 | `hs-math-ii-various-expressions` | **外部レビュー済** |
@@ -617,7 +617,7 @@
 | `hs-math-i-trigonometric-ratios--ratios` | 三角比の定義と相互関係 | 数学 | 高校 数学Ⅰ | 公開コア | **外部レビュー済** |
 | `hs-math-i-trigonometric-ratios--triangle-measurement` | 正弦定理・余弦定理と三角形の計量 | 数学 | 高校 数学Ⅰ | 公開コア | **外部レビュー済** |
 | `hs-math-ii-calculus-basics` | 微分・積分の考え | 数学 | 高校 数学Ⅱ | 公開コア | **未着手** |
-| `hs-math-ii-exponential-logarithm` | 指数関数・対数関数 | 数学 | 高校 数学Ⅱ | 公開コア | **未着手** |
+| `hs-math-ii-exponential-logarithm` | 指数関数・対数関数 | 数学 | 高校 数学Ⅱ | 公開コア | **外部レビュー済** |
 | `hs-math-ii-figures-and-equations` | 図形と方程式 | 数学 | 高校 数学Ⅱ | 公開コア | **外部レビュー済** |
 | `hs-math-ii-trigonometric-functions` | 三角関数 | 数学 | 高校 数学Ⅱ | 公開コア | **未着手** |
 | `hs-math-ii-various-expressions` | いろいろな式 | 数学 | 高校 数学Ⅱ | 公開コア | **外部レビュー済** |
